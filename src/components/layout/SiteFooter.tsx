@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { clientAssets } from "../../lib/assets";
 import { siteContent } from "../../content/site";
 
 export function SiteFooter() {
@@ -6,7 +7,17 @@ export function SiteFooter() {
     <footer className="border-t border-brand-border bg-brand-navy text-white">
       <div className="mx-auto grid w-full max-w-7xl gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[1.4fr_1fr_1fr] lg:px-8">
         <div className="space-y-4">
-          <p className="text-sm font-semibold tracking-[0.2em] text-brand-sky">MEDLINK VA</p>
+          <Link to="/" className="inline-flex items-center gap-3">
+            <span className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/15 bg-white/95 p-1 shadow-soft">
+              <img
+                src={clientAssets.logo}
+                alt="Medlink VA logo"
+                className="h-full w-full object-contain"
+                loading="lazy"
+              />
+            </span>
+            <span className="text-sm font-semibold tracking-[0.2em] text-brand-sky">MEDLINK VA</span>
+          </Link>
           <p className="max-w-md text-sm leading-6 text-white/80">
             {siteContent.brandTagline}. This foundation is intentionally lean so the site can grow into a
             CMS-backed, conversion-focused public presence in later phases.

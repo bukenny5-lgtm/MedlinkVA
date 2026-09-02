@@ -5,6 +5,7 @@ type SeoProps = {
   title: string;
   description?: string;
   robots?: string;
+  image?: string;
 };
 
 const defaultDescription =
@@ -39,7 +40,31 @@ function setCanonical(pathname: string) {
   document.head.append(link);
 }
 
-export function Seo({ title, description = defaultDescription, robots = "index,follow" }: SeoProps) {
+function setOrRemoveImageMeta(selector: string, attribute: "name" | "property", key: string, value?: string) {
+  const existing = document.head.querySelector<HTMLMetaElement>(selector);
+
+  if (!value) {
+    existing?.remove();
+    return;
+  }
+
+  if (existing) {
+    existing.setAttribute("content", value);
+    return;
+  }
+
+  const meta = document.createElement("meta");
+  meta.setAttribute(attribute, key);
+  meta.setAttribute("content", value);
+  document.head.append(meta);
+}
+
+export function Seo({
+  title,
+  description = defaultDescription,
+  robots = "index,follow",
+  image,
+}: SeoProps) {
   useEffect(() => {
     const fullTitle = title.includes(siteContent.brandName)
       ? title
@@ -54,8 +79,10 @@ export function Seo({ title, description = defaultDescription, robots = "index,f
     setOrCreateMeta('meta[name="twitter:card"]', "name", "twitter:card", "summary_large_image");
     setOrCreateMeta('meta[name="twitter:title"]', "name", "twitter:title", fullTitle);
     setOrCreateMeta('meta[name="twitter:description"]', "name", "twitter:description", description);
+    setOrRemoveImageMeta('meta[property="og:image"]', "property", "og:image", image);
+    setOrRemoveImageMeta('meta[name="twitter:image"]', "name", "twitter:image", image);
     setCanonical(window.location.pathname);
-  }, [description, robots, title]);
+  }, [description, image, robots, title]);
 
   return null;
 }

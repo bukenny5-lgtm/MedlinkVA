@@ -777,10 +777,10 @@ Yes. Brevo is a good fit for newsletters, lead capture, segmentation, and market
 - `AGENTS.md`
 - `docs/REQUIREMENTS.md`
 - `README.md`
-- `assets/client/photos/medlink-va-hero.jpg.jpeg`
-- `assets/client/photos/medlink-va-team.jpg.jpeg`
-- `assets/client/photos/medlink-va-individual-assistant.jpg.jpeg`
-- `assets/client/logo/medlink-va-logo.png.png`
+- `assets/client/photos/medlink-va-hero.jpg`
+- `assets/client/photos/medlink-va-team.jpg`
+- `assets/client/photos/medlink-va-individual-assistant.jpg`
+- `assets/client/logo/medlink-va-logo.png`
 - `traces/codex/phase-01-foundation.txt`
 
 ## 17. Files Created
@@ -810,4 +810,3 @@ Yes. Brevo is a good fit for newsletters, lead capture, segmentation, and market
 - Whether the client wants a dedicated team page
 - Whether testimonials will be added later
 - Whether any special legal or privacy language is required beyond standard policy pages
-

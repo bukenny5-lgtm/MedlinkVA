@@ -13,7 +13,7 @@ export const siteContent = {
   brandName: "Medlink VA",
   brandTagline: "Virtual medical assistant support for growing practices",
   primaryCtaLabel: "Book a Free Consultation",
-  secondaryCtaLabel: "Contact Us",
+  secondaryCtaLabel: "Explore Our Services",
   contactEmail: "hello@medlinkva.com", // Provisional placeholder until the client confirms the final public inbox.
   navigation: [
     { label: "Home", path: "/" },

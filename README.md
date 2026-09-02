@@ -12,7 +12,7 @@ Professional lead-generation website for Medlink VA.
 
 ## Project phase
 
-Phase 2 foundation: React/Vite frontend scaffold, shared layout, routing, design tokens, and SEO baseline.
+Phase 3 homepage: React/Vite frontend scaffold plus a polished, sectioned homepage and visual design system.
 
 ## Local setup
 
@@ -56,4 +56,3 @@ Primary palette:
 - The client asset originals remain in `assets/client`.
 - The application references those assets from the Vite source tree without modifying the originals.
 - Sanity, Brevo, and deployment wiring are deferred to later phases.
-

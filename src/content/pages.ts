@@ -13,21 +13,6 @@ export type PageContent = {
 };
 
 export const pageContent = {
-  home: {
-    eyebrow: "Phase 2 foundation",
-    title: "Medlink VA website foundation",
-    description:
-      "The routing, structure, and shared layout are in place. The final marketing experience will be expanded in later phases.",
-    bullets: [
-      "Responsive navigation is available on desktop and mobile.",
-      "Placeholder routes are ready for future content and CMS integration.",
-      "Design tokens and SEO scaffolding are established for the next phase.",
-    ],
-    actions: [
-      { label: "Book a Free Consultation", to: "/book-consultation", variant: "primary" },
-      { label: "View Services", to: "/services", variant: "secondary" },
-    ],
-  },
   services: {
     eyebrow: "Services",
     title: "Services foundation",
