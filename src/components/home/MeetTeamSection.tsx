@@ -36,6 +36,7 @@ export function MeetTeamSection() {
                   width="1200"
                   height={member.featured ? "1400" : "1500"}
                   loading="lazy"
+                  decoding="async"
                 />
               </figure>
 
@@ -64,4 +65,3 @@ export function MeetTeamSection() {
     </HomeSection>
   );
 }
-

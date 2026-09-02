@@ -70,6 +70,7 @@ export function BookConsultationPage() {
       <Seo
         title="Book a Consultation | Medlink VA"
         description="Book a consultation with Medlink VA through a polished, UI-only form that captures business context, preferred contact details, and support needs."
+        image={clientAssets.supportPhoto}
       />
 
       <PageHero
@@ -205,4 +206,3 @@ export function BookConsultationPage() {
     </article>
   );
 }
-

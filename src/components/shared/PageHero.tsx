@@ -90,6 +90,7 @@ export function PageHero({
                 height="1500"
                 loading="eager"
                 fetchPriority="high"
+                decoding="async"
               />
               {image.caption ? (
                 <figcaption className="border-t border-brand-border bg-brand-muted/40 px-5 py-3 text-sm text-brand-charcoal/75">
@@ -103,4 +104,3 @@ export function PageHero({
     </HomeSection>
   );
 }
-

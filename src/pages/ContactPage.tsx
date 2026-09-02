@@ -70,6 +70,7 @@ export function ContactPage() {
       <Seo
         title="Contact Medlink VA"
         description="Send Medlink VA a business inquiry or support question through a polished, UI-only contact form that keeps sensitive patient details out of the public page."
+        image={clientAssets.supportPhoto}
       />
 
       <PageHero

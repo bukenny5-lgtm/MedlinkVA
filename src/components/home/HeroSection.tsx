@@ -43,7 +43,7 @@ export function HeroSection() {
         <div className="relative">
           <div className="absolute -inset-4 -z-10 rounded-[2rem] bg-brand-sky/10 blur-3xl" />
           <figure className="surface-card overflow-hidden">
-            <img
+              <img
               src={hero.image}
               alt={hero.imageAlt}
               className="aspect-[4/5] w-full object-cover object-center"
@@ -51,6 +51,7 @@ export function HeroSection() {
               height="1500"
               loading="eager"
               fetchPriority="high"
+              decoding="async"
             />
           </figure>
         </div>
@@ -58,4 +59,3 @@ export function HeroSection() {
     </HomeSection>
   );
 }
-

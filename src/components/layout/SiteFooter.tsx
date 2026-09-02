@@ -14,6 +14,9 @@ export function SiteFooter() {
                 alt="Medlink VA logo"
                 className="h-full w-full object-contain"
                 loading="lazy"
+                decoding="async"
+                width="640"
+                height="640"
               />
             </span>
             <span className="text-sm font-semibold tracking-[0.2em] text-brand-sky">MEDLINK VA</span>

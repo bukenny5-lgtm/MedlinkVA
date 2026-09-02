@@ -38,10 +38,10 @@ export function TeamSupportSection() {
             width="1600"
             height="1200"
             loading="lazy"
+            decoding="async"
           />
         </figure>
       </div>
     </HomeSection>
   );
 }
-

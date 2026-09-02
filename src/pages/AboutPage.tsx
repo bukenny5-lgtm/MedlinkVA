@@ -5,6 +5,7 @@ import { PageCta } from "../components/shared/PageCta";
 import { PageHero } from "../components/shared/PageHero";
 import { InfoCard } from "../components/shared/InfoCard";
 import { aboutContent } from "../content/about";
+import { clientAssets } from "../lib/assets";
 
 export function AboutPage() {
   return (
@@ -12,6 +13,7 @@ export function AboutPage() {
       <Seo
         title="About Medlink VA | Healthcare Virtual Support"
         description="Learn about Medlink VA, its provisional mission and vision, the values shaping the brand, and the confirmed team members already implemented in the project."
+        image={clientAssets.teamPhoto}
       />
 
       <PageHero
@@ -59,7 +61,15 @@ export function AboutPage() {
         <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
           {aboutContent.team.members.map((member) => (
             <article key={member.name} className="surface-card overflow-hidden">
-              <img src={member.image} alt={member.alt} className="aspect-[4/3] w-full object-cover object-top" />
+              <img
+                src={member.image}
+                alt={member.alt}
+                className="aspect-[4/3] w-full object-cover object-top"
+                loading="lazy"
+                decoding="async"
+                width="1200"
+                height="900"
+              />
               <div className="space-y-2 p-5">
                 <p className="text-xs font-semibold uppercase tracking-[0.24em] text-brand-sky">{member.role}</p>
                 <h3 className="text-lg font-semibold text-brand-navy">{member.name}</h3>
@@ -97,4 +107,3 @@ export function AboutPage() {
     </article>
   );
 }
-

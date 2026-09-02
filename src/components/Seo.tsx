@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { clientAssets } from "../lib/assets";
 import { siteContent } from "../content/site";
 
 type SeoProps = {
@@ -6,10 +7,12 @@ type SeoProps = {
   description?: string;
   robots?: string;
   image?: string;
+  structuredData?: Record<string, unknown> | readonly Record<string, unknown>[];
 };
 
 const defaultDescription =
   "Medlink VA is a professional virtual medical assistant website foundation for lead generation, services, resources, jobs, classes, and products.";
+const productionBaseUrl = "https://medlinkva.com";
 
 function setOrCreateMeta(selector: string, attribute: "name" | "property", key: string, value: string) {
   const existing = document.head.querySelector<HTMLMetaElement>(selector);
@@ -26,7 +29,7 @@ function setOrCreateMeta(selector: string, attribute: "name" | "property", key: 
 }
 
 function setCanonical(pathname: string) {
-  const canonicalHref = new URL(pathname, window.location.origin).href;
+  const canonicalHref = new URL(pathname, productionBaseUrl).href;
   const existing = document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]');
 
   if (existing) {
@@ -40,23 +43,26 @@ function setCanonical(pathname: string) {
   document.head.append(link);
 }
 
-function setOrRemoveImageMeta(selector: string, attribute: "name" | "property", key: string, value?: string) {
-  const existing = document.head.querySelector<HTMLMetaElement>(selector);
+function upsertJsonLd(id: string, data?: Record<string, unknown> | readonly Record<string, unknown>[]) {
+  const existing = document.head.querySelector<HTMLScriptElement>(`script[data-jsonld-id="${id}"]`);
 
-  if (!value) {
+  if (!data) {
     existing?.remove();
     return;
   }
 
+  const json = JSON.stringify(data);
+
   if (existing) {
-    existing.setAttribute("content", value);
+    existing.textContent = json;
     return;
   }
 
-  const meta = document.createElement("meta");
-  meta.setAttribute(attribute, key);
-  meta.setAttribute("content", value);
-  document.head.append(meta);
+  const script = document.createElement("script");
+  script.type = "application/ld+json";
+  script.setAttribute("data-jsonld-id", id);
+  script.textContent = json;
+  document.head.append(script);
 }
 
 export function Seo({
@@ -64,11 +70,29 @@ export function Seo({
   description = defaultDescription,
   robots = "index,follow",
   image,
+  structuredData,
 }: SeoProps) {
   useEffect(() => {
     const fullTitle = title.includes(siteContent.brandName)
       ? title
       : `${title} | ${siteContent.brandName}`;
+    const origin = productionBaseUrl;
+    const currentUrl = new URL(window.location.pathname, origin).href;
+    const absoluteImage = new URL(image ?? clientAssets.hero, origin).href;
+    const pageLabelMap: Record<string, string> = {
+      "/": "Home",
+      "/services": "Services",
+      "/about": "About",
+      "/how-it-works": "How It Works",
+      "/jobs": "Jobs",
+      "/classes": "Classes",
+      "/resources": "Resources",
+      "/products": "Products",
+      "/contact": "Contact",
+      "/book-consultation": "Book a Consultation",
+      "/privacy": "Privacy Policy",
+      "/terms": "Terms of Use",
+    };
 
     document.title = fullTitle;
     setOrCreateMeta('meta[name="description"]', "name", "description", description);
@@ -76,13 +100,59 @@ export function Seo({
     setOrCreateMeta('meta[property="og:title"]', "property", "og:title", fullTitle);
     setOrCreateMeta('meta[property="og:description"]', "property", "og:description", description);
     setOrCreateMeta('meta[property="og:type"]', "property", "og:type", "website");
+    setOrCreateMeta('meta[property="og:url"]', "property", "og:url", currentUrl);
+    setOrCreateMeta('meta[property="og:image"]', "property", "og:image", absoluteImage);
     setOrCreateMeta('meta[name="twitter:card"]', "name", "twitter:card", "summary_large_image");
     setOrCreateMeta('meta[name="twitter:title"]', "name", "twitter:title", fullTitle);
     setOrCreateMeta('meta[name="twitter:description"]', "name", "twitter:description", description);
-    setOrRemoveImageMeta('meta[property="og:image"]', "property", "og:image", image);
-    setOrRemoveImageMeta('meta[name="twitter:image"]', "name", "twitter:image", image);
+    setOrCreateMeta('meta[name="twitter:image"]', "name", "twitter:image", absoluteImage);
     setCanonical(window.location.pathname);
-  }, [description, image, robots, title]);
+
+    upsertJsonLd("medlink-va-global", [
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        name: siteContent.brandName,
+        url: origin,
+        logo: new URL(clientAssets.logo, origin).href,
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        name: siteContent.brandName,
+        url: origin,
+      },
+    ]);
+
+    const pathname = window.location.pathname;
+
+    if (pathname !== "/") {
+      const breadcrumbLabel = pageLabelMap[pathname] ?? fullTitle.replace(` | ${siteContent.brandName}`, "");
+
+      upsertJsonLd("medlink-va-breadcrumbs", {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Home",
+            item: `${origin}/`,
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: breadcrumbLabel,
+            item: currentUrl,
+          },
+        ],
+      });
+    } else {
+      upsertJsonLd("medlink-va-breadcrumbs", undefined);
+    }
+
+    upsertJsonLd("medlink-va-page", structuredData);
+  }, [description, image, robots, structuredData, title]);
 
   return null;
 }

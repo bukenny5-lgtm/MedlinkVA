@@ -17,6 +17,7 @@ export function WhyMedlinkSection() {
             width="1200"
             height="1500"
             loading="lazy"
+            decoding="async"
           />
         </figure>
 
@@ -46,4 +47,3 @@ export function WhyMedlinkSection() {
     </HomeSection>
   );
 }
-

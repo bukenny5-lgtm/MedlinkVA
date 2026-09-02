@@ -47,6 +47,9 @@ export function SiteHeader() {
               alt="Medlink VA logo"
               className="h-full w-full object-contain"
               loading="eager"
+              decoding="async"
+              width="640"
+              height="640"
             />
           </span>
           <span className="hidden flex-col leading-tight sm:flex">
