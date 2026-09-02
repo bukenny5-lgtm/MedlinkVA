@@ -22,6 +22,8 @@ export const siteContent = {
     { label: "About", path: "/about" },
     { label: "Resources", path: "/resources" },
     { label: "Jobs", path: "/jobs" },
+    { label: "Classes", path: "/classes" },
+    { label: "Products", path: "/products" },
     { label: "Contact", path: "/contact" },
   ] satisfies NavigationItem[],
   footerNavigation: [
