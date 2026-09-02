@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://medlinkva.com/sitemap.xml
+

@@ -1,0 +1,51 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-sky: #7ec8f8;
+  --color-brand-accent: #1d72b8;
+  --color-brand-navy: #12324a;
+  --color-brand-charcoal: #24313d;
+  --color-brand-background: #f5f9fc;
+  --color-brand-muted: #edf5fb;
+  --color-brand-border: #d8e4ee;
+  --font-sans: "Segoe UI Variable", "Segoe UI", system-ui, sans-serif;
+  --shadow-soft: 0 18px 50px -34px rgb(18 50 74 / 0.55);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    min-height: 100vh;
+    background:
+      radial-gradient(circle at top, rgb(126 200 248 / 0.18), transparent 32%),
+      linear-gradient(180deg, #f9fcff 0%, #f5f9fc 100%);
+  }
+
+  #root {
+    min-height: 100vh;
+  }
+
+  ::selection {
+    background: rgb(29 114 184 / 0.18);
+    color: #12324a;
+  }
+}
+
+@layer components {
+  .surface-card {
+    @apply rounded-[1.5rem] border border-brand-border bg-white shadow-soft;
+  }
+
+  .btn-primary {
+    @apply inline-flex h-11 items-center justify-center rounded-full bg-brand-accent px-5 text-sm font-semibold text-white shadow-soft transition-colors hover:bg-brand-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-2;
+  }
+
+  .btn-secondary {
+    @apply inline-flex h-11 items-center justify-center rounded-full border border-brand-border bg-white px-5 text-sm font-semibold text-brand-navy shadow-soft transition-colors hover:bg-brand-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-2;
+  }
+}
+

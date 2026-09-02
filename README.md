@@ -2,20 +2,35 @@
 
 Professional lead-generation website for Medlink VA.
 
-## Planned Stack
+## Current stack
 
 - React
 - Vite
 - TypeScript
 - Tailwind CSS
-- Sanity CMS
-- Brevo
-- Cloudflare Pages
-- Cloudflare DNS
-- Google Workspace
-- Git / GitHub
+- React Router
 
-## Primary Website Goals
+## Project phase
+
+Phase 2 foundation: React/Vite frontend scaffold, shared layout, routing, design tokens, and SEO baseline.
+
+## Local setup
+
+```bash
+npm install
+npm run dev
+```
+
+## Available scripts
+
+```bash
+npm run dev
+npm run build
+npm run typecheck
+npm run preview
+```
+
+## Goals
 
 - Present Medlink VA professionally
 - Generate qualified leads
@@ -30,10 +45,15 @@ Professional lead-generation website for Medlink VA.
 ## Brand
 
 Primary palette:
+
 - Sky blue
 - Accent blue
 - White
+- Dark navy / charcoal for readable text
 
-## Status
+## Notes
 
-Project setup in progress.
+- The client asset originals remain in `assets/client`.
+- The application references those assets from the Vite source tree without modifying the originals.
+- Sanity, Brevo, and deployment wiring are deferred to later phases.
+
