@@ -5,14 +5,21 @@ import { EmptyState } from "../components/shared/EmptyState";
 import { PageCta } from "../components/shared/PageCta";
 import { PageHero } from "../components/shared/PageHero";
 import { InfoCard } from "../components/shared/InfoCard";
-import { productsContent } from "../content/products";
+import { useCmsBundle } from "../lib/cms/SiteContentProvider";
+import { resolveProductsContent, resolveResolvedSiteSettings } from "../lib/cms/siteContent";
+import { sanityImageSrc } from "../lib/sanity/image";
 
 export function ProductsPage() {
+  const cmsBundle = useCmsBundle();
+  const productsContent = resolveProductsContent(cmsBundle);
+  const site = resolveResolvedSiteSettings(cmsBundle);
+  const hasRecords = productsContent.records.length > 0;
+
   return (
     <article className="space-y-12">
       <Seo
         title="Products | Medlink VA"
-        description="Explore the products landing page for Medlink VA. It is prepared for future externally sold products and links without inventing a store or product catalog."
+        description={productsContent.hero.description}
       />
 
       <PageHero
@@ -25,21 +32,60 @@ export function ProductsPage() {
       <HomeSection className="bg-brand-background py-16 sm:py-20">
         <SectionHeading
           eyebrow="Status"
-          title="No products are configured yet"
-          description="The layout remains content-ready and can be connected to an approved external sales link later."
+          title={hasRecords ? "Featured products" : "No products are configured yet"}
+          description={
+            hasRecords
+              ? "Published product links from Sanity appear below."
+              : "The layout remains content-ready and can be connected to an approved external sales link later."
+          }
         />
 
         <div className="mt-8">
-          <EmptyState
-            title={productsContent.emptyState.title}
-            description={productsContent.emptyState.description}
-            bullets={[
-              "Future product cards can include an image, optional price, and external CTA label.",
-              "External links should open safely and clearly disclose that they go off-site.",
-            ]}
-            action={{ label: "Contact Medlink VA", to: "/contact" }}
-            footer={productsContent.disclosure}
-          />
+          {hasRecords ? (
+            <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+              {productsContent.records.map((product) => (
+                <article key={product._id} className="surface-card overflow-hidden">
+                  {product.image ? (
+                    <img
+                      src={sanityImageSrc(product.image, { width: 1200, height: 900 }) ?? ""}
+                      alt={product.altText || product.name}
+                      className="aspect-[4/3] w-full object-cover object-center"
+                      loading="lazy"
+                      decoding="async"
+                      width="1200"
+                      height="900"
+                    />
+                  ) : null}
+                  <div className="space-y-3 p-6">
+                    <h3 className="text-2xl font-semibold text-brand-navy">{product.name}</h3>
+                    <p className="text-sm leading-7 text-brand-charcoal/80">{product.shortDescription}</p>
+                    {typeof product.price === "number" ? (
+                      <p className="text-sm font-medium text-brand-navy">${product.price.toFixed(2)}</p>
+                    ) : null}
+                    <a
+                      href={product.externalUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex text-sm font-semibold text-brand-accent transition-colors hover:text-brand-navy"
+                    >
+                      {product.ctaLabel}
+                    </a>
+                  </div>
+                </article>
+              ))}
+            </div>
+          ) : (
+            <EmptyState
+              title={productsContent.emptyState.title}
+              description={productsContent.emptyState.description}
+              bullets={[
+                "Future product cards can include an image, optional price, and external CTA label.",
+                "External links should open safely and clearly disclose that they go off-site.",
+              ]}
+              action={{ label: "Contact Medlink VA", to: "/contact" }}
+              footer={site.externalProductStoreUrl ? `External product store: ${site.externalProductStoreUrl}` : productsContent.disclosure}
+            />
+          )}
         </div>
       </HomeSection>
 
@@ -66,4 +112,3 @@ export function ProductsPage() {
     </article>
   );
 }
-

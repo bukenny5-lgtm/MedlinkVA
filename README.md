@@ -9,50 +9,92 @@ Professional lead-generation website for Medlink VA.
 - TypeScript
 - Tailwind CSS
 - React Router
-
-## Project phase
-
-Phase 3 homepage: React/Vite frontend scaffold plus a polished, sectioned homepage and visual design system.
+- Sanity CMS
 
 ## Local setup
+
+Frontend:
 
 ```bash
 npm install
 npm run dev
 ```
 
-## Available scripts
+Studio:
+
+```bash
+cd sanity
+npm install
+npm run dev
+```
+
+## Scripts
+
+Frontend:
 
 ```bash
 npm run dev
 npm run build
 npm run typecheck
 npm run preview
+npm run sanity:dev
+npm run sanity:build
+npm run sanity:typecheck
 ```
 
-## Goals
+## Environment variables
 
-- Present Medlink VA professionally
-- Generate qualified leads
-- Convert visitors into clients
-- Grow website traffic through SEO
-- Capture visitor email addresses
-- Publish classes
-- Publish job opportunities
-- Link to Medlink VA products
-- Allow non-technical content updates through a CMS
+Copy the placeholders from:
 
-## Brand
+- [`.env.example`](/C:/WebProjects/MedlinkVA/.env.example)
+- [`sanity/.env.example`](/C:/WebProjects/MedlinkVA/sanity/.env.example)
 
-Primary palette:
+Frontend variables:
 
-- Sky blue
-- Accent blue
-- White
-- Dark navy / charcoal for readable text
+- `VITE_SANITY_PROJECT_ID`
+- `VITE_SANITY_DATASET`
+- `VITE_SANITY_API_VERSION`
+
+Studio variables:
+
+- `SANITY_STUDIO_PROJECT_ID`
+- `SANITY_STUDIO_DATASET`
+- `SANITY_STUDIO_API_VERSION`
+
+## CMS-managed content
+
+Sanity is the editable source for selected content:
+
+- team members
+- services
+- jobs
+- classes
+- product links
+- resources / blog posts
+- FAQs
+- testimonials
+- homepage copy
+- about copy
+- selected contact and business details
+- social links
+- site settings
+
+The layout, routing, design tokens, SEO component behavior, and application logic remain developer-controlled.
+
+## Fallback behavior
+
+The site will still render if Sanity is missing, empty, or not configured locally.
+
+Fallback order:
+
+1. Sanity content when available
+2. Existing local content modules when Sanity is unavailable or empty
+
+That means the current pages do not go blank just because the Studio has not been populated yet.
 
 ## Notes
 
 - The client asset originals remain in `assets/client`.
-- The application references those assets from the Vite source tree without modifying the originals.
-- Sanity, Brevo, and deployment wiring are deferred to later phases.
+- The application references optimized versions under `src/assets/optimized`.
+- The Studio uses a clean singleton structure for Homepage, About, and Site Settings.
+- Studio build validation currently hits an upstream Sanity CLI dependency-resolution issue in this environment, even though Studio typecheck passes.

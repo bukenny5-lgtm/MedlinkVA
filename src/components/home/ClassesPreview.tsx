@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
 import { HomeSection } from "./HomeSection";
 import { SectionHeading } from "./SectionHeading";
-import { homeContent } from "../../content/home";
+import { useCmsBundle } from "../../lib/cms/SiteContentProvider";
+import { resolveHomeContent } from "../../lib/cms/siteContent";
 
 export function ClassesPreview() {
-  const { classesPreview } = homeContent;
+  const { classesPreview } = resolveHomeContent(useCmsBundle());
 
   return (
     <HomeSection className="bg-white py-16 sm:py-20">
@@ -31,7 +32,7 @@ export function ClassesPreview() {
         <div className="surface-card p-6">
           <p className="text-sm font-semibold uppercase tracking-[0.24em] text-brand-sky">Preview</p>
           <p className="mt-3 text-lg font-semibold text-brand-navy">
-            {homeContent.classesPreview.title}
+            {classesPreview.title}
           </p>
           <p className="mt-3 text-sm leading-7 text-brand-charcoal/80">
             Upcoming learning opportunities will appear here.
@@ -46,4 +47,3 @@ export function ClassesPreview() {
     </HomeSection>
   );
 }
-

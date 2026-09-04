@@ -6,9 +6,11 @@ import { PageCta } from "../components/shared/PageCta";
 import { PageHero } from "../components/shared/PageHero";
 import { InfoCard } from "../components/shared/InfoCard";
 import { clientAssets } from "../lib/assets";
-import { servicesContent } from "../content/services";
+import { useCmsBundle } from "../lib/cms/SiteContentProvider";
+import { resolveServicesContent } from "../lib/cms/siteContent";
 
 export function ServicesPage() {
+  const servicesContent = resolveServicesContent(useCmsBundle());
   const serviceSchemas = servicesContent.services.map((service) => ({
     "@context": "https://schema.org",
     "@type": "Service",
@@ -24,7 +26,7 @@ export function ServicesPage() {
     <article className="space-y-12">
       <Seo
         title="Medlink VA Services | Virtual Medical Assistant Support"
-        description="Explore the provisional service categories Medlink VA can support, including scheduling, reception, communication, administration, billing support, and workflow help."
+        description={servicesContent.hero.description}
         image={clientAssets.hero}
         structuredData={serviceSchemas}
       />

@@ -7,6 +7,8 @@ import { PageHero } from "../components/shared/PageHero";
 import { InfoCard } from "../components/shared/InfoCard";
 import { FormField } from "../components/shared/FormField";
 import { clientAssets } from "../lib/assets";
+import { useCmsBundle } from "../lib/cms/SiteContentProvider";
+import { resolveContactCardData } from "../lib/cms/siteContent";
 import { contactContent } from "../content/contact";
 
 const controlClass =
@@ -59,6 +61,7 @@ function renderContactField(id: string) {
 
 export function ContactPage() {
   const [statusMessage, setStatusMessage] = useState(contactContent.form.notice);
+  const cmsContact = resolveContactCardData(useCmsBundle());
 
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -92,7 +95,7 @@ export function ContactPage() {
         />
 
         <div className="mt-8 grid gap-5 md:grid-cols-3">
-          {contactContent.contactDetails.map((detail) => (
+          {cmsContact.contactDetails.map((detail) => (
             <InfoCard
               key={detail.label}
               eyebrow={detail.label}

@@ -1,10 +1,12 @@
 import { Link } from "react-router-dom";
 import { HomeSection } from "./HomeSection";
 import { SectionHeading } from "./SectionHeading";
-import { homeContent } from "../../content/home";
+import { useCmsBundle } from "../../lib/cms/SiteContentProvider";
+import { resolveHomeContent } from "../../lib/cms/siteContent";
 
 export function HowItWorksSection() {
-  const { howItWorks } = homeContent;
+  const home = resolveHomeContent(useCmsBundle());
+  const { howItWorks } = home;
 
   return (
     <HomeSection className="bg-white py-16 sm:py-20">
@@ -26,10 +28,9 @@ export function HowItWorksSection() {
 
       <div className="mt-8">
         <Link to="/book-consultation" className="btn-secondary">
-          {homeContent.hero.primaryCta.label}
+          {home.hero.primaryCta.label}
         </Link>
       </div>
     </HomeSection>
   );
 }
-

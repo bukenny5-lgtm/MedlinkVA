@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
 import { HomeSection } from "./HomeSection";
 import { SectionHeading } from "./SectionHeading";
-import { homeContent } from "../../content/home";
+import { useCmsBundle } from "../../lib/cms/SiteContentProvider";
+import { resolveHomeContent } from "../../lib/cms/siteContent";
 
 export function ResourcesPreview() {
-  const { resourcesPreview } = homeContent;
+  const { resourcesPreview } = resolveHomeContent(useCmsBundle());
 
   return (
     <HomeSection className="bg-brand-sky/10 py-16 sm:py-20">
@@ -33,4 +34,3 @@ export function ResourcesPreview() {
     </HomeSection>
   );
 }
-

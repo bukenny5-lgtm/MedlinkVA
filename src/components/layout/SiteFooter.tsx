@@ -1,8 +1,11 @@
 import { Link } from "react-router-dom";
 import { clientAssets } from "../../lib/assets";
-import { siteContent } from "../../content/site";
+import { useCmsBundle } from "../../lib/cms/SiteContentProvider";
+import { resolveResolvedSiteSettings } from "../../lib/cms/siteContent";
 
 export function SiteFooter() {
+  const site = resolveResolvedSiteSettings(useCmsBundle());
+
   return (
     <footer className="border-t border-brand-border bg-brand-navy text-white">
       <div className="mx-auto grid w-full max-w-7xl gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[1.4fr_1fr_1fr] lg:px-8">
@@ -22,7 +25,7 @@ export function SiteFooter() {
             <span className="text-sm font-semibold tracking-[0.2em] text-brand-sky">MEDLINK VA</span>
           </Link>
           <p className="max-w-md text-sm leading-6 text-white/80">
-            {siteContent.brandTagline}. This foundation is intentionally lean so the site can grow into a
+            {site.brandTagline}. This foundation is intentionally lean so the site can grow into a
             CMS-backed, conversion-focused public presence in later phases.
           </p>
         </div>
@@ -30,7 +33,7 @@ export function SiteFooter() {
         <div className="space-y-3">
           <p className="text-sm font-semibold text-white">Explore</p>
           <div className="flex flex-col gap-2 text-sm text-white/80">
-            {siteContent.navigation.slice(1).map((item) => (
+            {site.navigation.slice(1).map((item) => (
               <Link key={item.path} to={item.path} className="transition-colors hover:text-white">
                 {item.label}
               </Link>
@@ -44,9 +47,32 @@ export function SiteFooter() {
             <Link className="transition-colors hover:text-white" to="/contact">
               Contact page
             </Link>
-            <a className="transition-colors hover:text-white" href={`mailto:${siteContent.contactEmail}`}>
-              {siteContent.contactEmail}
+            <a className="transition-colors hover:text-white" href={`mailto:${site.contactEmail}`}>
+              {site.contactEmail}
             </a>
+            {site.phone ? (
+              <a className="transition-colors hover:text-white" href={`tel:${site.phone.replace(/\s+/g, "")}`}>
+                {site.phone}
+              </a>
+            ) : null}
+            {site.socialLinks?.length ? (
+              <div className="pt-2">
+                <p className="mb-2 text-xs font-semibold uppercase tracking-[0.22em] text-white/50">Social</p>
+                <div className="flex flex-col gap-2">
+                  {site.socialLinks.map((link) => (
+                    <a
+                      key={`${link.label}-${link.url}`}
+                      className="transition-colors hover:text-white"
+                      href={link.url}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {link.label}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            ) : null}
           </div>
         </div>
       </div>
@@ -55,7 +81,7 @@ export function SiteFooter() {
         <div className="mx-auto flex w-full max-w-7xl flex-col gap-3 px-4 py-4 text-xs text-white/65 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
           <p>© {new Date().getFullYear()} Medlink VA. Foundation phase.</p>
           <div className="flex flex-wrap gap-4">
-            {siteContent.footerNavigation.map((item) => (
+            {site.footerNavigation.map((item) => (
               <Link key={item.path} to={item.path} className="transition-colors hover:text-white">
                 {item.label}
               </Link>

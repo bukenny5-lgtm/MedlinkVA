@@ -1,10 +1,11 @@
 import { FormEvent, useState } from "react";
 import { HomeSection } from "./HomeSection";
 import { SectionHeading } from "./SectionHeading";
-import { homeContent } from "../../content/home";
+import { useCmsBundle } from "../../lib/cms/SiteContentProvider";
+import { resolveHomeContent } from "../../lib/cms/siteContent";
 
 export function NewsletterSection() {
-  const { newsletter } = homeContent;
+  const { newsletter } = resolveHomeContent(useCmsBundle());
   const [email, setEmail] = useState("");
   const [notice, setNotice] = useState(newsletter.notice);
 
@@ -51,4 +52,3 @@ export function NewsletterSection() {
     </HomeSection>
   );
 }
-

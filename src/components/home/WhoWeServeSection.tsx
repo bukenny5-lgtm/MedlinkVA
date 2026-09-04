@@ -1,9 +1,10 @@
 import { HomeSection } from "./HomeSection";
 import { SectionHeading } from "./SectionHeading";
-import { homeContent } from "../../content/home";
+import { useCmsBundle } from "../../lib/cms/SiteContentProvider";
+import { resolveHomeContent } from "../../lib/cms/siteContent";
 
 export function WhoWeServeSection() {
-  const { whoWeServe } = homeContent;
+  const { whoWeServe } = resolveHomeContent(useCmsBundle());
 
   return (
     <HomeSection className="bg-brand-muted/50 py-16 sm:py-20">
@@ -24,4 +25,3 @@ export function WhoWeServeSection() {
     </HomeSection>
   );
 }
-

@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { clientAssets } from "../lib/assets";
-import { siteContent } from "../content/site";
+import { useCmsBundle } from "../lib/cms/SiteContentProvider";
+import { resolveResolvedSiteSettings } from "../lib/cms/siteContent";
 
 type SeoProps = {
   title: string;
@@ -72,10 +73,11 @@ export function Seo({
   image,
   structuredData,
 }: SeoProps) {
+  const cmsBundle = useCmsBundle();
+  const site = resolveResolvedSiteSettings(cmsBundle);
+
   useEffect(() => {
-    const fullTitle = title.includes(siteContent.brandName)
-      ? title
-      : `${title} | ${siteContent.brandName}`;
+    const fullTitle = title.includes(site.brandName) ? title : `${title} | ${site.brandName}`;
     const origin = productionBaseUrl;
     const currentUrl = new URL(window.location.pathname, origin).href;
     const absoluteImage = new URL(image ?? clientAssets.hero, origin).href;
@@ -112,14 +114,14 @@ export function Seo({
       {
         "@context": "https://schema.org",
         "@type": "Organization",
-        name: siteContent.brandName,
+        name: site.brandName,
         url: origin,
         logo: new URL(clientAssets.logo, origin).href,
       },
       {
         "@context": "https://schema.org",
         "@type": "WebSite",
-        name: siteContent.brandName,
+        name: site.brandName,
         url: origin,
       },
     ]);
@@ -127,7 +129,7 @@ export function Seo({
     const pathname = window.location.pathname;
 
     if (pathname !== "/") {
-      const breadcrumbLabel = pageLabelMap[pathname] ?? fullTitle.replace(` | ${siteContent.brandName}`, "");
+      const breadcrumbLabel = pageLabelMap[pathname] ?? fullTitle.replace(` | ${site.brandName}`, "");
 
       upsertJsonLd("medlink-va-breadcrumbs", {
         "@context": "https://schema.org",
@@ -152,7 +154,7 @@ export function Seo({
     }
 
     upsertJsonLd("medlink-va-page", structuredData);
-  }, [description, image, robots, structuredData, title]);
+  }, [description, image, robots, site.brandName, structuredData, title]);
 
   return null;
 }

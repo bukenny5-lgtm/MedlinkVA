@@ -4,3 +4,7 @@ dist
 coverage
 *.log
 *.tsbuildinfo
+
+.env
+.env.local
+sanity/.env

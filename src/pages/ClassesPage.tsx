@@ -5,9 +5,14 @@ import { EmptyState } from "../components/shared/EmptyState";
 import { PageCta } from "../components/shared/PageCta";
 import { PageHero } from "../components/shared/PageHero";
 import { InfoCard } from "../components/shared/InfoCard";
-import { classesContent } from "../content/classes";
+import { useCmsBundle } from "../lib/cms/SiteContentProvider";
+import { resolveClassesContent } from "../lib/cms/siteContent";
+import { sanityImageSrc } from "../lib/sanity/image";
 
 export function ClassesPage() {
+  const classesContent = resolveClassesContent(useCmsBundle());
+  const hasRecords = classesContent.records.length > 0;
+
   return (
     <article className="space-y-12">
       <Seo
@@ -39,21 +44,70 @@ export function ClassesPage() {
       <HomeSection className="bg-white py-16 sm:py-20">
         <SectionHeading
           eyebrow="Class status"
-          title="No classes are scheduled right now"
-          description="When approved training content exists, this section can switch from an empty state to structured cards."
+          title={hasRecords ? "Scheduled classes" : "No classes are scheduled right now"}
+          description={
+            hasRecords
+              ? "Published class records from Sanity appear below."
+              : "When approved training content exists, this section can switch from an empty state to structured cards."
+          }
         />
 
         <div className="mt-8">
-          <EmptyState
-            title={classesContent.emptyState.title}
-            description={classesContent.emptyState.description}
-            bullets={[
-              "Future class cards can show title, instructor, date, duration, price, registration link, and status.",
-              "The layout is already set up for future training announcements.",
-            ]}
-            action={{ label: "Stay in Touch", to: "/contact" }}
-            footer="This page remains a polished placeholder until real classes are approved."
-          />
+          {hasRecords ? (
+            <div className="grid gap-5 lg:grid-cols-2">
+              {classesContent.records.map((item) => (
+                <article key={item._id} className="surface-card overflow-hidden">
+                  {item.image ? (
+                    <img
+                      src={sanityImageSrc(item.image, { width: 1200, height: 900 }) ?? ""}
+                      alt={item.altText || item.title}
+                      className="aspect-[4/3] w-full object-cover object-center"
+                      loading="lazy"
+                      decoding="async"
+                      width="1200"
+                      height="900"
+                    />
+                  ) : null}
+                  <div className="space-y-3 p-6">
+                    <div className="flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-brand-sky">
+                      <span>{item.status}</span>
+                      {item.instructor ? <span>{item.instructor}</span> : null}
+                      {item.date ? <span>{item.date}</span> : null}
+                    </div>
+                    <h3 className="text-2xl font-semibold text-brand-navy">{item.title}</h3>
+                    <p className="text-sm leading-7 text-brand-charcoal/80">{item.shortDescription}</p>
+                    <div className="flex flex-wrap items-center gap-4">
+                      {item.duration ? <p className="text-sm text-brand-charcoal/70">Duration: {item.duration}</p> : null}
+                      {typeof item.price === "number" ? (
+                        <p className="text-sm text-brand-charcoal/70">Price: ${item.price.toFixed(2)}</p>
+                      ) : null}
+                      {item.registrationUrl ? (
+                        <a
+                          href={item.registrationUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex text-sm font-semibold text-brand-accent transition-colors hover:text-brand-navy"
+                        >
+                          Register now
+                        </a>
+                      ) : null}
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+          ) : (
+            <EmptyState
+              title={classesContent.emptyState.title}
+              description={classesContent.emptyState.description}
+              bullets={[
+                "Future class cards can show title, instructor, date, duration, price, registration link, and status.",
+                "The layout is already set up for future training announcements.",
+              ]}
+              action={{ label: "Stay in Touch", to: "/contact" }}
+              footer="This page remains a polished placeholder until real classes are approved."
+            />
+          )}
         </div>
       </HomeSection>
 
@@ -80,4 +134,3 @@ export function ClassesPage() {
     </article>
   );
 }
-

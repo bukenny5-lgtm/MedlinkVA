@@ -4,15 +4,18 @@ import { SectionHeading } from "../components/home/SectionHeading";
 import { PageCta } from "../components/shared/PageCta";
 import { PageHero } from "../components/shared/PageHero";
 import { InfoCard } from "../components/shared/InfoCard";
-import { aboutContent } from "../content/about";
 import { clientAssets } from "../lib/assets";
+import { useCmsBundle } from "../lib/cms/SiteContentProvider";
+import { resolveAboutContent } from "../lib/cms/siteContent";
 
 export function AboutPage() {
+  const aboutContent = resolveAboutContent(useCmsBundle());
+
   return (
     <article className="space-y-12">
       <Seo
         title="About Medlink VA | Healthcare Virtual Support"
-        description="Learn about Medlink VA, its provisional mission and vision, the values shaping the brand, and the confirmed team members already implemented in the project."
+        description={aboutContent.hero.description}
         image={clientAssets.teamPhoto}
       />
 
@@ -74,7 +77,7 @@ export function AboutPage() {
                 <p className="text-xs font-semibold uppercase tracking-[0.24em] text-brand-sky">{member.role}</p>
                 <h3 className="text-lg font-semibold text-brand-navy">{member.name}</h3>
                 <p className="text-sm leading-6 text-brand-charcoal/70">
-                  Confirmed team member shown without invented biography or unsupported claims.
+                  {member.shortBio ?? "Confirmed team member shown without invented biography or unsupported claims."}
                 </p>
               </div>
             </article>

@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
+import { useCmsBundle } from "../../lib/cms/SiteContentProvider";
+import { resolveHomeContent } from "../../lib/cms/siteContent";
 import { HomeSection } from "./HomeSection";
-import { homeContent } from "../../content/home";
 
 export function HeroSection() {
-  const { hero } = homeContent;
+  const { hero } = resolveHomeContent(useCmsBundle());
 
   return (
     <HomeSection className="bg-white pb-14 pt-8 sm:pb-16 sm:pt-12 lg:pb-20 lg:pt-16">

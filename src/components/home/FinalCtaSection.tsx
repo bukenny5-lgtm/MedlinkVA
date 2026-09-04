@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
 import { HomeSection } from "./HomeSection";
-import { homeContent } from "../../content/home";
+import { useCmsBundle } from "../../lib/cms/SiteContentProvider";
+import { resolveHomeContent } from "../../lib/cms/siteContent";
 
 export function FinalCtaSection() {
-  const { finalCta } = homeContent;
+  const { finalCta } = resolveHomeContent(useCmsBundle());
 
   return (
     <HomeSection className="bg-brand-navy py-16 sm:py-20">
@@ -27,4 +28,3 @@ export function FinalCtaSection() {
     </HomeSection>
   );
 }
-

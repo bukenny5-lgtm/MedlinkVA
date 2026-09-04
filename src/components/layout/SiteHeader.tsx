@@ -1,7 +1,8 @@
 import { useEffect, useId, useState } from "react";
 import { NavLink, Link, useLocation } from "react-router-dom";
 import { clientAssets } from "../../lib/assets";
-import { siteContent } from "../../content/site";
+import { useCmsBundle } from "../../lib/cms/SiteContentProvider";
+import { resolveResolvedSiteSettings } from "../../lib/cms/siteContent";
 
 const navLinkClass = ({ isActive }: { isActive: boolean }) =>
   [
@@ -13,6 +14,7 @@ export function SiteHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const panelId = useId();
   const location = useLocation();
+  const site = resolveResolvedSiteSettings(useCmsBundle());
 
   useEffect(() => {
     setIsMenuOpen(false);
@@ -54,12 +56,12 @@ export function SiteHeader() {
           </span>
           <span className="hidden flex-col leading-tight sm:flex">
             <span className="text-sm font-semibold tracking-[0.2em] text-brand-sky">MEDLINK VA</span>
-            <span className="text-xs text-brand-charcoal/70">{siteContent.brandTagline}</span>
+            <span className="text-xs text-brand-charcoal/70">{site.brandTagline}</span>
           </span>
         </Link>
 
         <nav className="hidden items-center gap-1 lg:flex" aria-label="Primary navigation">
-          {siteContent.navigation.map((item) => (
+          {site.navigation.map((item) => (
             <NavLink key={item.path} to={item.path} className={navLinkClass}>
               {item.label}
             </NavLink>
@@ -71,7 +73,7 @@ export function SiteHeader() {
             to="/book-consultation"
             className="btn-primary hidden whitespace-nowrap md:inline-flex"
           >
-            {siteContent.primaryCtaLabel}
+            {site.primaryCtaLabel}
           </Link>
 
           <button
@@ -95,7 +97,7 @@ export function SiteHeader() {
       >
         <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-4 sm:px-6 lg:px-8">
           <nav className="flex flex-col gap-2" aria-label="Mobile navigation">
-            {siteContent.navigation.map((item) => (
+            {site.navigation.map((item) => (
               <NavLink key={item.path} to={item.path} className={navLinkClass}>
                 {item.label}
               </NavLink>
@@ -105,7 +107,7 @@ export function SiteHeader() {
             to="/book-consultation"
             className="btn-primary w-full justify-center"
           >
-            {siteContent.primaryCtaLabel}
+            {site.primaryCtaLabel}
           </Link>
         </div>
       </div>

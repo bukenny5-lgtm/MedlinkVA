@@ -7,9 +7,14 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
-    "typecheck": "tsc -b"
+    "typecheck": "tsc -b",
+    "sanity:dev": "npm --prefix sanity run dev",
+    "sanity:build": "npm --prefix sanity run build",
+    "sanity:typecheck": "tsc -p sanity/tsconfig.json --noEmit"
   },
   "dependencies": {
+    "@sanity/client": "^6.27.1",
+    "@sanity/image-url": "^2.1.1",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-router-dom": "^7.18.3"
