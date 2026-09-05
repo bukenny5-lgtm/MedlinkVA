@@ -32,6 +32,14 @@ type BrevoContactPayload = {
   emailBlacklisted: boolean;
 };
 
+type SafeBrevoPayload = {
+  email: string;
+  attributes: Record<string, string>;
+  listIds: number[];
+  updateEnabled: boolean;
+  emailBlacklisted: boolean;
+};
+
 const MAX_REQUEST_BYTES = 16_384;
 const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000;
 const RATE_LIMIT_MAX_REQUESTS = 5;
@@ -210,6 +218,10 @@ function readStringArrayField(value: Record<string, unknown>, field: string, max
 async function sendToBrevo(apiKey: string, payload: BrevoContactPayload) {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 8_000);
+  const safePayload: SafeBrevoPayload = {
+    ...payload,
+    email: "[test email]",
+  };
 
   try {
     const response = await fetch("https://api.brevo.com/v3/contacts", {
@@ -224,6 +236,13 @@ async function sendToBrevo(apiKey: string, payload: BrevoContactPayload) {
     });
 
     if (!response.ok) {
+      const responseBody = await response.text();
+      console.info("[lead-capture] Brevo request failed", {
+        status: response.status,
+        statusText: response.statusText,
+        payload: safePayload,
+        responseBody,
+      });
       throw new LeadRequestError(502, "BREVO_ERROR", "The lead could not be delivered right now.");
     }
   } catch (error) {
@@ -231,6 +250,10 @@ async function sendToBrevo(apiKey: string, payload: BrevoContactPayload) {
       throw error;
     }
 
+    console.info("[lead-capture] Brevo request errored", {
+      payload: safePayload,
+      error: error instanceof Error ? error.message : String(error),
+    });
     throw new LeadRequestError(502, "BREVO_ERROR", "The lead could not be delivered right now.");
   } finally {
     clearTimeout(timeout);

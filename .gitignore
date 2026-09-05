@@ -8,3 +8,8 @@ coverage
 .env
 .env.local
 sanity/.env
+
+.dev.vars
+.dev.vars.*
+
+.wrangler/
