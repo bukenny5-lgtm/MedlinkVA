@@ -1,6 +1,7 @@
 import {
   createLeadResponse,
   readOptionalStringField,
+  sendBrevoTransactionalEmail,
   readStringField,
   type LeadEnv,
 } from "../_shared/leadCapture";
@@ -16,6 +17,26 @@ type ContactSubmission = {
   service: string;
   website: string;
 };
+
+function buildContactNotificationText(payload: ContactSubmission) {
+  return [
+    "New Contact Lead - MedLink VA Website",
+    "",
+    `First name: ${payload.firstName}`,
+    `Last name: ${payload.lastName}`,
+    `Email: ${payload.email}`,
+    payload.phone ? `Phone: ${payload.phone}` : "",
+    payload.organization ? `Practice / organization: ${payload.organization}` : "",
+    `Service of interest: ${payload.service}`,
+    "",
+    "Message:",
+    payload.message,
+    "",
+    "Submitted through medlinkva.com contact form",
+  ]
+    .filter((line) => line.length > 0)
+    .join("\n");
+}
 
 function parseContactSubmission(body: Record<string, unknown>): ContactSubmission {
   return {
@@ -51,5 +72,27 @@ export async function onRequest(context: { request: Request; env: LeadEnv }) {
         ...(payload.organization ? { COMPANY: payload.organization } : {}),
       },
     }),
+    onSuccess: async (payload, env) => {
+      const fromEmail = env.BREVO_NOTIFICATION_FROM_EMAIL?.trim();
+      const fromName = env.BREVO_NOTIFICATION_FROM_NAME?.trim() || "MedLink VA Website";
+      const toEmail = env.BREVO_NOTIFICATION_TO_EMAIL?.trim() || "info@medlinkva.com";
+
+      if (!fromEmail) {
+        return;
+      }
+
+      await sendBrevoTransactionalEmail(env.BREVO_API_KEY?.trim() ?? "", {
+        sender: {
+          email: fromEmail,
+          name: fromName,
+        },
+        subject: "New Contact Lead - MedLink VA Website",
+        textContent: buildContactNotificationText(payload),
+        to: [{ email: toEmail }],
+        replyTo: {
+          email: payload.email,
+        },
+      });
+    },
   });
 }

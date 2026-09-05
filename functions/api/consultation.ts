@@ -3,6 +3,7 @@ import {
   readOptionalStringField,
   readStringArrayField,
   readStringField,
+  sendBrevoTransactionalEmail,
   type LeadEnv,
 } from "../_shared/leadCapture";
 import { readOptionalNormalizedPhoneField } from "../_shared/phone";
@@ -20,6 +21,28 @@ type ConsultationSubmission = {
   supportNeeds: string;
   website: string;
 };
+
+function buildConsultationNotificationText(payload: ConsultationSubmission) {
+  return [
+    "New Consultation Request - MedLink VA Website",
+    "",
+    `First name: ${payload.firstName}`,
+    `Last name: ${payload.lastName}`,
+    `Email: ${payload.email}`,
+    payload.phone ? `Phone: ${payload.phone}` : "",
+    `Practice / organization: ${payload.organization}`,
+    `Practice type: ${payload.practiceType}`,
+    `Services of interest: ${payload.servicesOfInterest.join(", ")}`,
+    `Preferred contact method: ${payload.preferredContactMethod}`,
+    "",
+    `Support needs:\n${payload.supportNeeds}`,
+    payload.availability ? `\nAvailability note:\n${payload.availability}` : "",
+    "",
+    "Submitted through medlinkva.com consultation form",
+  ]
+    .filter((line) => line.length > 0)
+    .join("\n");
+}
 
 function parseConsultationSubmission(body: Record<string, unknown>): ConsultationSubmission {
   return {
@@ -61,5 +84,27 @@ export async function onRequest(context: { request: Request; env: LeadEnv }) {
         ...(payload.phone ? { SMS: payload.phone } : {}),
       },
     }),
+    onSuccess: async (payload, env) => {
+      const fromEmail = env.BREVO_NOTIFICATION_FROM_EMAIL?.trim();
+      const fromName = env.BREVO_NOTIFICATION_FROM_NAME?.trim() || "MedLink VA Website";
+      const toEmail = env.BREVO_NOTIFICATION_TO_EMAIL?.trim() || "info@medlinkva.com";
+
+      if (!fromEmail) {
+        return;
+      }
+
+      await sendBrevoTransactionalEmail(env.BREVO_API_KEY?.trim() ?? "", {
+        sender: {
+          email: fromEmail,
+          name: fromName,
+        },
+        subject: "New Consultation Request - MedLink VA Website",
+        textContent: buildConsultationNotificationText(payload),
+        to: [{ email: toEmail }],
+        replyTo: {
+          email: payload.email,
+        },
+      });
+    },
   });
 }

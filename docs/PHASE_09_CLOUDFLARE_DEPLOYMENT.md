@@ -95,6 +95,9 @@ Current known values:
 - `BREVO_NEWSLETTER_LIST_ID`
 - `BREVO_CONTACT_LIST_ID`
 - `BREVO_CONSULTATION_LIST_ID`
+- `BREVO_NOTIFICATION_FROM_EMAIL`
+- `BREVO_NOTIFICATION_FROM_NAME`
+- `BREVO_NOTIFICATION_TO_EMAIL`
 
 Known non-secret Brevo list IDs:
 
@@ -105,6 +108,9 @@ Known non-secret Brevo list IDs:
 Security handling:
 
 - `BREVO_API_KEY` must be stored as a secret.
+- `BREVO_NOTIFICATION_FROM_EMAIL` should point to a verified Brevo sender identity.
+- `BREVO_NOTIFICATION_FROM_NAME` can stay as the branded display name.
+- `BREVO_NOTIFICATION_TO_EMAIL` defaults to `info@medlinkva.com` if not set, but keeping it explicit is preferred.
 - No secret values should appear in source code, documentation, or browser-visible responses.
 
 ## 7. Secret and artifact safety

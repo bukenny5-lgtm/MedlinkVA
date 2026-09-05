@@ -3,6 +3,9 @@ export type LeadEnv = {
   BREVO_CONTACT_LIST_ID?: string;
   BREVO_CONSULTATION_LIST_ID?: string;
   BREVO_NEWSLETTER_LIST_ID?: string;
+  BREVO_NOTIFICATION_FROM_EMAIL?: string;
+  BREVO_NOTIFICATION_FROM_NAME?: string;
+  BREVO_NOTIFICATION_TO_EMAIL?: string;
 };
 
 export class LeadRequestError extends Error {
@@ -22,6 +25,7 @@ export type LeadRouteConfig<TPayload> = {
   successMessage: string;
   parseBody(body: Record<string, unknown>): TPayload;
   buildBrevoPayload(payload: TPayload, listId: number): BrevoContactPayload;
+  onSuccess?(payload: TPayload, env: LeadEnv): Promise<void> | void;
 };
 
 type BrevoContactPayload = {
@@ -38,6 +42,21 @@ type SafeBrevoPayload = {
   listIds: number[];
   updateEnabled: boolean;
   emailBlacklisted: boolean;
+};
+
+type BrevoTransactionalEmailPayload = {
+  sender: {
+    email: string;
+    name: string;
+  };
+  subject: string;
+  textContent: string;
+  to: Array<{
+    email: string;
+  }>;
+  replyTo?: {
+    email: string;
+  };
 };
 
 const MAX_REQUEST_BYTES = 16_384;
@@ -260,6 +279,45 @@ async function sendToBrevo(apiKey: string, payload: BrevoContactPayload) {
   }
 }
 
+export async function sendBrevoTransactionalEmail(apiKey: string, payload: BrevoTransactionalEmailPayload) {
+  if (!apiKey || !payload.sender.email || !payload.to.length) {
+    return false;
+  }
+
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 8_000);
+
+  try {
+    const response = await fetch("https://api.brevo.com/v3/smtp/email", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "api-key": apiKey,
+      },
+      body: JSON.stringify(payload),
+      signal: controller.signal,
+    });
+
+    if (!response.ok) {
+      console.info("[lead-capture] Brevo notification email failed", {
+        status: response.status,
+        statusText: response.statusText,
+      });
+      return false;
+    }
+
+    return true;
+  } catch (error) {
+    console.info("[lead-capture] Brevo notification email failed", {
+      error: error instanceof Error ? error.message : String(error),
+    });
+    return false;
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
 export async function createLeadResponse<TPayload>(request: Request, env: LeadEnv, config: LeadRouteConfig<TPayload>) {
   if (request.method !== "POST") {
     return notAllowed();
@@ -289,6 +347,7 @@ export async function createLeadResponse<TPayload>(request: Request, env: LeadEn
 
     const brevoPayload = config.buildBrevoPayload(payload, listId);
     await sendToBrevo(apiKey, brevoPayload);
+    await config.onSuccess?.(payload, env);
 
     return jsonResponse(
       {
