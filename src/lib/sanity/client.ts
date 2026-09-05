@@ -2,7 +2,7 @@ import { createClient } from "@sanity/client";
 
 const projectId = import.meta.env.VITE_SANITY_PROJECT_ID?.trim() ?? "";
 const dataset = import.meta.env.VITE_SANITY_DATASET?.trim() ?? "";
-const apiVersion = import.meta.env.VITE_SANITY_API_VERSION?.trim() || "2026-03-30";
+const apiVersion = import.meta.env.VITE_SANITY_API_VERSION?.trim() || "2026-09-03";
 
 export const sanityConfig = projectId && dataset ? { projectId, dataset, apiVersion } : null;
 
