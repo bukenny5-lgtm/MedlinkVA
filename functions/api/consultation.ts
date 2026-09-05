@@ -1,4 +1,11 @@
-import { createLeadResponse, readOptionalStringField, readStringArrayField, readStringField, type LeadEnv } from "../_shared/leadCapture";
+import {
+  createLeadResponse,
+  readOptionalStringField,
+  readStringArrayField,
+  readStringField,
+  type LeadEnv,
+} from "../_shared/leadCapture";
+import { readOptionalNormalizedPhoneField } from "../_shared/phone";
 
 type ConsultationSubmission = {
   availability: string;
@@ -19,7 +26,7 @@ function parseConsultationSubmission(body: Record<string, unknown>): Consultatio
     firstName: readStringField(body, "consult-first-name", { minLength: 1, maxLength: 120 }),
     lastName: readStringField(body, "consult-last-name", { minLength: 1, maxLength: 120 }),
     email: readStringField(body, "consult-email", { minLength: 5, maxLength: 254 }),
-    phone: readOptionalStringField(body, "consult-phone", 50),
+    phone: readOptionalNormalizedPhoneField(body, "consult-phone", "consult-phone-country"),
     organization: readStringField(body, "consult-organization", { minLength: 1, maxLength: 150 }),
     practiceType: readStringField(body, "consult-practice-type", { minLength: 1, maxLength: 150 }),
     servicesOfInterest: readStringArrayField(body, "services-of-interest", 12),
@@ -44,7 +51,6 @@ export async function onRequest(context: { request: Request; env: LeadEnv }) {
       attributes: {
         FIRSTNAME: payload.firstName,
         LASTNAME: payload.lastName,
-        SMS: payload.phone,
         COMPANY: payload.organization,
         MEDLINK_PRACTICE_TYPE: payload.practiceType,
         MEDLINK_SERVICES_OF_INTEREST: payload.servicesOfInterest.join(", "),
@@ -52,6 +58,7 @@ export async function onRequest(context: { request: Request; env: LeadEnv }) {
         MEDLINK_SUPPORT_NEEDS: payload.supportNeeds,
         MEDLINK_AVAILABILITY_NOTE: payload.availability,
         MEDLINK_LEAD_SOURCE: "Consultation request",
+        ...(payload.phone ? { SMS: payload.phone } : {}),
       },
     }),
   });

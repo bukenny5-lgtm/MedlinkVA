@@ -6,12 +6,14 @@ import { PageCta } from "../components/shared/PageCta";
 import { PageHero } from "../components/shared/PageHero";
 import { InfoCard } from "../components/shared/InfoCard";
 import { FormField } from "../components/shared/FormField";
+import { PhoneFieldGroup } from "../components/shared/PhoneFieldGroup";
 import { clientAssets } from "../lib/assets";
 import { useCmsBundle } from "../lib/cms/SiteContentProvider";
 import { resolveContactCardData } from "../lib/cms/siteContent";
 import { submitLeadForm } from "../lib/leads/api";
 import { readTrimmedField, readTrimmedOptionalField } from "../lib/leads/formData";
 import { contactContent } from "../content/contact";
+import { normalizePhoneNumber } from "../../functions/_shared/phone";
 
 const controlClass =
   "min-h-11 w-full rounded-2xl border border-brand-border bg-white px-4 py-3 text-sm text-brand-charcoal outline-none transition-colors placeholder:text-brand-charcoal/45 focus:border-brand-accent focus:ring-2 focus:ring-brand-accent/20";
@@ -65,6 +67,7 @@ export function ContactPage() {
   const [statusMessage, setStatusMessage] = useState<string>(contactContent.form.notice);
   const [statusTone, setStatusTone] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [phoneError, setPhoneError] = useState("");
   const cmsContact = resolveContactCardData(useCmsBundle());
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -75,13 +78,27 @@ export function ContactPage() {
     setIsSubmitting(true);
     setStatusTone("loading");
     setStatusMessage("Sending your message...");
+    setPhoneError("");
+
+    const phone = readTrimmedOptionalField(formData, "contact-phone");
+    const phoneCountry = readTrimmedField(formData, "contact-phone-country");
+    const normalizedPhone = normalizePhoneNumber(phone, phoneCountry);
+
+    if (normalizedPhone.error) {
+      setStatusTone("error");
+      setStatusMessage(normalizedPhone.error);
+      setPhoneError(normalizedPhone.error);
+      setIsSubmitting(false);
+      return;
+    }
 
     const result = await submitLeadForm("/api/contact", {
       "contact-first-name": readTrimmedField(formData, "contact-first-name"),
       "contact-last-name": readTrimmedField(formData, "contact-last-name"),
       "contact-email": readTrimmedField(formData, "contact-email"),
-      "contact-phone": readTrimmedOptionalField(formData, "contact-phone"),
-      "contact-organization": readTrimmedField(formData, "contact-organization"),
+      "contact-phone": normalizedPhone.normalized ?? "",
+      "contact-phone-country": phoneCountry,
+      "contact-organization": readTrimmedOptionalField(formData, "contact-organization"),
       "contact-service": readTrimmedField(formData, "contact-service"),
       "contact-message": readTrimmedField(formData, "contact-message"),
       website: readTrimmedOptionalField(formData, "website"),
@@ -182,7 +199,14 @@ export function ContactPage() {
               </div>
 
               {renderContactField("contact-email")}
-              {renderContactField("contact-phone")}
+              <PhoneFieldGroup
+                phoneFieldId="contact-phone"
+                countryFieldId="contact-phone-country"
+                phoneLabel="Phone"
+                hint="Optional. Choose a country if you enter a local number without a +country code."
+                error={phoneError}
+                onChange={() => setPhoneError("")}
+              />
               {renderContactField("contact-organization")}
               {renderContactField("contact-service")}
               {renderContactField("contact-message")}

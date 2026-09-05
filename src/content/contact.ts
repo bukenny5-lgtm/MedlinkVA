@@ -98,14 +98,14 @@ export const contactContent = {
         label: "Phone",
         type: "tel",
         placeholder: "Optional phone number",
-        helpText: "Optional.",
+        helpText: "Optional. Choose a country if you enter a local number without a +country code.",
       },
       {
         id: "contact-organization",
         label: "Practice / organization name",
         type: "text",
         placeholder: "Practice or organization name",
-        required: true,
+        helpText: "Optional.",
       },
       {
         id: "contact-service",
@@ -207,7 +207,7 @@ export const consultationContent = {
         label: "Phone",
         type: "tel",
         placeholder: "Best contact number",
-        helpText: "Optional, but helpful if you prefer a phone follow-up.",
+        helpText: "Optional, but helpful if you prefer a phone follow-up. Choose a country if you enter a local number.",
       },
       {
         id: "consult-organization",

@@ -1,4 +1,10 @@
-import { createLeadResponse, readOptionalStringField, readStringField, type LeadEnv } from "../_shared/leadCapture";
+import {
+  createLeadResponse,
+  readOptionalStringField,
+  readStringField,
+  type LeadEnv,
+} from "../_shared/leadCapture";
+import { readOptionalNormalizedPhoneField } from "../_shared/phone";
 
 type ContactSubmission = {
   email: string;
@@ -16,8 +22,8 @@ function parseContactSubmission(body: Record<string, unknown>): ContactSubmissio
     firstName: readStringField(body, "contact-first-name", { minLength: 1, maxLength: 120 }),
     lastName: readStringField(body, "contact-last-name", { minLength: 1, maxLength: 120 }),
     email: readStringField(body, "contact-email", { minLength: 5, maxLength: 254 }),
-    phone: readOptionalStringField(body, "contact-phone", 50),
-    organization: readStringField(body, "contact-organization", { minLength: 1, maxLength: 150 }),
+    phone: readOptionalNormalizedPhoneField(body, "contact-phone", "contact-phone-country"),
+    organization: readOptionalStringField(body, "contact-organization", 150),
     service: readStringField(body, "contact-service", { minLength: 1, maxLength: 150 }),
     message: readStringField(body, "contact-message", { minLength: 1, maxLength: 4_000 }),
     website: readOptionalStringField(body, "website", 200),
@@ -38,11 +44,11 @@ export async function onRequest(context: { request: Request; env: LeadEnv }) {
       attributes: {
         FIRSTNAME: payload.firstName,
         LASTNAME: payload.lastName,
-        SMS: payload.phone,
-        COMPANY: payload.organization,
         MEDLINK_SERVICE: payload.service,
         MEDLINK_MESSAGE: payload.message,
         MEDLINK_LEAD_SOURCE: "Contact form",
+        ...(payload.phone ? { SMS: payload.phone } : {}),
+        ...(payload.organization ? { COMPANY: payload.organization } : {}),
       },
     }),
   });

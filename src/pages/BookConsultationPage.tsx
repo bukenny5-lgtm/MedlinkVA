@@ -6,10 +6,12 @@ import { PageCta } from "../components/shared/PageCta";
 import { PageHero } from "../components/shared/PageHero";
 import { InfoCard } from "../components/shared/InfoCard";
 import { FormField } from "../components/shared/FormField";
+import { PhoneFieldGroup } from "../components/shared/PhoneFieldGroup";
 import { clientAssets } from "../lib/assets";
 import { consultationContent } from "../content/contact";
 import { submitLeadForm } from "../lib/leads/api";
 import { readMultiValueField, readTrimmedField, readTrimmedOptionalField } from "../lib/leads/formData";
+import { normalizePhoneNumber } from "../../functions/_shared/phone";
 
 const controlClass =
   "min-h-11 w-full rounded-2xl border border-brand-border bg-white px-4 py-3 text-sm text-brand-charcoal outline-none transition-colors placeholder:text-brand-charcoal/45 focus:border-brand-accent focus:ring-2 focus:ring-brand-accent/20";
@@ -63,6 +65,7 @@ export function BookConsultationPage() {
   const [statusMessage, setStatusMessage] = useState<string>(consultationContent.form.notice);
   const [statusTone, setStatusTone] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [phoneError, setPhoneError] = useState("");
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -72,12 +75,26 @@ export function BookConsultationPage() {
     setIsSubmitting(true);
     setStatusTone("loading");
     setStatusMessage("Sending your consultation request...");
+    setPhoneError("");
+
+    const phone = readTrimmedOptionalField(formData, "consult-phone");
+    const phoneCountry = readTrimmedField(formData, "consult-phone-country");
+    const normalizedPhone = normalizePhoneNumber(phone, phoneCountry);
+
+    if (normalizedPhone.error) {
+      setStatusTone("error");
+      setStatusMessage(normalizedPhone.error);
+      setPhoneError(normalizedPhone.error);
+      setIsSubmitting(false);
+      return;
+    }
 
     const result = await submitLeadForm("/api/consultation", {
       "consult-first-name": readTrimmedField(formData, "consult-first-name"),
       "consult-last-name": readTrimmedField(formData, "consult-last-name"),
       "consult-email": readTrimmedField(formData, "consult-email"),
-      "consult-phone": readTrimmedOptionalField(formData, "consult-phone"),
+      "consult-phone": normalizedPhone.normalized ?? "",
+      "consult-phone-country": phoneCountry,
       "consult-organization": readTrimmedField(formData, "consult-organization"),
       "consult-practice-type": readTrimmedField(formData, "consult-practice-type"),
       "services-of-interest": readMultiValueField(formData, "services-of-interest"),
@@ -166,9 +183,16 @@ export function BookConsultationPage() {
                 {renderConsultationField("consult-last-name")}
               </div>
 
-              <div className="grid gap-5 sm:grid-cols-2">
+              <div className="space-y-5">
                 {renderConsultationField("consult-email")}
-                {renderConsultationField("consult-phone")}
+                <PhoneFieldGroup
+                  phoneFieldId="consult-phone"
+                  countryFieldId="consult-phone-country"
+                  phoneLabel="Phone"
+                  hint="Optional, but helpful if you prefer a phone follow-up. Choose a country if you enter a local number."
+                  error={phoneError}
+                  onChange={() => setPhoneError("")}
+                />
               </div>
 
               {renderConsultationField("consult-organization")}
