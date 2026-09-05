@@ -220,12 +220,12 @@ export const homeContent = {
     eyebrow: "Newsletter",
     title: "Stay in touch for updates and resources",
     description:
-      "This development-safe form is frontend only for now and will connect to Brevo in a later phase.",
+      "Join the newsletter to receive updates and resources through the secure Brevo-backed signup flow.",
     consent:
       "By sharing your email, you agree to receive occasional updates from Medlink VA. This preview form is not connected to email delivery yet.",
     placeholder: "Email address",
     cta: "Join the List",
-    notice: "Preview only. Brevo integration comes later.",
+    notice: "Your signup will be sent securely.",
   },
   finalCta: {
     title: "Spend Less Time on Administration. More Time on Care.",

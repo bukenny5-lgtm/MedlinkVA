@@ -8,6 +8,8 @@ import { InfoCard } from "../components/shared/InfoCard";
 import { FormField } from "../components/shared/FormField";
 import { clientAssets } from "../lib/assets";
 import { consultationContent } from "../content/contact";
+import { submitLeadForm } from "../lib/leads/api";
+import { readMultiValueField, readTrimmedField, readTrimmedOptionalField } from "../lib/leads/formData";
 
 const controlClass =
   "min-h-11 w-full rounded-2xl border border-brand-border bg-white px-4 py-3 text-sm text-brand-charcoal outline-none transition-colors placeholder:text-brand-charcoal/45 focus:border-brand-accent focus:ring-2 focus:ring-brand-accent/20";
@@ -58,18 +60,54 @@ function renderConsultationField(id: string) {
 }
 
 export function BookConsultationPage() {
-  const [statusMessage, setStatusMessage] = useState(consultationContent.form.notice);
+  const [statusMessage, setStatusMessage] = useState<string>(consultationContent.form.notice);
+  const [statusTone, setStatusTone] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setStatusMessage(consultationContent.form.notice);
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+
+    setIsSubmitting(true);
+    setStatusTone("loading");
+    setStatusMessage("Sending your consultation request...");
+
+    const result = await submitLeadForm("/api/consultation", {
+      "consult-first-name": readTrimmedField(formData, "consult-first-name"),
+      "consult-last-name": readTrimmedField(formData, "consult-last-name"),
+      "consult-email": readTrimmedField(formData, "consult-email"),
+      "consult-phone": readTrimmedOptionalField(formData, "consult-phone"),
+      "consult-organization": readTrimmedField(formData, "consult-organization"),
+      "consult-practice-type": readTrimmedField(formData, "consult-practice-type"),
+      "services-of-interest": readMultiValueField(formData, "services-of-interest"),
+      "preferred-contact-method": readTrimmedField(formData, "preferred-contact-method"),
+      "consult-support-needs": readTrimmedField(formData, "consult-support-needs"),
+      "consult-availability": readTrimmedOptionalField(formData, "consult-availability"),
+      website: readTrimmedOptionalField(formData, "website"),
+    });
+
+    if (result.ok) {
+      setStatusTone("success");
+      setStatusMessage(result.message);
+      form.reset();
+    } else {
+      setStatusTone("error");
+      setStatusMessage(
+        result.configuration
+          ? `${result.message} Add the Brevo environment variables in Cloudflare Pages to enable consultation capture.`
+          : result.message,
+      );
+    }
+
+    setIsSubmitting(false);
   };
 
   return (
     <article className="space-y-12">
       <Seo
         title="Book a Consultation | Medlink VA"
-        description="Book a consultation with Medlink VA through a polished, UI-only form that captures business context, preferred contact details, and support needs."
+        description="Book a consultation with Medlink VA through a secure request form that captures business context, preferred contact details, and support needs."
         image={clientAssets.supportPhoto}
       />
 
@@ -177,6 +215,11 @@ export function BookConsultationPage() {
               {renderConsultationField("consult-support-needs")}
               {renderConsultationField("consult-availability")}
 
+              <div className="sr-only" aria-hidden="true">
+                <label htmlFor="consult-website">Website</label>
+                <input id="consult-website" name="website" tabIndex={-1} autoComplete="off" />
+              </div>
+
               <p className="rounded-2xl border border-brand-border bg-brand-muted/40 px-4 py-3 text-sm leading-7 text-brand-charcoal/75">
                 {consultationContent.form.privacyNote}
               </p>
@@ -185,11 +228,17 @@ export function BookConsultationPage() {
                 {consultationContent.schedulePrompt}
               </p>
 
-              <button type="submit" className="btn-primary w-full">
-                {consultationContent.form.submitLabel}
+              <button type="submit" className="btn-primary w-full" disabled={isSubmitting}>
+                {isSubmitting ? "Sending..." : consultationContent.form.submitLabel}
               </button>
 
-              <p className="text-sm leading-6 text-brand-accent" aria-live="polite">
+              <p
+                className={[
+                  "text-sm leading-6",
+                  statusTone === "error" ? "text-red-600" : statusTone === "success" ? "text-brand-accent" : "text-brand-charcoal/70",
+                ].join(" ")}
+                aria-live="polite"
+              >
                 {statusMessage}
               </p>
             </form>

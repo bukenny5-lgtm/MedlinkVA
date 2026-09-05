@@ -9,6 +9,8 @@ import { FormField } from "../components/shared/FormField";
 import { clientAssets } from "../lib/assets";
 import { useCmsBundle } from "../lib/cms/SiteContentProvider";
 import { resolveContactCardData } from "../lib/cms/siteContent";
+import { submitLeadForm } from "../lib/leads/api";
+import { readTrimmedField, readTrimmedOptionalField } from "../lib/leads/formData";
 import { contactContent } from "../content/contact";
 
 const controlClass =
@@ -60,19 +62,52 @@ function renderContactField(id: string) {
 }
 
 export function ContactPage() {
-  const [statusMessage, setStatusMessage] = useState(contactContent.form.notice);
+  const [statusMessage, setStatusMessage] = useState<string>(contactContent.form.notice);
+  const [statusTone, setStatusTone] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const cmsContact = resolveContactCardData(useCmsBundle());
 
-  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setStatusMessage(contactContent.form.notice);
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+
+    setIsSubmitting(true);
+    setStatusTone("loading");
+    setStatusMessage("Sending your message...");
+
+    const result = await submitLeadForm("/api/contact", {
+      "contact-first-name": readTrimmedField(formData, "contact-first-name"),
+      "contact-last-name": readTrimmedField(formData, "contact-last-name"),
+      "contact-email": readTrimmedField(formData, "contact-email"),
+      "contact-phone": readTrimmedOptionalField(formData, "contact-phone"),
+      "contact-organization": readTrimmedField(formData, "contact-organization"),
+      "contact-service": readTrimmedField(formData, "contact-service"),
+      "contact-message": readTrimmedField(formData, "contact-message"),
+      website: readTrimmedOptionalField(formData, "website"),
+    });
+
+    if (result.ok) {
+      setStatusTone("success");
+      setStatusMessage(result.message);
+      form.reset();
+    } else {
+      setStatusTone("error");
+      setStatusMessage(
+        result.configuration
+          ? `${result.message} Add the Brevo environment variables in Cloudflare Pages to enable contact capture.`
+          : result.message,
+      );
+    }
+
+    setIsSubmitting(false);
   };
 
   return (
     <article className="space-y-12">
       <Seo
         title="Contact Medlink VA"
-        description="Send Medlink VA a business inquiry or support question through a polished, UI-only contact form that keeps sensitive patient details out of the public page."
+        description="Send Medlink VA a business inquiry or support question through a secure contact form that keeps sensitive patient details out of the public page."
         image={clientAssets.supportPhoto}
       />
 
@@ -121,9 +156,9 @@ export function ContactPage() {
           <div className="space-y-6">
             <SectionHeading
               eyebrow={contactContent.form.title}
-              title="Public form preview"
-              description={contactContent.form.privacyNote}
-            />
+          title="Secure contact form"
+          description={contactContent.form.privacyNote}
+        />
 
             <div className="space-y-4">
               {contactContent.alternativeMethods.map((method) => (
@@ -134,7 +169,7 @@ export function ContactPage() {
             <InfoCard
               eyebrow="What to expect"
               title="A measured first reply"
-              description="The current version of the form is not wired to a backend yet, so this page stays transparent about its preview state."
+              description="The form sends to a secure server endpoint and falls back safely if Brevo is not configured."
               bullets={contactContent.faqTeaser}
             />
           </div>
@@ -152,15 +187,26 @@ export function ContactPage() {
               {renderContactField("contact-service")}
               {renderContactField("contact-message")}
 
+              <div className="sr-only" aria-hidden="true">
+                <label htmlFor="contact-website">Website</label>
+                <input id="contact-website" name="website" tabIndex={-1} autoComplete="off" />
+              </div>
+
               <p className="rounded-2xl border border-brand-border bg-brand-muted/40 px-4 py-3 text-sm leading-7 text-brand-charcoal/75">
                 {contactContent.form.privacyNote}
               </p>
 
-              <button type="submit" className="btn-primary w-full">
-                {contactContent.form.submitLabel}
+              <button type="submit" className="btn-primary w-full" disabled={isSubmitting}>
+                {isSubmitting ? "Sending..." : contactContent.form.submitLabel}
               </button>
 
-              <p className="text-sm leading-6 text-brand-accent" aria-live="polite">
+              <p
+                className={[
+                  "text-sm leading-6",
+                  statusTone === "error" ? "text-red-600" : statusTone === "success" ? "text-brand-accent" : "text-brand-charcoal/70",
+                ].join(" ")}
+                aria-live="polite"
+              >
                 {statusMessage}
               </p>
             </form>

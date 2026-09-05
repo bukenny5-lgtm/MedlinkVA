@@ -65,11 +65,11 @@ export const contactContent = {
     },
   ],
   introduction:
-    "Use this page for general questions, partnership conversations, and practical support inquiries. The form is UI-only in this phase and will be connected before launch.",
+    "Use this page for general questions, partnership conversations, and practical support inquiries. The form sends securely and should stay free of confidential patient data.",
   form: {
-    title: "Send a message",
-    submitLabel: "Prepare message",
-    notice: "This form will be connected before launch.",
+    title: "Send a message securely",
+    submitLabel: "Send message",
+    notice: "Your message will be sent securely.",
     privacyNote: "Please do not submit confidential patient or medical information through this form.",
     fields: [
       {
@@ -139,12 +139,12 @@ export const contactContent = {
     },
   ],
   faqTeaser: [
-    "The form is a preview and does not submit to a live backend yet.",
+    "The form submits to a secure server endpoint.",
     "Sensitive patient data should never be entered into a public contact form.",
-    "A secure integration can be added later when the final stack is approved.",
+    "If lead capture is not configured yet, the page will show a clear configuration error.",
   ],
   consultationPrompt:
-    "If your inquiry is about a potential engagement, the consultation page will ask for a little more context in a separate form.",
+    "If your inquiry is about a potential engagement, the consultation page asks for a little more context in a separate secure form.",
   contactLabel: "Email Medlink VA",
   contactHref: `mailto:${siteContent.contactEmail}`,
   practiceTypeOptions,
@@ -163,7 +163,7 @@ export const consultationContent = {
     ],
   },
   introduction:
-    "Use this form when you want to describe the support you need before a follow-up conversation. The current version is UI-only and will be connected later.",
+    "Use this form when you want to describe the support you need before a follow-up conversation. It sends securely and is not a scheduling system.",
   trustPoints: [
     "Built for qualified prospects who want to talk through operational support",
     "Focused on business context instead of patient details",
@@ -175,9 +175,9 @@ export const consultationContent = {
     "Expect a follow-up once the form is connected before launch.",
   ],
   form: {
-    title: "Consultation details",
-    submitLabel: "Prepare consultation request",
-    notice: "This form will be connected before launch.",
+    title: "Consultation request details",
+    submitLabel: "Send consultation request",
+    notice: "Your consultation request will be sent securely.",
     privacyNote:
       "Please do not submit confidential patient or medical information through this form.",
     fields: [
@@ -245,6 +245,5 @@ export const consultationContent = {
   serviceOptions,
   contactMethodOptions,
   schedulePrompt:
-    "If you need the form connected to a scheduling flow later, that should be added after the launch stack is confirmed.",
+    "This form is a consultation request, not a live scheduling system.",
 } as const;
-
