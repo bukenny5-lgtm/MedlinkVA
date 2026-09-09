@@ -12,17 +12,19 @@ import { sanityImageSrc } from "../sanity/image";
 import type {
   CmsBundle,
   ClassDocument,
+  FaqDocument,
   JobDocument,
   ProductLinkDocument,
   ResourcePostDocument,
   ServiceDocument,
   SiteSettingsDocument,
   TeamMemberDocument,
+  TestimonialDocument,
 } from "../sanity/types";
 import type { ServiceCard } from "../../content/services";
 import type { TeamMember } from "../../content/team";
 
-function toPlainText(blocks?: Array<{ children?: Array<{ text?: string }>; _type?: string }>) {
+export function toPlainText(blocks?: Array<{ children?: Array<{ text?: string }>; _type?: string }>) {
   if (!blocks?.length) {
     return "";
   }
@@ -273,6 +275,8 @@ export type JobsPageContent = typeof fallbackJobsContent & {
 
 export type ClassesPageContent = typeof fallbackClassesContent & {
   records: ClassDocument[];
+  trainingFaqs: FaqDocument[];
+  traineeTestimonials: TestimonialDocument[];
 };
 
 export type ResourcesPageContent = Omit<typeof fallbackResourcesContent, "categories"> & {
@@ -328,6 +332,8 @@ export function resolveClassesContent(bundle: CmsBundle | null): ClassesPageCont
       },
     },
     records,
+    trainingFaqs: (bundle?.faqs ?? []).filter((faq) => faq.category?.toLowerCase() === "training"),
+    traineeTestimonials: (bundle?.testimonials ?? []).filter((testimonial) => testimonial.audience === "trainee"),
   } as unknown as ClassesPageContent;
 }
 

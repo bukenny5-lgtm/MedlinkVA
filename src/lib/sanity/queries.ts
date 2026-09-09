@@ -78,21 +78,34 @@ const cmsQuery = `{
     status,
     title
   },
-  "classes": *[_type == "class" && (status == "upcoming" || status == "ongoing")] | order(displayOrder asc, date asc, title asc) {
+  "classes": *[_type == "class" && (status == "upcoming" || status == "enrolling" || status == "ongoing" || status == "on-demand")] | order(displayOrder asc, coalesce(startDate, date) asc, title asc) {
     _id,
+    callToActionLabel,
+    certificateIncluded,
     date,
     displayOrder,
     duration,
+    deliveryFormat,
+    endDate,
+    externalRegistration,
+    features,
     featured,
     fullDescription,
     image,
     instructor,
+    instructorNames,
     price,
+    priceLabel,
+    programmeType,
+    registrationDeadline,
     registrationUrl,
     shortDescription,
     slug,
+    startDate,
     status,
+    topics,
     title,
+    currency,
     altText
   },
   "productLinks": *[_type == "productLink" && active == true] | order(displayOrder asc, name asc) {
@@ -136,6 +149,7 @@ const cmsQuery = `{
   "testimonials": *[_type == "testimonial" && active == true] | order(displayOrder asc, clientName asc) {
     _id,
     active,
+    audience,
     clientName,
     clientRole,
     displayOrder,

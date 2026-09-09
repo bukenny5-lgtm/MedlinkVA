@@ -30,6 +30,18 @@ export const testimonial = defineType({
       type: "string",
     }),
     defineField({
+      name: "audience",
+      title: "Audience",
+      type: "string",
+      options: {
+        list: [
+          { title: "Trainee", value: "trainee" },
+          { title: "Client", value: "client" },
+          { title: "Practice", value: "practice" },
+        ],
+      },
+    }),
+    defineField({
       name: "photo",
       title: "Photo",
       type: "image",

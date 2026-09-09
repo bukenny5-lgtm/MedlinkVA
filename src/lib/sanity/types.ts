@@ -89,19 +89,32 @@ export type JobDocument = {
 
 export type ClassDocument = {
   _id: string;
+  callToActionLabel?: string;
+  certificateIncluded?: boolean;
   date?: string;
   displayOrder?: number;
   duration?: string;
+  deliveryFormat?: string[];
+  endDate?: string;
+  externalRegistration?: boolean;
+  features?: string[];
   featured?: boolean;
   fullDescription?: PortableTextBlock[];
   image?: SanityImageSource;
   instructor?: string;
+  instructorNames?: string[];
   price?: number;
+  priceLabel?: string;
+  programmeType?: "programme" | "webinar" | "workshop" | "bootcamp" | "team-training";
+  registrationDeadline?: string;
   registrationUrl?: string;
   shortDescription: string;
   slug?: SanitySlug;
-  status: "upcoming" | "ongoing" | "completed";
+  startDate?: string;
+  status: "upcoming" | "enrolling" | "ongoing" | "completed" | "on-demand";
+  topics?: string[];
   title: string;
+  currency?: string;
   altText?: string;
 };
 
@@ -156,6 +169,7 @@ export type TestimonialDocument = {
   photo?: SanityImageSource;
   quote: string;
   altText?: string;
+  audience?: "trainee" | "client" | "practice";
 };
 
 export type SiteSettingsDocument = {
