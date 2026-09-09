@@ -3,7 +3,6 @@ import { ClassesPreview } from "../components/home/ClassesPreview";
 import { FinalCtaSection } from "../components/home/FinalCtaSection";
 import { HeroSection } from "../components/home/HeroSection";
 import { HowItWorksSection } from "../components/home/HowItWorksSection";
-import { JobsPreview } from "../components/home/JobsPreview";
 import { MeetTeamSection } from "../components/home/MeetTeamSection";
 import { NewsletterSection } from "../components/home/NewsletterSection";
 import { ProductsPreview } from "../components/home/ProductsPreview";
@@ -19,20 +18,19 @@ export function HomePage() {
   return (
     <>
       <Seo
-        title="Medlink VA | Virtual Medical Assistant Support"
-        description="Professional virtual medical assistant support for healthcare practices seeking help with scheduling, patient communication, administration, and day-to-day operations."
+        title="MedLink VA | Virtual Medical Assistant Training & Support"
+        description="Practical Virtual Medical Assistant training and remote healthcare administrative support for scheduling, communication, and everyday practice operations."
         image={clientAssets.hero}
       />
       <HeroSection />
       <TrustStrip />
+      <ClassesPreview />
       <ServicesOverview />
       <WhyMedlinkSection />
       <HowItWorksSection />
       <WhoWeServeSection />
       <TeamSupportSection />
       <MeetTeamSection />
-      <ClassesPreview />
-      <JobsPreview />
       <ProductsPreview />
       <ResourcesPreview />
       <NewsletterSection />

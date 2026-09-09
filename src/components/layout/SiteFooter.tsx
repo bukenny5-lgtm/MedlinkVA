@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { siteContent } from "../../content/site";
 import { clientAssets } from "../../lib/assets";
 import { useCmsBundle } from "../../lib/cms/SiteContentProvider";
 import { resolveResolvedSiteSettings } from "../../lib/cms/siteContent";
@@ -25,8 +26,7 @@ export function SiteFooter() {
             <span className="text-sm font-semibold tracking-[0.2em] text-brand-sky">MEDLINK VA</span>
           </Link>
           <p className="max-w-md text-sm leading-6 text-white/80">
-            {site.brandTagline}. This foundation is intentionally lean so the site can grow into a
-            CMS-backed, conversion-focused public presence in later phases.
+            {site.brandTagline}.
           </p>
         </div>
 
@@ -34,7 +34,7 @@ export function SiteFooter() {
           <p className="text-sm font-semibold text-white">Explore</p>
           <div className="flex flex-col gap-2 text-sm text-white/80">
             {site.navigation.slice(1).map((item) => (
-              <Link key={item.path} to={item.path} className="transition-colors hover:text-white">
+              <Link key={item.path} to={item.path} className="inline-flex min-h-11 items-center transition-colors hover:text-white">
                 {item.label}
               </Link>
             ))}
@@ -43,18 +43,20 @@ export function SiteFooter() {
 
         <div className="space-y-3">
           <p className="text-sm font-semibold text-white">Contact</p>
+          <Link to="/book-consultation" className="btn-secondary">{site.primaryCtaLabel}</Link>
           <div className="flex flex-col gap-2 text-sm text-white/80">
-            <Link className="transition-colors hover:text-white" to="/contact">
+            <Link className="inline-flex min-h-11 items-center transition-colors hover:text-white" to="/contact">
               Contact page
             </Link>
-            <a className="transition-colors hover:text-white" href={`mailto:${site.contactEmail}`}>
+            <a className="inline-flex min-h-11 items-center transition-colors hover:text-white" href={`mailto:${site.contactEmail}`}>
               {site.contactEmail}
             </a>
             {site.phone ? (
-              <a className="transition-colors hover:text-white" href={`tel:${site.phone.replace(/\s+/g, "")}`}>
+              <a className="inline-flex min-h-11 items-center transition-colors hover:text-white" href={`tel:${site.phone.replace(/\s+/g, "")}`}>
                 {site.phone}
               </a>
             ) : null}
+            <a href={siteContent.whatsappUrl} className="inline-flex min-h-11 items-center font-semibold text-white underline underline-offset-4" target="_blank" rel="noopener noreferrer">Chat on WhatsApp <span className="sr-only">(opens in a new tab)</span></a>
             {site.socialLinks?.length ? (
               <div className="pt-2">
                 <p className="mb-2 text-xs font-semibold uppercase tracking-[0.22em] text-white/50">Social</p>
@@ -62,7 +64,7 @@ export function SiteFooter() {
                   {site.socialLinks.map((link) => (
                     <a
                       key={`${link.label}-${link.url}`}
-                      className="transition-colors hover:text-white"
+                      className="inline-flex min-h-11 items-center transition-colors hover:text-white"
                       href={link.url}
                       target="_blank"
                       rel="noreferrer"
@@ -79,10 +81,10 @@ export function SiteFooter() {
 
       <div className="border-t border-white/10">
         <div className="mx-auto flex w-full max-w-7xl flex-col gap-3 px-4 py-4 text-xs text-white/65 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
-          <p>© {new Date().getFullYear()} Medlink VA. Foundation phase.</p>
+          <p>© {new Date().getFullYear()} MedLink VA.</p>
           <div className="flex flex-wrap gap-4">
             {site.footerNavigation.map((item) => (
-              <Link key={item.path} to={item.path} className="transition-colors hover:text-white">
+              <Link key={item.path} to={item.path} className="inline-flex min-h-11 items-center transition-colors hover:text-white">
                 {item.label}
               </Link>
             ))}

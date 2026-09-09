@@ -12,6 +12,7 @@ import { useCmsBundle } from "../lib/cms/SiteContentProvider";
 import { resolveContactCardData } from "../lib/cms/siteContent";
 import { submitLeadForm } from "../lib/leads/api";
 import { readTrimmedField, readTrimmedOptionalField } from "../lib/leads/formData";
+import { siteContent } from "../content/site";
 import { contactContent } from "../content/contact";
 import { normalizePhoneNumber } from "../../functions/_shared/phone";
 
@@ -112,7 +113,7 @@ export function ContactPage() {
       setStatusTone("error");
       setStatusMessage(
         result.configuration
-          ? `${result.message} Add the Brevo environment variables in Cloudflare Pages to enable contact capture.`
+          ? "We couldn’t send your message right now. Please contact us by email, phone, or WhatsApp."
           : result.message,
       );
     }
@@ -152,20 +153,20 @@ export function ContactPage() {
               key={detail.label}
               eyebrow={detail.label}
               title={detail.value}
-              description="Centralized site content"
               footer={
                 "href" in detail ? (
                   <a
                     href={detail.href}
                     className="inline-flex text-sm font-semibold text-brand-accent transition-colors hover:text-brand-navy"
                   >
-                    {contactContent.contactLabel}
+                    {detail.label === "Phone" ? "Call MedLink VA" : "Email MedLink VA"}
                   </a>
                 ) : null
               }
             />
           ))}
         </div>
+        <a href={siteContent.whatsappUrl} className="btn-primary mt-6 w-full sm:w-auto" target="_blank" rel="noopener noreferrer">Chat on WhatsApp <span className="sr-only">(opens in a new tab)</span></a>
       </HomeSection>
 
       <HomeSection className="bg-white py-16 sm:py-20">
@@ -173,9 +174,9 @@ export function ContactPage() {
           <div className="space-y-6">
             <SectionHeading
               eyebrow={contactContent.form.title}
-          title="Secure contact form"
-          description={contactContent.form.privacyNote}
-        />
+              title="Send us a message"
+              description={contactContent.form.privacyNote}
+            />
 
             <div className="space-y-4">
               {contactContent.alternativeMethods.map((method) => (
@@ -185,8 +186,8 @@ export function ContactPage() {
 
             <InfoCard
               eyebrow="What to expect"
-              title="A measured first reply"
-              description="The form sends to a secure server endpoint and falls back safely if Brevo is not configured."
+              title="Start a useful conversation"
+              description="Tell us what you need help with so we can respond with relevant next steps."
               bullets={contactContent.faqTeaser}
             />
           </div>

@@ -30,12 +30,12 @@ export function ClassesPreview() {
         </div>
 
         <div className="surface-card p-6">
-          <p className="text-sm font-semibold uppercase tracking-[0.24em] text-brand-sky">Preview</p>
+          <p className="text-sm font-semibold uppercase tracking-[0.24em] text-brand-accent">Your learning goals</p>
           <p className="mt-3 text-lg font-semibold text-brand-navy">
-            {classesPreview.title}
+            Ready to take the next step?
           </p>
           <p className="mt-3 text-sm leading-7 text-brand-charcoal/80">
-            Upcoming learning opportunities will appear here.
+            View training updates or contact us to discuss what you want to learn.
           </p>
           <div className="mt-6">
             <Link to={classesPreview.cta.to} className="btn-primary">

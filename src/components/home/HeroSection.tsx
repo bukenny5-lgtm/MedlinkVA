@@ -11,8 +11,8 @@ export function HeroSection() {
       <div className="grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr]">
         <div className="space-y-8">
           <div className="space-y-4">
-            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-brand-sky">{hero.eyebrow}</p>
-            <h1 className="max-w-2xl text-4xl font-semibold tracking-tight text-brand-navy sm:text-5xl lg:text-6xl">
+            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-brand-accent">{hero.eyebrow}</p>
+            <h1 className="max-w-2xl heading-hero">
               {hero.title}
             </h1>
             <p className="max-w-2xl text-base leading-8 text-brand-charcoal/80 sm:text-lg">
@@ -20,7 +20,7 @@ export function HeroSection() {
             </p>
           </div>
 
-          <div className="flex flex-col gap-3 sm:flex-row">
+          <div className="flex flex-col flex-wrap gap-3 sm:flex-row">
             <Link to={hero.primaryCta.to} className="btn-primary">
               {hero.primaryCta.label}
             </Link>
@@ -28,6 +28,10 @@ export function HeroSection() {
               {hero.secondaryCta.label}
             </Link>
           </div>
+
+          <Link to={hero.consultationCta.to} className="inline-flex min-h-11 items-center font-semibold text-brand-accent underline underline-offset-4 hover:text-brand-navy">
+            {hero.consultationCta.label}
+          </Link>
 
           <div className="flex flex-wrap gap-3">
             {hero.supportLine.map((item) => (
@@ -47,7 +51,7 @@ export function HeroSection() {
               <img
               src={hero.image}
               alt={hero.imageAlt}
-              className="aspect-[4/5] w-full object-cover object-center"
+              className="aspect-[4/3] w-full lg:aspect-[4/5] object-cover object-center"
               width="1200"
               height="1500"
               loading="eager"

@@ -112,7 +112,7 @@ export function BookConsultationPage() {
       setStatusTone("error");
       setStatusMessage(
         result.configuration
-          ? `${result.message} Add the Brevo environment variables in Cloudflare Pages to enable consultation capture.`
+          ? "We couldn’t send your request right now. Please use the Contact page to reach us directly."
           : result.message,
       );
     }
@@ -142,13 +142,13 @@ export function BookConsultationPage() {
       <HomeSection className="bg-brand-background py-16 sm:py-20">
         <SectionHeading
           eyebrow="Trust & reassurance"
-          title="A consultation page that stays focused on business context"
+          title="Let’s understand your practice priorities"
           description={consultationContent.introduction}
         />
 
         <div className="mt-8 grid gap-5 lg:grid-cols-3">
           {consultationContent.trustPoints.map((point) => (
-            <InfoCard key={point} title={point} description="Consultation page guidance" />
+            <InfoCard key={point} title={point} />
           ))}
         </div>
       </HomeSection>
@@ -158,13 +158,13 @@ export function BookConsultationPage() {
           <div className="space-y-6">
             <SectionHeading
               eyebrow="What happens next"
-              title="A calm handoff from form to follow-up"
-              description="The form is intentionally simple and does not promise a booking system or instant confirmation."
+              title="From your request to a useful conversation"
+              description="Share your priorities below. We’ll review your request and get in touch to discuss next steps."
             />
 
             <div className="space-y-4">
               {consultationContent.whatHappensNext.map((item, index) => (
-                <InfoCard key={item} eyebrow={`Step ${index + 1}`} title={item} description="Preview guidance" />
+                <InfoCard key={item} eyebrow={`Step ${index + 1}`} title={item} />
               ))}
             </div>
 

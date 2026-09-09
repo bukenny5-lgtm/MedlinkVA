@@ -14,7 +14,7 @@ export function WhyMedlinkSection() {
           <img
             src={whyMedlink.image}
             alt={whyMedlink.imageAlt}
-            className="aspect-[4/5] w-full object-cover object-center"
+            className="aspect-[4/3] w-full lg:aspect-[4/5] object-cover object-center"
             width="1200"
             height="1500"
             loading="lazy"
@@ -40,9 +40,10 @@ export function WhyMedlinkSection() {
             ))}
           </ul>
 
-          <Link to="/services" className="btn-primary">
-            Explore Our Services
-          </Link>
+          <div className="flex flex-col flex-wrap gap-3 sm:flex-row">
+            <Link to="/classes" className="btn-primary">Explore Training</Link>
+            <Link to="/services" className="btn-secondary">Explore Services</Link>
+          </div>
         </div>
       </div>
     </HomeSection>

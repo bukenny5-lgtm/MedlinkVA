@@ -11,18 +11,21 @@ export type RouteSummary = {
 
 export const siteContent = {
   brandName: "Medlink VA",
-  brandTagline: "Virtual medical assistant support for growing practices",
-  primaryCtaLabel: "Book a Free Consultation",
-  secondaryCtaLabel: "Explore Our Services",
-  contactEmail: "hello@medlinkva.com", // Provisional placeholder until the client confirms the final public inbox.
+  brandTagline: "Virtual Medical Assistant Training & Support",
+  primaryCtaLabel: "Book a Consultation",
+  secondaryCtaLabel: "Explore Services",
+  contactEmail: "info@medlinkva.com",
+  phone: "+256 785 724 420",
+  whatsappUrl: "https://wa.me/256785724420?text=Hello%20MedLink%20VA%2C%20I%20would%20like%20to%20learn%20more%20about%20your%20training%20and%20services.",
+  // Keep the Jobs route and CMS records while recruitment is paused.
+  jobsPaused: true,
   navigation: [
     { label: "Home", path: "/" },
+    { label: "Training", path: "/classes" },
     { label: "Services", path: "/services" },
     { label: "How It Works", path: "/how-it-works" },
     { label: "About", path: "/about" },
     { label: "Resources", path: "/resources" },
-    { label: "Jobs", path: "/jobs" },
-    { label: "Classes", path: "/classes" },
     { label: "Products", path: "/products" },
     { label: "Contact", path: "/contact" },
   ] satisfies NavigationItem[],
@@ -34,7 +37,7 @@ export const siteContent = {
     {
       label: "Services",
       path: "/services",
-      description: "A placeholder foundation for the approved service library and SEO pages.",
+      description: "Practical remote administrative support for healthcare practices and teams.",
     },
     {
       label: "About",

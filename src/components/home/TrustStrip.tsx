@@ -9,9 +9,9 @@ export function TrustStrip() {
   return (
     <HomeSection className="bg-brand-muted/50 py-14 sm:py-16">
       <SectionHeading
-        eyebrow="Trust / Value Strip"
-        title="A clear value proposition for healthcare teams"
-        description="The section below reinforces the positioning without relying on unsupported claims or certifications."
+        eyebrow="Our approach"
+        title="Support for your goals, from learning to practice"
+        description="Thoughtful working relationships start with clear expectations, practical guidance, and respect for the people you support."
       />
 
       <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">

@@ -13,12 +13,12 @@ export const servicesContent = {
     eyebrow: "Services",
     title: "Practical virtual support for the moving parts of your practice",
     description:
-      "Medlink VA can help organize the administrative work that supports patient-facing care, without implying clinical treatment or licensed medical services.",
+      "MedLink VA helps organize scheduling, communication, and everyday administrative tasks so your healthcare team can focus on patient care.",
     actions: [
       { label: "Book a Consultation", to: "/book-consultation", variant: "primary" as const },
       { label: "How It Works", to: "/how-it-works", variant: "secondary" as const },
     ],
-    chips: ["Healthcare-focused", "CMS-ready", "Conversion-oriented"],
+    chips: ["Healthcare administration", "Clear communication", "Flexible support"],
   },
   services: [
     {
@@ -72,7 +72,7 @@ export const servicesContent = {
     {
       title: "Insurance & Billing Support",
       description:
-        "Assist with billing-related administration and claims follow-up coordination without presenting as a payer or clinical service.",
+        "Assist with billing-related administration, organized follow-ups, and claims coordination.",
       examples: [
         "Organize billing-related follow-up tasks",
         "Support claims-related admin coordination",

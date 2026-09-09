@@ -20,7 +20,7 @@ export function ResourcesPreview() {
           <article key={concept} className="surface-card p-5">
             <h3 className="text-lg font-semibold text-brand-navy">{concept}</h3>
             <p className="mt-2 text-sm leading-6 text-brand-charcoal/80">
-              Editorial ideas that can evolve into educational content later.
+              Topics for learners and healthcare teams.
             </p>
           </article>
         ))}

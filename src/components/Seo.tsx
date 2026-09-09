@@ -12,7 +12,7 @@ type SeoProps = {
 };
 
 const defaultDescription =
-  "Medlink VA is a professional virtual medical assistant website foundation for lead generation, services, resources, jobs, classes, and products.";
+  "MedLink VA offers practical Virtual Medical Assistant training and remote healthcare administrative support for modern practices.";
 const productionBaseUrl = "https://medlinkva.com";
 
 function setOrCreateMeta(selector: string, attribute: "name" | "property", key: string, value: string) {
@@ -77,7 +77,7 @@ export function Seo({
   const site = resolveResolvedSiteSettings(cmsBundle);
 
   useEffect(() => {
-    const fullTitle = title.includes(site.brandName) ? title : `${title} | ${site.brandName}`;
+    const fullTitle = title.toLowerCase().includes(site.brandName.toLowerCase()) ? title : `${title} | ${site.brandName}`;
     const origin = productionBaseUrl;
     const currentUrl = new URL(window.location.pathname, origin).href;
     const absoluteImage = new URL(image ?? clientAssets.hero, origin).href;

@@ -20,7 +20,7 @@ export function ProductsPreview() {
           <article key={concept} className="surface-card p-5">
             <h3 className="text-lg font-semibold text-brand-navy">{concept}</h3>
             <p className="mt-2 text-sm leading-6 text-brand-charcoal/80">
-              Ready for future approved product links.
+              Check available products and updates.
             </p>
           </article>
         ))}

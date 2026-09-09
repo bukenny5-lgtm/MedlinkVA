@@ -13,3 +13,5 @@ sanity/.env
 .dev.vars.*
 
 .wrangler/
+.phase1-validation/
+phase1-prompt.txt

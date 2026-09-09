@@ -22,7 +22,7 @@ export function ContentPage({ page, seoTitle, robots, children }: ContentPagePro
 
       <section className="surface-card space-y-6 p-6 sm:p-8 lg:p-10">
         <div className="space-y-3">
-          <p className="text-sm font-semibold uppercase tracking-[0.24em] text-brand-sky">{page.eyebrow}</p>
+          <p className="text-sm font-semibold uppercase tracking-[0.24em] text-brand-accent">{page.eyebrow}</p>
           <h1 className="max-w-3xl text-3xl font-semibold tracking-tight text-brand-navy sm:text-4xl">
             {page.title}
           </h1>

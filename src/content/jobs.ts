@@ -1,24 +1,24 @@
 export const jobsContent = {
   hero: {
     eyebrow: "Jobs",
-    title: "Careers and opportunities will appear here when real openings are ready",
+    title: "No current openings",
     description:
-      "This page is deliberately empty until an approved job record exists. It remains polished, CMS-ready, and honest about the current status.",
+      "There are no current job opportunities at MedLink VA. Please check back for future openings.",
     actions: [
       { label: "Contact Medlink VA", to: "/contact", variant: "primary" as const },
-      { label: "About the Team", to: "/about", variant: "secondary" as const },
+      { label: "Explore Training", to: "/classes", variant: "secondary" as const },
     ],
   },
   emptyState: {
     title: "No current opportunities are published at the moment.",
     description:
-      "Check back for future openings. When listings are added, this page can display job-specific details without changing the layout.",
+      "In the meantime, explore our training or get in touch with a general question.",
   },
   whyWorkWithUs: [
     {
       title: "A structure that can scale",
       description:
-        "The jobs area is designed so future listings can be added as structured content instead of one-off page edits.",
+        "When opportunities become available, they will be shared clearly on this page.",
     },
     {
       title: "Professional presentation",
@@ -26,9 +26,9 @@ export const jobsContent = {
         "Openings can be shown in a calm, readable format that matches the rest of the site.",
     },
     {
-      title: "Honest placeholder behavior",
+      title: "Clear opportunity updates",
       description:
-        "The page does not invent vacancies or create the impression that a role is currently open when it is not.",
+        "We will not suggest that a role is open unless a current opportunity has been published.",
     },
   ],
   futureFields: [
@@ -41,11 +41,11 @@ export const jobsContent = {
     "status",
   ],
   interestCta: {
-    title: "Want to be notified when opportunities are published?",
+    title: "Keep developing your skills",
     description:
-      "A future email-interest workflow can be added later. For now, the contact page is the safest way to express interest.",
+      "Explore Virtual Medical Assistant training and contact us about your learning goals.",
     primaryAction: { label: "Contact Medlink VA", to: "/contact" },
-    secondaryAction: { label: "Book a Consultation", to: "/book-consultation" },
+    secondaryAction: { label: "Explore Training", to: "/classes" },
   },
 } as const;
 

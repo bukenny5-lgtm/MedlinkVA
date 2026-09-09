@@ -67,17 +67,21 @@ function fallbackServiceCard(doc: ServiceDocument, index: number): ServiceCard {
 }
 
 function applyHeroCtaLabels(actions: ReadonlyArray<{ label: string; to: string; variant?: "primary" | "secondary" }>, site: ResolvedSiteSettings) {
-  return actions.map((action, index) => {
-    if (index === 0) {
+  return actions.map((action) => {
+    if (action.to === "/book-consultation") {
       return { ...action, label: site.primaryCtaLabel };
     }
 
-    if (index === 1) {
+    if (action.to === "/services") {
       return { ...action, label: site.secondaryCtaLabel };
     }
 
     return action;
   });
+}
+
+function normalizeCtaLabel(label?: string) {
+  return label?.trim().replace(/book a free consultation/gi, fallbackSiteContent.primaryCtaLabel);
 }
 
 function mapSiteSettings(bundle: CmsBundle | null): ResolvedSiteSettings {
@@ -86,10 +90,10 @@ function mapSiteSettings(bundle: CmsBundle | null): ResolvedSiteSettings {
   return {
     brandName: settings?.businessName?.trim() || fallbackSiteContent.brandName,
     brandTagline: settings?.tagline?.trim() || fallbackSiteContent.brandTagline,
-    primaryCtaLabel: settings?.primaryCTA?.trim() || fallbackSiteContent.primaryCtaLabel,
-    secondaryCtaLabel: settings?.secondaryCTA?.trim() || fallbackSiteContent.secondaryCtaLabel,
-    contactEmail: settings?.contactEmail?.trim() || fallbackSiteContent.contactEmail,
-    phone: settings?.phone?.trim() || undefined,
+    primaryCtaLabel: normalizeCtaLabel(settings?.primaryCTA) || fallbackSiteContent.primaryCtaLabel,
+    secondaryCtaLabel: normalizeCtaLabel(settings?.secondaryCTA) || fallbackSiteContent.secondaryCtaLabel,
+    contactEmail: settings?.contactEmail?.trim().replace(/^hello@medlinkva\.com$/i, fallbackSiteContent.contactEmail) || fallbackSiteContent.contactEmail,
+    phone: settings?.phone?.trim() || fallbackSiteContent.phone,
     socialLinks: settings?.socialLinks ?? [],
     externalProductStoreUrl: settings?.externalProductStoreUrl?.trim() || undefined,
     newsletterHeading:
@@ -145,8 +149,9 @@ export function resolveHomeContent(bundle: CmsBundle | null) {
       ...fallbackHomeContent.hero,
       title: cmsHome?.heroHeading?.trim() || fallbackHomeContent.hero.title,
       description: cmsHome?.heroSubheading?.trim() || fallbackHomeContent.hero.description,
-      primaryCta: {
-        ...fallbackHomeContent.hero.primaryCta,
+      primaryCta: fallbackHomeContent.hero.primaryCta,
+      consultationCta: {
+        ...fallbackHomeContent.hero.consultationCta,
         label: site.primaryCtaLabel,
       },
       secondaryCta: {
@@ -173,7 +178,7 @@ export function resolveHomeContent(bundle: CmsBundle | null) {
       ...fallbackHomeContent.teamPreview,
       cta: {
         ...fallbackHomeContent.teamPreview.cta,
-        label: site.secondaryCtaLabel,
+        label: fallbackHomeContent.teamPreview.cta.label,
       },
     },
     newsletter: {
@@ -216,7 +221,6 @@ export function resolveServicesContent(bundle: CmsBundle | null) {
       },
       secondaryAction: {
         ...fallbackServicesContent.finalCta.secondaryAction,
-        label: site.secondaryCtaLabel,
       },
     },
   } as unknown as typeof fallbackServicesContent;
@@ -258,7 +262,6 @@ export function resolveAboutContent(bundle: CmsBundle | null) {
       },
       secondaryAction: {
         ...fallbackAboutContent.finalCta.secondaryAction,
-        label: site.secondaryCtaLabel,
       },
     },
   } as unknown as typeof fallbackAboutContent;
@@ -295,11 +298,9 @@ export function resolveJobsContent(bundle: CmsBundle | null): JobsPageContent {
       ...fallbackJobsContent.interestCta,
       primaryAction: {
         ...fallbackJobsContent.interestCta.primaryAction,
-        label: site.primaryCtaLabel,
       },
       secondaryAction: {
         ...fallbackJobsContent.interestCta.secondaryAction,
-        label: site.secondaryCtaLabel,
       },
     },
     records,
@@ -320,11 +321,10 @@ export function resolveClassesContent(bundle: CmsBundle | null): ClassesPageCont
       ...fallbackClassesContent.stayInTouch,
       primaryAction: {
         ...fallbackClassesContent.stayInTouch.primaryAction,
-        label: site.primaryCtaLabel,
       },
       secondaryAction: {
         ...fallbackClassesContent.stayInTouch.secondaryAction,
-        label: site.secondaryCtaLabel,
+        label: site.primaryCtaLabel,
       },
     },
     records,
@@ -363,11 +363,9 @@ export function resolveProductsContent(bundle: CmsBundle | null): ProductsPageCo
       ...fallbackProductsContent.cta,
       primaryAction: {
         ...fallbackProductsContent.cta.primaryAction,
-        label: site.primaryCtaLabel,
       },
       secondaryAction: {
         ...fallbackProductsContent.cta.secondaryAction,
-        label: site.secondaryCtaLabel,
       },
     },
     records,
@@ -390,7 +388,9 @@ export function resolveContactCardData(bundle: CmsBundle | null) {
             value: site.contactEmail,
             href: `mailto:${site.contactEmail}`,
           }
-        : detail,
+        : detail.label === "Phone"
+          ? { ...detail, value: site.phone, href: `tel:${site.phone?.replace(/[^+\d]/g, "")}` }
+          : detail,
     ),
     contactHref: `mailto:${site.contactEmail}`,
   } as unknown as typeof fallbackContactContent;

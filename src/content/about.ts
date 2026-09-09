@@ -4,9 +4,9 @@ import { teamMembers } from "./team";
 export const aboutContent = {
   hero: {
     eyebrow: "About Medlink VA",
-    title: "Professional virtual support designed to stay human and practical",
+    title: "Practical training. Thoughtful healthcare support.",
     description:
-      "Medlink VA is presented as a healthcare support brand that values clarity, responsiveness, and thoughtful coordination. The copy below is provisional and ready to be refined with client-approved language later.",
+      "MedLink VA brings together Virtual Medical Assistant training and remote administrative support for healthcare practices. Our approach puts people, clear communication, and responsible working habits first.",
     actions: [
       { label: "Book a Consultation", to: "/book-consultation", variant: "primary" as const },
       { label: "View Services", to: "/services", variant: "secondary" as const },
@@ -19,12 +19,12 @@ export const aboutContent = {
   mission: {
     title: "Mission",
     description:
-      "To provide dependable virtual support that helps healthcare teams stay organized, responsive, and better prepared for daily work. This statement remains intentionally editable until the client approves the final wording.",
+      "To equip Virtual Medical Assistants with practical skills and help healthcare teams manage everyday administrative work with clarity and care.",
   },
   vision: {
     title: "Vision",
     description:
-      "To become a trusted virtual support partner for practices that want a calm, professional, and scalable way to handle administrative work. The vision language can be refined once the business story is finalized.",
+      "To create stronger connections between capable Virtual Medical Assistants and healthcare teams through purposeful learning and dependable support.",
   },
   values: [
     {
@@ -33,7 +33,7 @@ export const aboutContent = {
     },
     {
       title: "Professionalism",
-      description: "Keep the experience polished, respectful, and suitable for healthcare audiences.",
+      description: "Bring care, respect, and accountability to learning and everyday healthcare administration.",
     },
     {
       title: "Flexibility",
@@ -42,26 +42,26 @@ export const aboutContent = {
     {
       title: "Privacy-minded process",
       description:
-        "Keep public forms and public copy focused on business communication rather than sensitive patient details.",
+        "Emphasize responsible information handling and confidentiality-minded administrative workflows.",
     },
   ],
   why: {
     eyebrow: "Why Medlink VA",
     title: "A practical support partner for healthcare-focused work",
     description:
-      "The page should reassure visitors that Medlink VA is built around organization, communication, and a modern remote-support mindset.",
+      "Whether you are developing your skills or organizing a busy practice, start with a conversation about what you need.",
     bullets: [
-      "Professional tone without overpromising",
-      "Content structure that can move into Sanity later",
-      "Healthcare-focused copy that remains editable",
-      "Team presentation that uses the confirmed names and roles only",
+      "Practical healthcare administrative learning",
+      "Integrity and transparent expectations",
+      "Personalized support and clear communication",
+      "Privacy-conscious workflows",
     ],
   },
   team: {
     eyebrow: "Leadership & Team",
-    title: "The confirmed team members already in the project",
+    title: "Meet the people behind MedLink VA",
     description:
-      "These records are reused from centralized team content so the About page stays consistent with the homepage and future CMS models.",
+      "Our team connects training, administrative support, and the people we work with.",
     members: teamMembers,
   },
   finalCta: {

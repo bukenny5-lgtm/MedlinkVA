@@ -1,9 +1,9 @@
 export const resourcesContent = {
   hero: {
     eyebrow: "Resources",
-    title: "A future knowledge hub for healthcare operations and virtual support",
+    title: "Ideas for healthcare administration and virtual support",
     description:
-      "This page is structured for SEO growth and education, while remaining honest that no editorial articles are being published yet.",
+      "Find resource updates for Virtual Medical Assistants and healthcare teams interested in organized, thoughtful administrative work.",
     actions: [
       { label: "Explore Services", to: "/services", variant: "primary" as const },
       { label: "Book a Consultation", to: "/book-consultation", variant: "secondary" as const },
@@ -17,11 +17,11 @@ export const resourcesContent = {
     "Career & Training Resources",
   ],
   editorialNote:
-    "Future Sanity posts can populate this page later without redesigning the layout or changing the route structure.",
+    "Have a topic in mind? Contact us with your questions.",
   emptyState: {
     title: "Resources are coming soon.",
     description:
-      "The page remains intentionally empty until approved articles or posts are available. That keeps the site trustworthy and CMS-ready at the same time.",
+      "Check back for articles on healthcare administration, virtual support, and practical learning.",
   },
   futurePostFields: [
     "title",

@@ -29,36 +29,37 @@ export type AudienceCard = {
 
 export const homeContent = {
   hero: {
-    eyebrow: "Healthcare support, made more manageable",
-    title: "Reliable Virtual Support for Modern Healthcare",
+    eyebrow: "Learn with purpose. Support better care.",
+    title: "Virtual Medical Assistant Training & Support for Modern Healthcare",
     description:
-      "Medlink VA helps healthcare professionals reduce administrative workload, improve day-to-day coordination, and create more time to focus on patient care.",
-    primaryCta: { label: "Book a Free Consultation", to: "/book-consultation" },
-    secondaryCta: { label: "Explore Our Services", to: "/services" },
+      "MedLink VA equips aspiring Virtual Medical Assistants with practical healthcare administrative skills while helping healthcare practices strengthen day-to-day operations through reliable remote support.",
+    primaryCta: { label: "Explore Training", to: "/classes" },
+    consultationCta: { label: "Book a Consultation", to: "/book-consultation" },
+    secondaryCta: { label: "Explore Services", to: "/services" },
     image: clientAssets.hero,
     imageAlt: "Virtual medical professional wearing a headset and working on a laptop",
     supportLine: [
-      "Healthcare-focused support",
-      "Flexible assistance",
-      "Professional service",
+      "Practical training",
+      "Healthcare administration",
+      "Personalized support",
     ],
   },
   trustStrip: [
     {
-      title: "Healthcare-focused support",
-      description: "Clear positioning for practices that want organized administrative help.",
+      title: "Integrity & Transparency",
+      description: "Clear expectations about training, support, and the next steps in working together.",
     },
     {
-      title: "Flexible virtual assistance",
-      description: "Support that can adapt to evolving practice needs and daily workloads.",
+      title: "Personalized Support",
+      description: "Start with your learning goals or practice priorities to find a practical way forward.",
     },
     {
-      title: "Professional communication",
-      description: "A polished presence that helps keep routine coordination moving smoothly.",
+      title: "Reliable Communication",
+      description: "Thoughtful guidance and clear updates to keep learning and daily work on track.",
     },
     {
-      title: "Administrative efficiency",
-      description: "A practical foundation for saving time and reducing avoidable friction.",
+      title: "Privacy-Conscious Workflows",
+      description: "Responsible information handling and confidentiality-minded healthcare administration.",
     },
   ] satisfies ValueCard[],
   services: [
@@ -88,24 +89,26 @@ export const homeContent = {
     },
   ] satisfies ServiceCard[],
   whyMedlink: {
-    eyebrow: "Why Medlink VA",
-    title: "Support that helps practices stay organized",
+    eyebrow: "For learners & healthcare practices",
+    title: "Why Choose MedLink VA",
     description:
-      "The right virtual support can reduce administrative friction, improve responsiveness, and make day-to-day workflows easier to manage.",
+      "Build practical skills or strengthen your practice with a human approach to healthcare administration. We put clear communication, responsible working habits, and your priorities at the center.",
     image: clientAssets.supportPhoto,
     imageAlt: "Medlink VA team member providing virtual medical support on a laptop",
     bullets: [
-      "Reduce administrative burden",
-      "Improve responsiveness",
-      "Support everyday workflows",
-      "Stay flexible with remote assistance",
+      "Practical, hands-on learning",
+      "Structured healthcare administrative training",
+      "Real-world workflow relevance",
+      "Personalized support & continued guidance",
+      "Integrity & clear communication",
+      "Privacy-conscious working habits",
     ],
   },
   howItWorks: {
     eyebrow: "How It Works",
     title: "A straightforward process that keeps communication clear",
     description:
-      "The flow is designed to stay simple, professional, and easy to understand for new visitors.",
+      "Share your practice priorities, discuss the right support, and agree on clear next steps together.",
     steps: [
       {
         number: "01",
@@ -133,7 +136,7 @@ export const homeContent = {
     eyebrow: "Who We Serve",
     title: "Built for a wide range of healthcare teams",
     description:
-      "The site should speak to a broad audience of healthcare professionals and support organizations.",
+      "Explore administrative support for the way your healthcare team works, from daily scheduling to remote coordination.",
     audiences: [
       {
         title: "Medical Practices",
@@ -165,11 +168,11 @@ export const homeContent = {
     eyebrow: "Healthcare Support Team",
     title: "A healthcare support team built to help you work smarter",
     description:
-      "Medlink VA is structured to present a professional team model without overpromising or inventing details that have not been supplied.",
+      "Keep the people behind your practice connected through thoughtful coordination, clear handoffs, and practical remote support.",
     image: clientAssets.teamPhoto,
     imageAlt: "Medlink VA team collaborating on laptops in a healthcare support setting",
     bullets: [
-      "General support model for growing practices",
+      "Support shaped around your practice priorities",
       "Professional communication and coordination",
       "Flexible remote support approach",
     ],
@@ -178,41 +181,41 @@ export const homeContent = {
     eyebrow: "Meet the Team",
     title: "Meet some of the people helping shape Medlink VA",
     description:
-      "The team preview should feel polished, factual, and ready for future CMS management.",
+      "Get to know the people behind our training and administrative support.",
     cta: { label: "Learn More About Us", to: "/about" },
   },
   classesPreview: {
-    eyebrow: "Classes",
-    title: "Upcoming learning opportunities will appear here",
+    eyebrow: "Virtual Medical Assistant Training",
+    title: "Build skills for healthcare administrative work",
     description:
-      "This area is reserved for future classes, workshops, and educational content.",
+      "Explore practical learning for aspiring and developing Virtual Medical Assistants, with an emphasis on organized workflows, communication, and responsible information handling.",
     concepts: [
       "Healthcare Operations",
       "Virtual Assistance",
       "Practice Efficiency",
     ] satisfies string[],
-    cta: { label: "Explore Classes", to: "/classes" },
+    cta: { label: "Explore Training", to: "/classes" },
   },
   jobsPreview: {
     eyebrow: "Jobs",
-    title: "Current opportunities will appear here",
+    title: "No current openings",
     description:
-      "This section is ready for future role listings and hiring updates.",
-    cta: { label: "View Opportunities", to: "/jobs" },
+      "Check back for future opportunities with MedLink VA.",
+    cta: { label: "Careers Updates", to: "/jobs" },
   },
   productsPreview: {
     eyebrow: "Products",
-    title: "External product links can be introduced here later",
+    title: "Tools for learning and everyday work",
     description:
-      "This section is ready to point to approved external product pages without turning the site into a store.",
+      "Check our products page for available tools and product updates.",
     concepts: ["Product showcase", "Helpful tools", "External links"] satisfies string[],
     cta: { label: "View Products", to: "/products" },
   },
   resourcesPreview: {
     eyebrow: "Resources",
-    title: "Resources and blog content can grow from here",
+    title: "Keep learning about healthcare administration",
     description:
-      "A future editorial library can support SEO and answer common questions from visitors.",
+      "Explore resource updates for learners and healthcare teams, from communication to everyday administrative workflows.",
     concepts: ["Healthcare Operations", "Virtual Assistance", "Practice Efficiency"] satisfies string[],
     cta: { label: "Explore Resources", to: "/resources" },
   },
@@ -220,17 +223,17 @@ export const homeContent = {
     eyebrow: "Newsletter",
     title: "Stay in touch for updates and resources",
     description:
-      "Join the newsletter to receive updates and resources through the secure Brevo-backed signup flow.",
+      "Join the newsletter for training news, practical resources, and updates from MedLink VA.",
     consent:
-      "By sharing your email, you agree to receive occasional updates from Medlink VA. This preview form is not connected to email delivery yet.",
+      "By sharing your email, you agree to receive occasional updates from MedLink VA.",
     placeholder: "Email address",
     cta: "Join the List",
     notice: "Your signup will be sent securely.",
   },
   finalCta: {
-    title: "Spend Less Time on Administration. More Time on Care.",
-    description: "Discover how Medlink VA can support your healthcare workflow.",
-    cta: { label: "Book a Free Consultation", to: "/book-consultation" },
+    title: "Your next step in healthcare training or support starts here.",
+    description: "Tell us about your learning goals or the administrative support your practice needs.",
+    cta: { label: "Book a Consultation", to: "/book-consultation" },
   },
   teamMembers,
 } as const;

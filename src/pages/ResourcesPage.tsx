@@ -4,7 +4,6 @@ import { SectionHeading } from "../components/home/SectionHeading";
 import { EmptyState } from "../components/shared/EmptyState";
 import { PageCta } from "../components/shared/PageCta";
 import { PageHero } from "../components/shared/PageHero";
-import { InfoCard } from "../components/shared/InfoCard";
 import { useCmsBundle } from "../lib/cms/SiteContentProvider";
 import { resolveResourcesContent } from "../lib/cms/siteContent";
 import { sanityImageSrc } from "../lib/sanity/image";
@@ -17,7 +16,7 @@ export function ResourcesPage() {
     <article className="space-y-12">
       <Seo
         title="Healthcare VA Resources | Medlink VA"
-        description="Explore the resources landing page for Medlink VA. It is structured for future articles, SEO growth, and educational content without publishing fictional posts."
+        description="Explore healthcare administration, virtual support, and training resource updates from MedLink VA."
       />
 
       <PageHero
@@ -30,11 +29,11 @@ export function ResourcesPage() {
       <HomeSection className="bg-brand-background py-16 sm:py-20">
         <SectionHeading
           eyebrow="Categories"
-          title={hasRecords ? "Published resource categories" : "Topic areas that can support future SEO content"}
+          title={hasRecords ? "Published resource categories" : "Topics to explore"}
           description={
             hasRecords
-              ? "Categories are derived from the published Sanity posts below."
-              : "The category list mirrors the kinds of topics the brand may publish later in Sanity."
+              ? "Explore the topics covered in our articles."
+              : "Look out for practical guidance across these areas."
           }
         />
 
@@ -56,8 +55,8 @@ export function ResourcesPage() {
           title={hasRecords ? "Published articles" : "No articles are published yet"}
           description={
             hasRecords
-              ? "Published resource cards from Sanity appear below."
-              : "The page remains accurate while still giving future posts room to slot in without a redesign."
+              ? "Browse the latest articles and insights."
+              : "Check back for new resources or get in touch with your questions."
           }
         />
 
@@ -78,7 +77,7 @@ export function ResourcesPage() {
                     />
                   ) : null}
                   <div className="space-y-3 p-6">
-                    <div className="flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-brand-sky">
+                    <div className="flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-brand-accent">
                       <span>{post.category}</span>
                       {post.author ? <span>{post.author}</span> : null}
                       <span>{new Date(post.publishedAt).toLocaleDateString("en-US", {
@@ -97,10 +96,6 @@ export function ResourcesPage() {
             <EmptyState
               title={resourcesContent.emptyState.title}
               description={resourcesContent.emptyState.description}
-              bullets={[
-                "Future article detail pages can be introduced later if the content volume justifies them.",
-                "The page is ready to support topic clusters and internal linking.",
-              ]}
               action={{ label: "Explore Services", to: "/services" }}
               footer={resourcesContent.editorialNote}
             />
@@ -108,23 +103,9 @@ export function ResourcesPage() {
         </div>
       </HomeSection>
 
-      <HomeSection className="bg-brand-background py-16 sm:py-20">
-        <SectionHeading
-          eyebrow="Future post shape"
-          title="The resource schema is already mapped out"
-          description="These fields can later become a Sanity blog post model without changing the layout."
-        />
-
-        <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-          {resourcesContent.futurePostFields.map((field) => (
-            <InfoCard key={field} title={field} description="Planned field for future resource posts." />
-          ))}
-        </div>
-      </HomeSection>
-
       <PageCta
-        title="Need help with a topic before articles exist?"
-        description="Use the consultation page or services page while the editorial library is still being built."
+        title="Have a question about training or support?"
+        description="Tell us what you would like to learn or discuss the administrative needs of your practice."
         primaryAction={{ label: "Book a Consultation", to: "/book-consultation" }}
         secondaryAction={{ label: "Contact Medlink VA", to: "/contact" }}
       />

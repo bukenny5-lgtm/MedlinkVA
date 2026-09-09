@@ -1,9 +1,9 @@
 export const classesContent = {
   hero: {
-    eyebrow: "Classes",
-    title: "Training and classes will be added here when approved content is ready",
+    eyebrow: "Virtual Medical Assistant Training",
+    title: "Build practical skills for healthcare administrative work",
     description:
-      "This landing page is structured for future class promotions without inventing dates, prices, instructors, or enrollment details.",
+      "Explore Virtual Medical Assistant training focused on everyday healthcare administration, clear communication, and responsible information handling.",
     actions: [
       { label: "Stay in Touch", to: "/contact", variant: "primary" as const },
       { label: "View Resources", to: "/resources", variant: "secondary" as const },
@@ -12,23 +12,23 @@ export const classesContent = {
   emptyState: {
     title: "No classes are scheduled right now.",
     description:
-      "The page will stay polished until a real class record exists. That keeps the site accurate while still preserving the layout for later use.",
+      "Contact us to ask about upcoming training and the right next step for your learning goals.",
   },
   introduction: [
     {
-      title: "Built for future workshops",
+      title: "Practical learning",
       description:
-        "The layout can support educational posts, live classes, or repeatable training announcements later.",
+        "Develop an understanding of the administrative tasks and communication habits that support healthcare teams.",
     },
     {
-      title: "CMS-ready by design",
+      title: "Structured healthcare workflows",
       description:
-        "Future class content can be entered as structured records rather than copied into the page by hand.",
+        "Connect your learning to organized scheduling, clear handoffs, and everyday practice coordination.",
     },
     {
-      title: "No unsupported class details",
+      title: "Responsible working habits",
       description:
-        "The page avoids inventing schedules, pricing, or instructors until the client provides approved data.",
+        "Build awareness of confidentiality and thoughtful information handling in healthcare administration.",
     },
   ],
   futureFields: [
@@ -42,9 +42,9 @@ export const classesContent = {
     "status",
   ],
   stayInTouch: {
-    title: "Want classes to be added later?",
+    title: "Find your next learning step",
     description:
-      "Use the contact page for now if you want to keep the conversation open for future educational offerings.",
+      "Email or message us about your training interests and questions.",
     primaryAction: { label: "Contact Medlink VA", to: "/contact" },
     secondaryAction: { label: "Book a Consultation", to: "/book-consultation" },
   },

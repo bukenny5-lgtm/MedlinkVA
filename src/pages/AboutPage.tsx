@@ -30,8 +30,8 @@ export function AboutPage() {
       <HomeSection className="bg-brand-background py-16 sm:py-20">
         <SectionHeading
           eyebrow="Mission & vision"
-          title="Editable brand statements that can be refined later"
-          description="These statements are intentionally polished but still clearly provisional so they can be updated with client-approved language."
+          title="Purpose behind our training and support"
+          description="Practical learning and thoughtful administration help people and healthcare teams move forward."
         />
 
         <div className="mt-8 grid gap-5 lg:grid-cols-2">
@@ -43,8 +43,8 @@ export function AboutPage() {
       <HomeSection className="bg-white py-16 sm:py-20">
         <SectionHeading
           eyebrow="What we value"
-          title="A professional tone with room to grow"
-          description="The brand values below are meant to support trust, accessibility, and a calm experience for prospective clients."
+          title="Values that guide the way we work"
+          description="Clarity, respect, flexibility, and responsible working habits shape our approach to learners and practices."
         />
 
         <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
@@ -74,11 +74,9 @@ export function AboutPage() {
                 height="900"
               />
               <div className="space-y-2 p-5">
-                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-brand-sky">{member.role}</p>
+                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-brand-accent">{member.role}</p>
                 <h3 className="text-lg font-semibold text-brand-navy">{member.name}</h3>
-                <p className="text-sm leading-6 text-brand-charcoal/70">
-                  {member.shortBio ?? "Confirmed team member shown without invented biography or unsupported claims."}
-                </p>
+                {member.shortBio ? <p className="text-sm leading-6 text-brand-charcoal/70">{member.shortBio}</p> : null}
               </div>
             </article>
           ))}
@@ -94,8 +92,8 @@ export function AboutPage() {
 
         <div className="mt-8">
           <InfoCard
-            title="Why Medlink VA is presented this way"
-            description="This section helps keep the brand story clear without crossing into unsupported factual claims."
+            title="Training and support built around people"
+            description="Discuss your goals with a team that values practical progress and open communication."
             bullets={aboutContent.why.bullets}
           />
         </div>

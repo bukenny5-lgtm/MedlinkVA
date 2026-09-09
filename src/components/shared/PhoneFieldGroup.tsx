@@ -29,7 +29,7 @@ export function PhoneFieldGroup({
 
   return (
     <div className="space-y-4">
-      <div className="grid gap-4 sm:grid-cols-[minmax(0,1fr)_14rem]">
+      <div className="grid gap-4 sm:grid-cols-2">
         <FormField id={phoneFieldId} label={phoneLabel} required={required} hint={hint}>
           <input
             id={phoneFieldId}

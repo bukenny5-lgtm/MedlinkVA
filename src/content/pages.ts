@@ -15,28 +15,28 @@ export type PageContent = {
 export const pageContent = {
   services: {
     eyebrow: "Services",
-    title: "Services foundation",
+    title: "Virtual healthcare administrative support",
     description:
-      "This route will later hold the approved service library, service detail pages, and SEO-focused content.",
+      "Explore practical remote support for the administrative work that keeps healthcare teams organized and responsive.",
     bullets: [
-      "Each future service page can be edited through Sanity.",
-      "Internal links will help visitors move from services to contact.",
-      "The page is intentionally neutral until final business copy is approved.",
+      "Support can be shaped around your practice priorities.",
+      "Clear communication helps keep day-to-day coordination moving.",
+      "Start with a conversation about the work you want to strengthen.",
     ],
     actions: [
-      { label: "Book a Free Consultation", to: "/book-consultation", variant: "primary" },
+      { label: "Book a Consultation", to: "/book-consultation", variant: "primary" },
       { label: "How It Works", to: "/how-it-works", variant: "secondary" },
     ],
   },
   about: {
     eyebrow: "About",
-    title: "About foundation",
+    title: "Practical support for modern healthcare work",
     description:
-      "This page will eventually hold the approved story, team context, and brand positioning for Medlink VA.",
+      "MedLink VA brings together Virtual Medical Assistant training and thoughtful remote administrative support.",
     bullets: [
-      "No unsupported claims are included at this stage.",
-      "Client-approved background content can be added later through CMS fields.",
-      "The page remains concise so the structure can be reused safely.",
+      "Training emphasizes practical skills and responsible working habits.",
+      "Support is grounded in clear expectations and professional communication.",
+      "Our approach keeps learning and day-to-day work connected to real priorities.",
     ],
     actions: [
       { label: "Contact Us", to: "/contact", variant: "primary" },
@@ -45,28 +45,28 @@ export const pageContent = {
   },
   howItWorks: {
     eyebrow: "How It Works",
-    title: "How it works foundation",
+    title: "A clear path to training or support",
     description:
-      "This page will later explain the consultation, onboarding, and engagement process in approved language.",
+      "Share your goals, discuss the right next step, and move forward with clear communication.",
     bullets: [
-      "The structure is ready for a clear step-by-step flow.",
-      "Process content can be added without changing the route design.",
-      "It will support conversion without introducing unnecessary complexity.",
+      "Start with your learning goals or practice priorities.",
+      "Discuss the workflows, support, or training focus that matters most.",
+      "Agree on clear next steps that fit the conversation.",
     ],
     actions: [
-      { label: "Book a Free Consultation", to: "/book-consultation", variant: "primary" },
+      { label: "Book a Consultation", to: "/book-consultation", variant: "primary" },
       { label: "Contact Us", to: "/contact", variant: "secondary" },
     ],
   },
   jobs: {
     eyebrow: "Jobs",
-    title: "Jobs foundation",
+    title: "No current openings",
     description:
-      "This section will later list open roles and hiring updates when the client is ready to publish them.",
+      "There are no current job opportunities at MedLink VA. Please check back for future openings.",
     bullets: [
-      "Job listings can be added as structured entries later.",
-      "The foundation keeps the route ready without exposing draft content.",
-      "Future SEO and structured data support can be layered in later.",
+      "Please check back for future opportunities.",
+      "In the meantime, explore Virtual Medical Assistant training.",
+      "Contact us with a general question about MedLink VA.",
     ],
     actions: [
       { label: "Contact Us", to: "/contact", variant: "primary" },
@@ -75,28 +75,28 @@ export const pageContent = {
   },
   classes: {
     eyebrow: "Classes",
-    title: "Classes foundation",
+    title: "Virtual Medical Assistant training",
     description:
-      "This page will later support class announcements, educational content, and registration links.",
+      "Build practical skills for healthcare administrative work through focused learning opportunities.",
     bullets: [
-      "Classes can be structured for future editing in Sanity.",
-      "The page is ready for class detail pages and promotional copy later.",
-      "No program details are invented during this phase.",
+      "Explore healthcare operations and virtual assistance.",
+      "Strengthen communication and organized workflow habits.",
+      "Review available learning opportunities and updates.",
     ],
     actions: [
       { label: "Resources", to: "/resources", variant: "primary" },
-      { label: "Book a Free Consultation", to: "/book-consultation", variant: "secondary" },
+      { label: "Book a Consultation", to: "/book-consultation", variant: "secondary" },
     ],
   },
   resources: {
     eyebrow: "Resources",
-    title: "Resources foundation",
+    title: "Healthcare administration resources",
     description:
-      "This route will become the blog and resources library for SEO, education, and helpful updates.",
+      "Find helpful updates for Virtual Medical Assistants and healthcare teams.",
     bullets: [
-      "Each article can later be modeled as structured CMS content.",
-      "The route is ready for topic clusters and internal linking.",
-      "The page currently serves as a stable placeholder only.",
+      "Explore practical topics in healthcare administration.",
+      "Keep learning about communication and virtual support.",
+      "Return for new articles and useful updates.",
     ],
     actions: [
       { label: "Services", to: "/services", variant: "primary" },
@@ -105,11 +105,11 @@ export const pageContent = {
   },
   products: {
     eyebrow: "Products",
-    title: "Products foundation",
+    title: "Tools for learning and everyday work",
     description:
-      "This route will later point to approved external product links without turning the site into a store.",
+      "Explore selected external tools and product information relevant to learning and everyday work.",
     bullets: [
-      "Product links can be edited through Sanity later.",
+      "External destinations are labeled clearly before you leave the site.",
       "External destinations should open with clear labeling.",
       "The route stays lightweight so the site remains focused on lead generation.",
     ],
@@ -120,28 +120,28 @@ export const pageContent = {
   },
   contact: {
     eyebrow: "Contact",
-    title: "Contact foundation",
+    title: "Let’s start a conversation",
     description:
-      "This page will later handle consultation requests and business inquiries through a secure form flow.",
+      "Tell us about your learning goals or the administrative support your practice needs.",
     bullets: [
       "Public forms should stay minimal and avoid sensitive health details.",
-      "Brevo and edge-based handling will be added in a later phase.",
-      "The current route confirms navigation and layout behavior only.",
+      "Share business contact details rather than sensitive patient information.",
+      "We will use your message to understand the right next step.",
     ],
     actions: [
-      { label: "Book a Free Consultation", to: "/book-consultation", variant: "primary" },
+      { label: "Book a Consultation", to: "/book-consultation", variant: "primary" },
       { label: "Privacy", to: "/privacy", variant: "secondary" },
     ],
   },
   bookConsultation: {
     eyebrow: "Consultation",
-    title: "Consultation foundation",
+    title: "Book a Consultation",
     description:
-      "This route will later host the consultation entry point and form experience.",
+      "Book time to discuss Virtual Medical Assistant training or remote healthcare administrative support.",
     bullets: [
-      "The route exists so the primary CTA can resolve cleanly.",
-      "A secure submission workflow will be added in a later phase.",
-      "No form fields are introduced before the business rules are finalized.",
+      "Share your goals and the type of support you want to explore.",
+      "Keep your message focused on business and learning needs.",
+      "We will follow up with clear next steps.",
     ],
     actions: [
       { label: "Contact Us", to: "/contact", variant: "primary" },
@@ -150,13 +150,12 @@ export const pageContent = {
   },
   privacy: {
     eyebrow: "Privacy",
-    title: "Privacy foundation",
+    title: "Privacy at MedLink VA",
     description:
-      "This page will later hold the approved privacy policy copy and form guidance.",
+      "Review information about website use, contact forms, and newsletter signups.",
     bullets: [
-      "The policy text will be finalized with the client before launch.",
       "Sensitive intake language should remain out of public forms.",
-      "This placeholder keeps the legal route in place for the site shell.",
+      "Contact us if you have a question about how information is handled.",
     ],
     actions: [
       { label: "Terms", to: "/terms", variant: "primary" },
@@ -165,13 +164,12 @@ export const pageContent = {
   },
   terms: {
     eyebrow: "Terms",
-    title: "Terms foundation",
+    title: "Terms of Use",
     description:
-      "This page will later hold the approved terms of use copy for the public website.",
+      "Review the terms that apply when using the MedLink VA website.",
     bullets: [
-      "The current route is intentionally minimal and neutral.",
       "Final terms should be reviewed before launch.",
-      "The layout is ready for text-heavy legal content when needed.",
+      "Contact us if you have a question about these terms.",
     ],
     actions: [
       { label: "Privacy", to: "/privacy", variant: "primary" },
@@ -182,11 +180,11 @@ export const pageContent = {
     eyebrow: "404",
     title: "Page not found",
     description:
-      "The page you requested does not exist yet or the route has changed during the foundation phase.",
+      "The page you requested could not be found. Use the links below to continue exploring MedLink VA.",
     bullets: [
       "Use the navigation to return to a live page.",
-      "The site shell is working and this route is intentionally safe.",
-      "Future content can be added without changing the navigation structure.",
+      "Use the navigation to continue exploring MedLink VA.",
+      "Contact us if you need help finding a page.",
     ],
     actions: [
       { label: "Home", to: "/", variant: "primary" },

@@ -23,8 +23,8 @@ export function TermsPage() {
       <HomeSection className="bg-brand-background py-16 sm:py-20">
         <SectionHeading
           eyebrow="Terms sections"
-          title="A practical website-terms structure"
-          description="The page stays broad so the final review can tighten the language before launch."
+          title="Using the MedLink VA website"
+          description="Read the terms relating to website use, information, and external links."
         />
 
         <div className="mt-8 grid gap-5 lg:grid-cols-2">
@@ -63,8 +63,8 @@ export function TermsPage() {
       </HomeSection>
 
       <PageCta
-        title="Need to discuss the terms structure?"
-        description="Use the contact page if the client wants to review wording before the launch checklist is finalized."
+        title="Questions about these terms?"
+        description="Contact us if you have a question about these terms."
         primaryAction={{ label: "Contact Medlink VA", to: "/contact" }}
         secondaryAction={{ label: "Privacy Policy", to: "/privacy" }}
       />

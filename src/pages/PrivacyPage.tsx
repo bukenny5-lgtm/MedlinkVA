@@ -23,8 +23,8 @@ export function PrivacyPage() {
       <HomeSection className="bg-brand-background py-16 sm:py-20">
         <SectionHeading
           eyebrow="Policy sections"
-          title="Editable privacy topics that can be finalized before launch"
-          description="The structure is intentionally broad so the final legal review can fill in the approved details."
+          title="Privacy topics"
+          description="Read about contact details, website use, and the handling of information."
         />
 
         <div className="mt-8 grid gap-5 lg:grid-cols-2">
@@ -63,8 +63,8 @@ export function PrivacyPage() {
       </HomeSection>
 
       <PageCta
-        title="Questions about the policy structure?"
-        description="Use the contact page if you need to discuss the final wording before launch."
+        title="Questions about privacy?"
+        description="Contact us with questions about this policy."
         primaryAction={{ label: "Contact Medlink VA", to: "/contact" }}
         secondaryAction={{ label: "Terms of Use", to: "/terms" }}
       />

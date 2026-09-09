@@ -45,15 +45,15 @@ export function PageHero({
       <div className={`grid items-center gap-10 ${hasMedia ? "lg:grid-cols-[1.02fr_0.98fr]" : ""}`}>
         <div className="space-y-8">
           <div className="space-y-4">
-            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-brand-sky">{eyebrow}</p>
-            <h1 className="max-w-2xl text-4xl font-semibold tracking-tight text-brand-navy sm:text-5xl lg:text-6xl">
+            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-brand-accent">{eyebrow}</p>
+            <h1 className="max-w-2xl heading-hero">
               {title}
             </h1>
             <p className="max-w-2xl text-base leading-8 text-brand-charcoal/80 sm:text-lg">{description}</p>
           </div>
 
           {actions?.length ? (
-            <div className="flex flex-col gap-3 sm:flex-row">
+            <div className="flex flex-col flex-wrap gap-3 sm:flex-row">
               {actions.map((action) => (
                 <Link key={action.to} to={action.to} className={actionClass[action.variant ?? "secondary"]}>
                   {action.label}
@@ -85,7 +85,7 @@ export function PageHero({
               <img
                 src={image.src}
                 alt={image.alt}
-                className="aspect-[4/5] w-full object-cover object-center"
+                className="aspect-[4/3] w-full lg:aspect-[4/5] object-cover object-center"
                 width="1200"
                 height="1500"
                 loading="eager"

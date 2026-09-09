@@ -19,7 +19,7 @@ export function HowItWorksSection() {
       <div className="mt-8 grid gap-5 lg:grid-cols-4">
         {howItWorks.steps.map((step) => (
           <article key={step.number} className="surface-card h-full p-6">
-            <p className="text-sm font-semibold tracking-[0.3em] text-brand-sky">{step.number}</p>
+            <p className="text-sm font-semibold tracking-[0.3em] text-brand-accent">{step.number}</p>
             <h3 className="mt-3 text-xl font-semibold text-brand-navy">{step.title}</h3>
             <p className="mt-3 text-sm leading-7 text-brand-charcoal/80">{step.description}</p>
           </article>

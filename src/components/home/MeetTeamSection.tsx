@@ -16,13 +16,13 @@ export function MeetTeamSection() {
         description={teamPreview.description}
       />
 
-      <div className="mt-8 grid gap-5 xl:grid-cols-4">
+      <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
         {sortedTeamMembers.map((member) => (
           <article
             key={member.name}
             className={[
               "surface-card overflow-hidden",
-              member.featured ? "xl:col-span-2" : "",
+              member.featured ? "md:col-span-2" : "",
             ].join(" ")}
           >
             <div className={member.featured ? "grid h-full gap-0 lg:grid-cols-[0.9fr_1.1fr]" : "h-full"}>
@@ -32,7 +32,7 @@ export function MeetTeamSection() {
                   alt={member.alt}
                   className={[
                     "w-full object-cover object-center",
-                    member.featured ? "h-full min-h-[320px] lg:min-h-[440px]" : "aspect-[4/5]",
+                    member.featured ? "h-full max-h-[440px] min-h-[280px] lg:min-h-[440px]" : "aspect-[4/5]",
                   ].join(" ")}
                   width="1200"
                   height={member.featured ? "1400" : "1500"}
@@ -43,7 +43,7 @@ export function MeetTeamSection() {
 
               <div className="flex h-full flex-col justify-between p-5">
                 <div className="space-y-3">
-                  <p className="text-sm font-semibold uppercase tracking-[0.24em] text-brand-sky">
+                  <p className="text-sm font-semibold uppercase tracking-[0.24em] text-brand-accent">
                     {member.featured ? "Featured Leader" : "Team Member"}
                   </p>
                   <h3 className="text-xl font-semibold text-brand-navy">{member.name}</h3>

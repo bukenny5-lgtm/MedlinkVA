@@ -43,7 +43,7 @@ export function NewsletterSection() {
       setTone("error");
       setNotice(
         result.configuration
-          ? `${result.message} Add the Brevo environment variables in Cloudflare Pages to enable newsletter capture.`
+          ? "We couldn’t complete your signup right now. Please try again later."
           : result.message,
       );
     }

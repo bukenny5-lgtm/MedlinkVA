@@ -17,9 +17,9 @@ export function JobsPreview() {
         />
 
         <div className="surface-card p-6">
-          <p className="text-sm font-semibold uppercase tracking-[0.24em] text-brand-sky">Placeholder</p>
+          <p className="text-sm font-semibold uppercase tracking-[0.24em] text-brand-accent">Careers updates</p>
           <p className="mt-3 text-sm leading-7 text-brand-charcoal/80">
-            Current opportunities will appear here.
+            There are no current openings. Explore training or check back for future opportunities.
           </p>
           <div className="mt-6">
             <Link to={jobsPreview.cta.to} className="btn-secondary">

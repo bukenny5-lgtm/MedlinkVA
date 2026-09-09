@@ -4,6 +4,7 @@ import { HomeSection } from "../components/home/HomeSection";
 import { SectionHeading } from "../components/home/SectionHeading";
 import { PageCta } from "../components/shared/PageCta";
 import { PageHero } from "../components/shared/PageHero";
+import { ResponsiveDisclosure } from "../components/shared/ResponsiveDisclosure";
 import { InfoCard } from "../components/shared/InfoCard";
 import { clientAssets } from "../lib/assets";
 import { useCmsBundle } from "../lib/cms/SiteContentProvider";
@@ -43,25 +44,24 @@ export function ServicesPage() {
         <SectionHeading
           eyebrow="Service library"
           title="What these support areas can look like in practice"
-          description="Each card stays focused on non-clinical support, practical examples, and a clear next step."
+          description="Find the everyday tasks you would like help with and explore how support could fit your workflow."
         />
 
         <div className="mt-8 grid gap-5 lg:grid-cols-2">
           {servicesContent.services.map((service) => (
-            <InfoCard
-              key={service.title}
-              title={service.title}
-              description={service.description}
-              bullets={service.examples}
-              footer={
+            <ResponsiveDisclosure key={service.title} title={service.title}>
+              <p>{service.description}</p>
+              <ul className="list-disc space-y-2 pl-5">
+                {service.examples.map((example) => <li key={example}>{example}</li>)}
+              </ul>
+
                 <Link
                   to={service.ctaTo}
                   className="inline-flex text-sm font-semibold text-brand-accent transition-colors hover:text-brand-navy"
                 >
                   {service.ctaLabel}
                 </Link>
-              }
-            />
+            </ResponsiveDisclosure>
           ))}
         </div>
       </HomeSection>
@@ -69,8 +69,8 @@ export function ServicesPage() {
       <HomeSection className="bg-white py-16 sm:py-20">
         <SectionHeading
           eyebrow="Benefits"
-          title="Why these service categories are organized this way"
-          description="The page is designed to help prospects quickly understand the kind of support Medlink VA can discuss."
+          title="More room for the work that matters"
+          description="Keep administrative tasks organized, communication clear, and support aligned with your needs."
         />
 
         <div className="mt-8 grid gap-5 md:grid-cols-3">
@@ -83,8 +83,8 @@ export function ServicesPage() {
       <HomeSection className="bg-brand-background py-16 sm:py-20">
         <SectionHeading
           eyebrow="Who we serve"
-          title="A broad healthcare audience, without narrowing the site too early"
-          description="These audience types mirror the homepage and help keep the site useful for multiple kinds of prospects."
+          title="Support for the way your healthcare team works"
+          description="Explore flexible administrative support across practice settings."
         />
 
         <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-3">

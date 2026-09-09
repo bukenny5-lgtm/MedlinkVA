@@ -12,7 +12,7 @@ export function SiteLayout() {
         Skip to content
       </a>
       <SiteHeader />
-      <main id="main-content" className="mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+      <main id="main-content" className="mx-auto w-full max-w-7xl py-4 sm:py-6">
         <Outlet />
       </main>
       <SiteFooter />

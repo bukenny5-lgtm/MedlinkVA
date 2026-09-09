@@ -5,12 +5,12 @@ export const howItWorksContent = {
     eyebrow: "How It Works",
     title: "A simple process for starting the support conversation",
     description:
-      "The process below is intentionally clear and cautious. It explains the next step without promising specific timelines, results, or cost savings.",
+      "Tell us what your practice needs, explore suitable support, and agree on a practical way to work together.",
     actions: [
       { label: "Book a Consultation", to: "/book-consultation", variant: "primary" as const },
       { label: "View Services", to: "/services", variant: "secondary" as const },
     ],
-    chips: ["Clear next steps", "No hidden backend", "Built for conversion"],
+    chips: ["Clear next steps", "Personalized support", "Open communication"],
   },
   steps: [
     {
@@ -45,14 +45,14 @@ export const howItWorksContent = {
         "We want the first contact to feel easy and informative rather than overloaded with unnecessary detail.",
     },
     {
-      title: "No clinical claims",
+      title: "Administrative focus",
       description:
-        "The page stays focused on administrative and operational support, not diagnosis or treatment.",
+        "Explore help with scheduling, communication, and the daily administration that supports your team.",
     },
     {
-      title: "A clear handoff to the right page",
+      title: "Support shaped around your priorities",
       description:
-        "The consultation page is the main conversion point, while the services page can help visitors narrow the fit.",
+        "Discuss the tasks that need attention and the level of support that would fit your practice.",
     },
   ],
   serviceCategories: servicesContent.services.map((service) => service.title),
@@ -60,22 +60,22 @@ export const howItWorksContent = {
     {
       question: "How quickly can support begin?",
       answer:
-        "That depends on the final support arrangement, which is why the page avoids promising a fixed onboarding time.",
+        "Timing depends on your needs and the support arrangement. We can discuss availability and next steps during your consultation.",
     },
     {
       question: "Can support be tailored?",
       answer:
-        "Yes. The structure is designed to be flexible so the conversation can focus on the support the visitor actually needs.",
+        "Yes. Tell us about your tasks, workflows, and communication preferences so we can discuss a suitable approach.",
     },
     {
       question: "What happens next?",
       answer:
-        "Visitors can move from the overview pages to the consultation form, where business context can be shared safely.",
+        "Send a consultation request with your practice details and support priorities. We’ll review your request and follow up.",
     },
   ],
   finalCta: {
     title: "Ready to map out the next step?",
-    description: "The consultation page is set up to capture enough business context for a useful follow-up conversation.",
+    description: "Tell us about your practice priorities so we can start a useful conversation.",
     primaryAction: { label: "Book a Consultation", to: "/book-consultation" },
     secondaryAction: { label: "Contact Medlink VA", to: "/contact" },
   },

@@ -41,9 +41,9 @@ const contactMethodOptions = [
 export const contactContent = {
   hero: {
     eyebrow: "Contact",
-    title: "Reach out with a business inquiry or support question",
+    title: "Let’s talk about training or practice support",
     description:
-      "This contact page is designed for straightforward communication and keeps sensitive health information out of the form.",
+      "Ask about Virtual Medical Assistant training or tell us about the administrative support your practice needs.",
     actions: [
       { label: "Book a Consultation", to: "/book-consultation", variant: "primary" as const },
       { label: "View Services", to: "/services", variant: "secondary" as const },
@@ -56,8 +56,9 @@ export const contactContent = {
       href: `mailto:${siteContent.contactEmail}`,
     },
     {
-      label: "Support focus",
-      value: "Virtual medical assistant support",
+      label: "Phone",
+      value: siteContent.phone,
+      href: "tel:+256785724420",
     },
     {
       label: "Availability note",
@@ -65,7 +66,7 @@ export const contactContent = {
     },
   ],
   introduction:
-    "Use this page for general questions, partnership conversations, and practical support inquiries. The form sends securely and should stay free of confidential patient data.",
+    "Contact us by email, phone, or WhatsApp for training questions and healthcare administrative support. Please keep messages free of confidential patient data.",
   form: {
     title: "Send a message securely",
     submitLabel: "Send message",
@@ -139,9 +140,9 @@ export const contactContent = {
     },
   ],
   faqTeaser: [
-    "The form submits to a secure server endpoint.",
+    "Share a brief summary of what you need help with.",
     "Sensitive patient data should never be entered into a public contact form.",
-    "If lead capture is not configured yet, the page will show a clear configuration error.",
+    "Include the best contact details for a reply.",
   ],
   consultationPrompt:
     "If your inquiry is about a potential engagement, the consultation page asks for a little more context in a separate secure form.",
@@ -156,7 +157,7 @@ export const consultationContent = {
     eyebrow: "Consultation",
     title: "Book a consultation to talk through your support needs",
     description:
-      "The consultation page captures practical business context without asking for unnecessary sensitive information.",
+      "Tell us about your practice, your priorities, and the everyday tasks you would like help with.",
     actions: [
       { label: "Contact Medlink VA", to: "/contact", variant: "secondary" as const },
       { label: "View Services", to: "/services", variant: "secondary" as const },
@@ -165,14 +166,14 @@ export const consultationContent = {
   introduction:
     "Use this form when you want to describe the support you need before a follow-up conversation. It sends securely and is not a scheduling system.",
   trustPoints: [
-    "Built for qualified prospects who want to talk through operational support",
-    "Focused on business context instead of patient details",
-    "Designed to stay clear, calm, and easy to complete",
+    "Support shaped around your practice priorities",
+    "A conversation about administrative needs",
+    "Clear next steps and personal follow-up",
   ],
   whatHappensNext: [
     "Share the basics of your practice and the support you want to discuss.",
     "Review the information you entered and keep the next conversation business-focused.",
-    "Expect a follow-up once the form is connected before launch.",
+    "We’ll review your request and follow up using your contact details.",
   ],
   form: {
     title: "Consultation request details",

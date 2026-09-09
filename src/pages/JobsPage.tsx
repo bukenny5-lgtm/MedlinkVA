@@ -4,19 +4,19 @@ import { SectionHeading } from "../components/home/SectionHeading";
 import { EmptyState } from "../components/shared/EmptyState";
 import { PageCta } from "../components/shared/PageCta";
 import { PageHero } from "../components/shared/PageHero";
-import { InfoCard } from "../components/shared/InfoCard";
+import { siteContent } from "../content/site";
 import { useCmsBundle } from "../lib/cms/SiteContentProvider";
 import { resolveJobsContent } from "../lib/cms/siteContent";
 
 export function JobsPage() {
   const jobsContent = resolveJobsContent(useCmsBundle());
-  const hasRecords = jobsContent.records.length > 0;
+  const hasRecords = !siteContent.jobsPaused && jobsContent.records.length > 0;
 
   return (
     <article className="space-y-12">
       <Seo
         title="Careers & Opportunities | Medlink VA"
-        description="Explore the careers page for Medlink VA. It currently shows a polished empty state and a CMS-ready structure for future job listings."
+        description="There are no current openings at MedLink VA. Explore training or contact us with questions about future opportunities."
       />
 
       <PageHero
@@ -26,28 +26,14 @@ export function JobsPage() {
         actions={jobsContent.hero.actions}
       />
 
-      <HomeSection className="bg-brand-background py-16 sm:py-20">
-        <SectionHeading
-          eyebrow="Why this page exists"
-          title="A responsible placeholder for future opportunities"
-          description="The page is intentionally honest about the current vacancy status while still feeling polished and complete."
-        />
-
-        <div className="mt-8 grid gap-5 lg:grid-cols-3">
-          {jobsContent.whyWorkWithUs.map((item) => (
-            <InfoCard key={item.title} title={item.title} description={item.description} />
-          ))}
-        </div>
-      </HomeSection>
-
       <HomeSection className="bg-white py-16 sm:py-20">
         <SectionHeading
-          eyebrow="Open roles"
-          title={hasRecords ? "Current opportunities" : "Current opportunities are not published yet"}
+          eyebrow="Careers"
+          title={hasRecords ? "Current opportunities" : "Future opportunities"}
           description={
             hasRecords
-              ? "Published job records from Sanity appear below."
-              : "When real records are added later, this area can expand into structured job cards without changing the route."
+              ? "Explore available roles and application details."
+              : "Please check back for opportunities as they become available."
           }
         />
 
@@ -56,7 +42,7 @@ export function JobsPage() {
             <div className="grid gap-5 lg:grid-cols-2">
               {jobsContent.records.map((job) => (
                 <article key={job._id} className="surface-card flex h-full flex-col p-6">
-                  <div className="flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-brand-sky">
+                  <div className="flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-brand-accent">
                     <span>{job.status}</span>
                     <span>{job.location}</span>
                     <span>{job.employmentType}</span>
@@ -104,32 +90,10 @@ export function JobsPage() {
             <EmptyState
               title={jobsContent.emptyState.title}
               description={jobsContent.emptyState.description}
-              bullets={[
-                "Future listings can include title, location, employment type, closing date, and application link.",
-                "The page will continue to show only approved openings.",
-              ]}
+              badge="No current openings"
               action={{ label: "Contact Medlink VA", to: "/contact" }}
-              footer="This placeholder preserves the layout for future openings and keeps the site accurate."
             />
           )}
-        </div>
-      </HomeSection>
-
-      <HomeSection className="bg-brand-background py-16 sm:py-20">
-        <SectionHeading
-          eyebrow="Future listing shape"
-          title="The job card template is already planned"
-          description="These fields can later map cleanly into Sanity and remain easy to scan on mobile."
-        />
-
-        <div className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          {jobsContent.futureFields.map((field) => (
-            <InfoCard
-              key={field}
-              title={field}
-              description="Planned field for future job records."
-            />
-          ))}
         </div>
       </HomeSection>
 

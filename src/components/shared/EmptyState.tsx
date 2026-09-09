@@ -24,7 +24,7 @@ export function EmptyState({ title, description, bullets, action, badge = "Comin
     <div className="surface-card border-dashed p-6 sm:p-8">
       <div className="space-y-4">
         <div className="flex flex-wrap items-center gap-3">
-          <p className="text-sm font-semibold uppercase tracking-[0.28em] text-brand-sky">{badge}</p>
+          <p className="text-sm font-semibold uppercase tracking-[0.28em] text-brand-accent">{badge}</p>
         </div>
         <h3 className="text-xl font-semibold text-brand-navy">{title}</h3>
         <p className="max-w-3xl text-sm leading-7 text-brand-charcoal/80">{description}</p>

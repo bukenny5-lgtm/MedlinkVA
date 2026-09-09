@@ -3,6 +3,7 @@ import { HomeSection } from "../components/home/HomeSection";
 import { SectionHeading } from "../components/home/SectionHeading";
 import { PageCta } from "../components/shared/PageCta";
 import { PageHero } from "../components/shared/PageHero";
+import { ResponsiveDisclosure } from "../components/shared/ResponsiveDisclosure";
 import { InfoCard } from "../components/shared/InfoCard";
 import { howItWorksContent } from "../content/howItWorks";
 
@@ -25,8 +26,8 @@ export function HowItWorksPage() {
       <HomeSection className="bg-brand-background py-16 sm:py-20">
         <SectionHeading
           eyebrow="Process"
-          title="The current four-step model"
-          description="Each step is concise, conversion-focused, and careful not to promise outcomes that have not been approved."
+          title="Four steps to practical support"
+          description="Start with your priorities and agree on a clear way to work together."
         />
 
         <div className="mt-8 grid gap-5 lg:grid-cols-2">
@@ -44,8 +45,8 @@ export function HowItWorksPage() {
       <HomeSection className="bg-white py-16 sm:py-20">
         <SectionHeading
           eyebrow="What to expect"
-          title="A clear consultation path without unsupported promises"
-          description="The page explains the journey at a high level so visitors know what happens next."
+          title="A conversation centered on your needs"
+          description="Get to know the support options and discuss what would work for your practice."
         />
 
         <div className="mt-8 grid gap-5 md:grid-cols-3">
@@ -59,7 +60,7 @@ export function HowItWorksPage() {
         <SectionHeading
           eyebrow="Service categories"
           title="A quick reminder of the support themes this process can cover"
-          description="The process page links back to the service set so the page still supports SEO and internal navigation."
+          description="Choose the areas you would like to discuss during your consultation."
         />
 
         <div className="mt-8 flex flex-wrap gap-3">
@@ -76,14 +77,14 @@ export function HowItWorksPage() {
 
       <HomeSection className="bg-white py-16 sm:py-20">
         <SectionHeading
-          eyebrow="FAQ teaser"
+          eyebrow="Common questions"
           title="Short answers that reduce hesitation"
-          description="These preview answers can later move into a full FAQ section or Sanity content type."
+          description="Find answers about getting started and shaping your support."
         />
 
         <div className="mt-8 grid gap-5 lg:grid-cols-3">
           {howItWorksContent.faqTeaser.map((item) => (
-            <InfoCard key={item.question} title={item.question} description={item.answer} />
+            <ResponsiveDisclosure key={item.question} title={item.question}><p>{item.answer}</p></ResponsiveDisclosure>
           ))}
         </div>
       </HomeSection>
