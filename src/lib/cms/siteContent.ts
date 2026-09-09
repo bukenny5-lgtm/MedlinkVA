@@ -54,18 +54,42 @@ function pickFallbackMember(doc: TeamMemberDocument, fallbackMembers: readonly T
 }
 
 function fallbackServiceCard(doc: ServiceDocument, index: number): ServiceCard {
+  const titleMap: Record<string, string> = {
+    "appointment scheduling": "Administrative & Front Desk Support",
+    "administrative support": "Administrative & Front Desk Support",
+    "patient communication support": "Patient Care & Coordination Support",
+    "ehr / practice workflow support": "EHR / Practice Workflow Support Through AI Automation",
+  };
+  const title = titleMap[doc.title.trim().toLowerCase()] ?? doc.title;
   const fallback =
-    fallbackServicesContent.services.find((service) => service.title.toLowerCase() === doc.title.toLowerCase()) ??
+    fallbackServicesContent.services.find((service) => service.title.toLowerCase() === title.toLowerCase()) ??
     fallbackServicesContent.services[index] ??
     fallbackServicesContent.services[0];
 
   return {
-    title: doc.title,
+    id: fallback.id,
+    title: fallback.title,
     description: doc.shortDescription,
     examples: doc.examples?.length ? doc.examples : fallback.examples,
     ctaLabel: fallback.ctaLabel,
     ctaTo: fallback.ctaTo,
   };
+}
+
+function resolveServiceCards(cmsServices: ServiceDocument[]) {
+  const mapped = cmsServices.map((service, index) => fallbackServiceCard(service, index));
+  const merged = new Map<string, ServiceCard>();
+
+  for (const service of mapped) {
+    const existing = merged.get(service.id);
+    merged.set(service.id, existing ? { ...existing, examples: Array.from(new Set([...existing.examples, ...service.examples])) } : service);
+  }
+
+  for (const fallback of fallbackServicesContent.services) {
+    if (!merged.has(fallback.id)) merged.set(fallback.id, fallback);
+  }
+
+  return Array.from(merged.values());
 }
 
 function applyHeroCtaLabels(actions: ReadonlyArray<{ label: string; to: string; variant?: "primary" | "secondary" }>, site: ResolvedSiteSettings) {
@@ -169,7 +193,7 @@ export function resolveHomeContent(bundle: CmsBundle | null) {
         }))
       : fallbackHomeContent.trustStrip,
     services: cmsServices.length
-      ? cmsServices.map((service, index) => fallbackServiceCard(service, index))
+      ? resolveServiceCards(cmsServices)
       : fallbackHomeContent.services,
     whyMedlink: {
       ...fallbackHomeContent.whyMedlink,
@@ -213,7 +237,7 @@ export function resolveServicesContent(bundle: CmsBundle | null) {
       actions: applyHeroCtaLabels(fallbackServicesContent.hero.actions, site),
     },
     services: cmsServices.length
-      ? cmsServices.map((service, index) => fallbackServiceCard(service, index))
+      ? resolveServiceCards(cmsServices)
       : fallbackServicesContent.services,
     finalCta: {
       ...fallbackServicesContent.finalCta,

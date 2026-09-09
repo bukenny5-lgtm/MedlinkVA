@@ -3,7 +3,7 @@ import { servicesContent } from "./services";
 export const howItWorksContent = {
   hero: {
     eyebrow: "How It Works",
-    title: "A simple process for starting the support conversation",
+    title: "From First Conversation to Ongoing Support",
     description:
       "Tell us what your practice needs, explore suitable support, and agree on a practical way to work together.",
     actions: [
@@ -15,27 +15,37 @@ export const howItWorksContent = {
   steps: [
     {
       number: "01",
-      title: "Tell Us What You Need",
+      title: "Discover",
       description:
-        "Share the general support areas you want to improve so the conversation starts with the right context.",
+        "Explore the support areas that could help your practice move forward.",
     },
     {
       number: "02",
-      title: "Define Your Support Needs",
+      title: "Understand Your Needs",
       description:
-        "We can talk through the tasks, communication patterns, and level of assistance that would make the most sense.",
+        "Clarify the workflows, priorities, and level of assistance that would make the most sense.",
     },
     {
       number: "03",
-      title: "Begin Your Workflow",
+      title: "Match the Right Support",
       description:
-        "Move into a support structure that fits the current stage of your practice and the work you want to organize.",
+        "Identify the service areas that best fit your practice priorities.",
     },
     {
       number: "04",
-      title: "Grow With Ongoing Support",
+      title: "Onboard",
       description:
-        "As needs evolve, the support conversation can evolve too so the setup stays practical instead of rigid.",
+        "Agree communication and workflow setup before support begins.",
+    },
+    {
+      number: "05",
+      title: "Deliver",
+      description: "Begin practical administrative support shaped around the agreed priorities.",
+    },
+    {
+      number: "06",
+      title: "Review & Improve",
+      description: "Review how the arrangement is working and refine processes where useful.",
     },
   ],
   expectations: [

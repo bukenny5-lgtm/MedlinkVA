@@ -6,6 +6,7 @@ import { PageCta } from "../components/shared/PageCta";
 import { PageHero } from "../components/shared/PageHero";
 import { ResponsiveDisclosure } from "../components/shared/ResponsiveDisclosure";
 import { InfoCard } from "../components/shared/InfoCard";
+import { howItWorksContent } from "../content/howItWorks";
 import { clientAssets } from "../lib/assets";
 import { useCmsBundle } from "../lib/cms/SiteContentProvider";
 import { resolveServicesContent } from "../lib/cms/siteContent";
@@ -43,13 +44,13 @@ export function ServicesPage() {
       <HomeSection className="bg-brand-background py-16 sm:py-20">
         <SectionHeading
           eyebrow="Service library"
-          title="What these support areas can look like in practice"
-          description="Find the everyday tasks you would like help with and explore how support could fit your workflow."
+          title="Find the support category that fits your practice"
+          description="Start with the workflow creating the most friction, then explore the service area that could help your team move forward."
         />
 
         <div className="mt-8 grid gap-5 lg:grid-cols-2">
           {servicesContent.services.map((service) => (
-            <ResponsiveDisclosure key={service.title} title={service.title}>
+            <ResponsiveDisclosure key={service.id} id={service.id} title={service.title}>
               <p>{service.description}</p>
               <ul className="list-disc space-y-2 pl-5">
                 {service.examples.map((example) => <li key={example}>{example}</li>)}
@@ -62,6 +63,19 @@ export function ServicesPage() {
                   {service.ctaLabel}
                 </Link>
             </ResponsiveDisclosure>
+          ))}
+        </div>
+      </HomeSection>
+
+      <HomeSection className="bg-brand-background py-16 sm:py-20">
+        <SectionHeading
+          eyebrow="From first conversation to ongoing support"
+          title="A clear path from discovery to delivery"
+          description="Use the consultation to clarify your priorities, match the right support, and agree on practical next steps."
+        />
+        <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          {howItWorksContent.steps.map((step) => (
+            <InfoCard key={step.number} eyebrow={step.number} title={step.title} description={step.description} />
           ))}
         </div>
       </HomeSection>

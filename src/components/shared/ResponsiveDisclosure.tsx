@@ -1,9 +1,9 @@
 import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 
-type ResponsiveDisclosureProps = { title: string; children: ReactNode };
+type ResponsiveDisclosureProps = { id?: string; title: string; children: ReactNode };
 
 // Keep longer service details and FAQs scannable on phones and tablets.
-export function ResponsiveDisclosure({ title, children }: ResponsiveDisclosureProps) {
+export function ResponsiveDisclosure({ id, title, children }: ResponsiveDisclosureProps) {
   const panelId = useId();
   const panelRef = useRef<HTMLDivElement>(null);
   const [expanded, setExpanded] = useState(false);
@@ -21,7 +21,7 @@ export function ResponsiveDisclosure({ title, children }: ResponsiveDisclosurePr
   }, []);
 
   return (
-    <article className="surface-card p-5 sm:p-6">
+    <article id={id} className="surface-card scroll-mt-28 p-5 sm:p-6">
       <h3 className="text-xl font-semibold text-brand-navy">
         <span className="hidden lg:block">{title}</span>
         <button type="button" className="flex min-h-11 w-full items-center justify-between gap-4 text-left lg:hidden" aria-expanded={isOpen} aria-controls={panelId} onClick={() => setExpanded((current) => !current)}>

@@ -64,28 +64,28 @@ export const homeContent = {
   ] satisfies ValueCard[],
   services: [
     {
-      title: "Appointment Scheduling",
-      description: "Coordinate calendars, reminders, and routine updates so scheduling stays organized.",
+      title: "Administrative & Front Desk Support",
+      description: "Keep scheduling, calendars, front-desk workflows, and administrative follow-through organized.",
     },
     {
       title: "Virtual Medical Reception",
       description: "Create a polished remote front-desk experience for calls and basic inquiries.",
     },
     {
-      title: "Patient Communication Support",
-      description: "Help route messages, follow up on non-clinical communication, and keep updates moving.",
-    },
-    {
-      title: "Administrative Support",
-      description: "Support everyday administrative workflows, documentation handoff, and internal organization.",
+      title: "Patient Care & Coordination Support",
+      description: "Support non-clinical follow-up, reminders, routine communication, and practice coordination.",
     },
     {
       title: "Insurance & Billing Support",
-      description: "Assist with billing-related administration, claims follow-up coordination, and account support.",
+      description: "Assist with insurance, billing-related administration, referrals, and organized workflow follow-up.",
     },
     {
-      title: "EHR / Practice Workflow Support",
-      description: "Help keep routine practice processes organized and easier to manage.",
+      title: "EHR / Practice Workflow Support Through AI Automation",
+      description: "Use AI-assisted administrative workflows to organize repetitive practice processes and reminders.",
+    },
+    {
+      title: "Remote Patient Monitoring Support",
+      description: "Keep monitoring records, scheduled observations, reminders, and workflow alerts organized for practice teams.",
     },
   ] satisfies ServiceCard[],
   whyMedlink: {
@@ -106,29 +106,39 @@ export const homeContent = {
   },
   howItWorks: {
     eyebrow: "How It Works",
-    title: "A straightforward process that keeps communication clear",
+    title: "From First Conversation to Ongoing Support",
     description:
       "Share your practice priorities, discuss the right support, and agree on clear next steps together.",
     steps: [
       {
         number: "01",
-        title: "Tell Us What You Need",
-        description: "Share the general support areas you would like to improve.",
+        title: "Discover",
+        description: "Explore the support areas that could help your practice move forward.",
       },
       {
         number: "02",
-        title: "Define Your Support Needs",
-        description: "Outline the tasks, priorities, and level of assistance you are seeking.",
+        title: "Understand Your Needs",
+        description: "Clarify the workflows, priorities, and level of assistance you are seeking.",
       },
       {
         number: "03",
-        title: "Begin Your Workflow",
-        description: "Start with a support plan that fits the current stage of your practice.",
+        title: "Match the Right Support",
+        description: "Identify the service areas that best fit your practice priorities.",
       },
       {
         number: "04",
-        title: "Grow With Ongoing Support",
-        description: "Adjust the support as your operational needs evolve over time.",
+        title: "Onboard",
+        description: "Agree communication and workflow setup before support begins.",
+      },
+      {
+        number: "05",
+        title: "Deliver",
+        description: "Begin practical administrative support shaped around the agreed priorities.",
+      },
+      {
+        number: "06",
+        title: "Review & Improve",
+        description: "Review how the arrangement is working and refine processes where useful.",
       },
     ] satisfies StepCard[],
   },

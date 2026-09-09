@@ -26,7 +26,7 @@ export function HowItWorksPage() {
       <HomeSection className="bg-brand-background py-16 sm:py-20">
         <SectionHeading
           eyebrow="Process"
-          title="Four steps to practical support"
+          title="Six steps to practical support"
           description="Start with your priorities and agree on a clear way to work together."
         />
 
