@@ -40,9 +40,9 @@ export const aboutContent = {
       description: "Offer support that can adapt as a practice’s needs change over time.",
     },
     {
-      title: "Privacy-minded process",
+      title: "Privacy & Confidentiality",
       description:
-        "Emphasize responsible information handling and confidentiality-minded administrative workflows.",
+        "Training and administrative workflows are designed with confidentiality and responsible information handling in mind.",
     },
   ],
   why: {
@@ -54,7 +54,7 @@ export const aboutContent = {
       "Practical healthcare administrative learning",
       "Integrity and transparent expectations",
       "Personalized support and clear communication",
-      "Privacy-conscious workflows",
+      "Privacy and confidentiality-minded workflows",
     ],
   },
   team: {

@@ -47,19 +47,19 @@ export const homeContent = {
   trustStrip: [
     {
       title: "Integrity & Transparency",
-      description: "Clear expectations about training, support, and the next steps in working together.",
+      description: "Clear communication, responsible handling of work, and honest expectations from the beginning of every training or support engagement.",
+    },
+    {
+      title: "Practical Healthcare Expertise",
+      description: "Training and support stay connected to real healthcare administrative workflows and day-to-day practice needs.",
     },
     {
       title: "Personalized Support",
-      description: "Start with your learning goals or practice priorities to find a practical way forward.",
+      description: "Guidance can align with a learner’s stage or a practice’s actual administrative priorities.",
     },
     {
-      title: "Reliable Communication",
-      description: "Thoughtful guidance and clear updates to keep learning and daily work on track.",
-    },
-    {
-      title: "Privacy-Conscious Workflows",
-      description: "Responsible information handling and confidentiality-minded healthcare administration.",
+      title: "Privacy & Confidentiality",
+      description: "Training and administrative workflows are designed with confidentiality, responsible information handling, and privacy-conscious practices in mind.",
     },
   ] satisfies ValueCard[],
   services: [
@@ -100,8 +100,8 @@ export const homeContent = {
       "Structured healthcare administrative training",
       "Real-world workflow relevance",
       "Personalized support & continued guidance",
-      "Integrity & clear communication",
-      "Privacy-conscious working habits",
+      "Integrity, transparency & reliable communication",
+      "Privacy & confidentiality-minded working habits",
     ],
   },
   howItWorks: {
