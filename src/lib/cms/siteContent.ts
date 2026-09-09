@@ -45,8 +45,8 @@ function pickFallbackMember(doc: TeamMemberDocument, fallbackMembers: readonly T
   return {
     name: doc.name,
     role: doc.role,
-    image: sanityImageSrc(doc.photo, { width: 1080, height: 1080 }) ?? fallback.image,
-    alt: doc.altText?.trim() || fallback.alt,
+    image: sanityImageSrc(doc.photo, { width: 700, height: 875 }) ?? fallback.image,
+    alt: doc.altText?.trim() || `${doc.name}, ${doc.role} at MedLink VA`,
     shortBio: doc.shortBio ?? fallback.shortBio,
     featured: doc.featured ?? fallback.featured,
     displayOrder: doc.displayOrder ?? fallback.displayOrder,

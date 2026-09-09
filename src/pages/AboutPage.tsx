@@ -4,6 +4,7 @@ import { SectionHeading } from "../components/home/SectionHeading";
 import { PageCta } from "../components/shared/PageCta";
 import { PageHero } from "../components/shared/PageHero";
 import { InfoCard } from "../components/shared/InfoCard";
+import { TeamMemberCard } from "../components/shared/TeamMemberCard";
 import { clientAssets } from "../lib/assets";
 import { useCmsBundle } from "../lib/cms/SiteContentProvider";
 import { resolveAboutContent } from "../lib/cms/siteContent";
@@ -61,25 +62,8 @@ export function AboutPage() {
           description={aboutContent.team.description}
         />
 
-        <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-          {aboutContent.team.members.map((member) => (
-            <article key={member.name} className="surface-card overflow-hidden">
-              <img
-                src={member.image}
-                alt={member.alt}
-                className="aspect-[4/3] w-full object-cover object-top"
-                loading="lazy"
-                decoding="async"
-                width="1200"
-                height="900"
-              />
-              <div className="space-y-2 p-5">
-                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-brand-accent">{member.role}</p>
-                <h3 className="text-lg font-semibold text-brand-navy">{member.name}</h3>
-                {member.shortBio ? <p className="text-sm leading-6 text-brand-charcoal/70">{member.shortBio}</p> : null}
-              </div>
-            </article>
-          ))}
+        <div className="mt-8 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+          {aboutContent.team.members.map((member) => <TeamMemberCard key={member.name} member={member} />)}
         </div>
       </HomeSection>
 
