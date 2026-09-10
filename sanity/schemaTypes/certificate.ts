@@ -20,6 +20,14 @@ export const certificate = defineType({
     defineField({ name: "trainingDuration", title: "Training duration", type: "string", validation: (Rule) => Rule.max(100) }),
     defineField({ name: "issueDate", title: "Original issue date", type: "date", validation: (Rule) => Rule.required() }),
     defineField({ name: "trainerNames", title: "Trainer names", type: "array", of: [{ type: "string" }] }),
+    defineField({
+      name: "signatories",
+      title: "Certificate signatories",
+      description: "Optional approved signatories whose stored signature images will be rendered on generated certificates.",
+      type: "array",
+      validation: (Rule) => Rule.unique().max(3),
+      of: [{ type: "reference", to: [{ type: "certificateSignatory" }], options: { disableNew: true } }],
+    }),
     defineField({ name: "cohort", title: "Cohort / Training Batch", description: "Optional. Enter the training group or intake this learner belonged to, for example 'October 2026 VMA Training Cohort'. Leave blank if the training did not use a named cohort.", type: "string" }),
     defineField({
       name: "status",

@@ -3,6 +3,7 @@ import { structureTool } from "sanity/structure";
 import { schemaTypes } from "./schemaTypes";
 import { singletonTypes, structure } from "./structure";
 import { generateCertificateNumberAction } from "./actions/generateCertificateNumber";
+import { generateCertificatePdfAction } from "./actions/generateCertificatePdf";
 
 const singletonDocumentActions = new Set(["publish", "discardChanges", "restore"]);
 
@@ -31,7 +32,7 @@ export default defineConfig({
     },
     actions: (actions, context) => {
       if (context.schemaType === "certificate") {
-        return [...actions, generateCertificateNumberAction];
+        return [...actions, generateCertificateNumberAction, generateCertificatePdfAction];
       }
       if (!singletonTypes.has(context.schemaType)) {
         return actions;

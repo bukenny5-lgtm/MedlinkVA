@@ -14,5 +14,5 @@
     "resolveJsonModule": true,
     "allowJs": false
   },
-  "include": ["sanity.config.ts", "sanity.cli.ts", "schemaTypes/**/*.ts", "structure/**/*.ts"]
+  "include": ["sanity.config.ts", "sanity.cli.ts", "actions/**/*.ts", "schemaTypes/**/*.ts", "structure/**/*.ts"]
 }

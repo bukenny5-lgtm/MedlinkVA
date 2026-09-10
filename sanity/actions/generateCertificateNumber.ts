@@ -15,7 +15,7 @@ function datePart(issueDate: string) {
 }
 
 export const generateCertificateNumberAction: DocumentActionComponent = (props) => {
-  const client = useClient({ apiVersion, perspective: "previewDrafts" });
+  const client = useClient({ apiVersion });
   const { patch } = useDocumentOperation(props.id, props.type);
   const document = (props.draft ?? props.published ?? {}) as CertificateDraft;
   const date = document.issueDate ? datePart(document.issueDate) : null;
