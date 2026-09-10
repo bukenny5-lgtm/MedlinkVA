@@ -3,7 +3,7 @@ import { classesContent as fallbackClassesContent } from "../../content/classes"
 import { contactContent as fallbackContactContent } from "../../content/contact";
 import { homeContent as fallbackHomeContent } from "../../content/home";
 import { jobsContent as fallbackJobsContent } from "../../content/jobs";
-import { productsContent as fallbackProductsContent } from "../../content/products";
+import { localProducts, productsContent as fallbackProductsContent, type LocalProduct } from "../../content/products";
 import { resourcesContent as fallbackResourcesContent } from "../../content/resources";
 import { servicesContent as fallbackServicesContent } from "../../content/services";
 import { siteContent as fallbackSiteContent } from "../../content/site";
@@ -309,7 +309,7 @@ export type ResourcesPageContent = Omit<typeof fallbackResourcesContent, "catego
 };
 
 export type ProductsPageContent = typeof fallbackProductsContent & {
-  records: ProductLinkDocument[];
+  records: Array<ProductLinkDocument | LocalProduct>;
 };
 
 export function resolveJobsContent(bundle: CmsBundle | null): JobsPageContent {
@@ -381,7 +381,21 @@ export function resolveResourcesContent(bundle: CmsBundle | null): ResourcesPage
 
 export function resolveProductsContent(bundle: CmsBundle | null): ProductsPageContent {
   const site = mapSiteSettings(bundle);
-  const records = bundle?.productLinks ?? [];
+  const cmsProducts = bundle?.productLinks ?? [];
+  const fallbackBySlug = new Map(localProducts.map((product) => [product.slug.current, product]));
+  const records = cmsProducts.length
+    ? cmsProducts.map((product) => {
+        const slug = product.slug?.current ?? product.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+        const fallback = fallbackBySlug.get(slug);
+        return {
+          ...product,
+          category: product.category ?? fallback?.category,
+          features: product.features?.length ? product.features : fallback?.features,
+          image: product.image ?? fallback?.image,
+          altText: product.altText?.trim() || fallback?.altText || `${product.name} cover`,
+        };
+      })
+    : localProducts;
 
   return {
     ...fallbackProductsContent,

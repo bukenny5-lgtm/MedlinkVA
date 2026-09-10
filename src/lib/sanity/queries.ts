@@ -111,6 +111,7 @@ const cmsQuery = `{
   "productLinks": *[_type == "productLink" && active == true] | order(displayOrder asc, name asc) {
     _id,
     active,
+    category,
     ctaLabel,
     displayOrder,
     externalUrl,
@@ -118,6 +119,12 @@ const cmsQuery = `{
     image,
     name,
     price,
+    priceLabel,
+    externalPlatform,
+    features,
+    fullDescription,
+    seoTitle,
+    seoDescription,
     shortDescription,
     slug,
     altText

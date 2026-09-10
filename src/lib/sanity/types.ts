@@ -121,13 +121,20 @@ export type ClassDocument = {
 export type ProductLinkDocument = {
   _id: string;
   active?: boolean;
+  category?: "Templates & Tools" | "Training & Learning";
   ctaLabel: string;
   displayOrder?: number;
   externalUrl: string;
   featured?: boolean;
-  image?: SanityImageSource;
+  image?: SanityImageSource | string;
   name: string;
   price?: number;
+  priceLabel?: string;
+  externalPlatform?: string;
+  features?: string[];
+  fullDescription?: PortableTextBlock[];
+  seoTitle?: string;
+  seoDescription?: string;
   shortDescription: string;
   slug?: SanitySlug;
   altText?: string;
