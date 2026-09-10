@@ -31,7 +31,31 @@ const cmsQuery = `{
   },
   "aboutContent": *[_type == "aboutContent"][0]{
     aboutIntro,
+    founderImage,
+    founderImageAlt,
+    founderMessageBody,
+    founderMessageHeading,
+    founderName,
+    founderRole,
     mission,
+    metrics[]{
+      _key,
+      active,
+      description,
+      displayOrder,
+      label,
+      suffix,
+      value
+    },
+    partners[]{
+      _key,
+      active,
+      altText,
+      displayOrder,
+      logo,
+      name,
+      websiteUrl
+    },
     vision,
     valuesIntro
   },

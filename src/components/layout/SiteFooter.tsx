@@ -67,7 +67,8 @@ export function SiteFooter() {
                       className="inline-flex min-h-11 items-center transition-colors hover:text-white"
                       href={link.url}
                       target="_blank"
-                      rel="noreferrer"
+                      rel="noopener noreferrer"
+                      aria-label={`Visit MedLink VA on ${link.platform?.trim() || link.label}`}
                     >
                       {link.label}
                     </a>

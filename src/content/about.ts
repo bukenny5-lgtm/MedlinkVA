@@ -1,6 +1,24 @@
 import { clientAssets } from "../lib/assets";
 import { teamMembers } from "./team";
 
+export type AboutPartner = {
+  name: string;
+  logo?: import("../lib/sanity/types").SanityImageSource;
+  altText?: string;
+  websiteUrl?: string;
+  active?: boolean;
+  displayOrder?: number;
+};
+
+export type AboutMetric = {
+  label: string;
+  value: string;
+  suffix?: string;
+  description?: string;
+  active?: boolean;
+  displayOrder?: number;
+};
+
 export const aboutContent = {
   hero: {
     eyebrow: "About Medlink VA",
@@ -21,6 +39,20 @@ export const aboutContent = {
     description:
       "To equip Virtual Medical Assistants with practical skills and help healthcare teams manage everyday administrative work with clarity and care.",
   },
+  founder: {
+    heading: "A Message from Our Founder",
+    name: "Racheal O Mulinde",
+    role: "Founder & CEO",
+    message: "I founded MedLink VA to bring together practical Virtual Medical Assistant training and thoughtful healthcare administrative support. With training as a Clinical Officer, I understand the importance of clear, responsible workflows around healthcare teams. A fuller founder message can be added through the MedLink VA content system.",
+    image: clientAssets.ceoPhoto,
+    imageAlt: "Racheal O Mulinde, Founder and CEO of MedLink VA",
+  },
+  partners: [
+    { name: "Chetacare", displayOrder: 1 },
+    { name: "HiJob", displayOrder: 2 },
+    { name: "Converse to Clarity", displayOrder: 3 },
+  ] satisfies AboutPartner[],
+  metrics: [] satisfies AboutMetric[],
   vision: {
     title: "Vision",
     description:

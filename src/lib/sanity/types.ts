@@ -216,7 +216,31 @@ export type HomepageContentDocument = {
 
 export type AboutContentDocument = {
   aboutIntro: string;
+  founderImage?: SanityImageSource;
+  founderImageAlt?: string;
+  founderMessageBody?: PortableTextBlock[];
+  founderMessageHeading?: string;
+  founderName?: string;
+  founderRole?: string;
   mission: string;
+  metrics?: Array<{
+    _key?: string;
+    active?: boolean;
+    description?: string;
+    displayOrder?: number;
+    label: string;
+    suffix?: string;
+    value: string;
+  }>;
+  partners?: Array<{
+    _key?: string;
+    active?: boolean;
+    altText?: string;
+    displayOrder?: number;
+    logo?: SanityImageSource;
+    name: string;
+    websiteUrl?: string;
+  }>;
   valuesIntro: string;
   vision: string;
 };

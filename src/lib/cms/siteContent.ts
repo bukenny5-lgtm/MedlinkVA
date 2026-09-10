@@ -1,4 +1,4 @@
-import { aboutContent as fallbackAboutContent } from "../../content/about";
+import { aboutContent as fallbackAboutContent, type AboutMetric, type AboutPartner } from "../../content/about";
 import { classesContent as fallbackClassesContent } from "../../content/classes";
 import { contactContent as fallbackContactContent } from "../../content/contact";
 import { homeContent as fallbackHomeContent } from "../../content/home";
@@ -111,6 +111,18 @@ function normalizeCtaLabel(label?: string) {
   return label?.trim().replace(/book a free consultation/gi, fallbackSiteContent.primaryCtaLabel);
 }
 
+function safeSocialLinks(settings?: SiteSettingsDocument | null) {
+  return (settings?.socialLinks ?? []).filter((link) => {
+    if (!link.label?.trim() || !link.url?.trim()) return false;
+    try {
+      const url = new URL(link.url);
+      return url.protocol === "https:" || url.protocol === "http:";
+    } catch {
+      return false;
+    }
+  });
+}
+
 function mapSiteSettings(bundle: CmsBundle | null): ResolvedSiteSettings {
   const settings = bundle?.siteSettings;
 
@@ -121,7 +133,7 @@ function mapSiteSettings(bundle: CmsBundle | null): ResolvedSiteSettings {
     secondaryCtaLabel: normalizeCtaLabel(settings?.secondaryCTA) || fallbackSiteContent.secondaryCtaLabel,
     contactEmail: settings?.contactEmail?.trim().replace(/^hello@medlinkva\.com$/i, fallbackSiteContent.contactEmail) || fallbackSiteContent.contactEmail,
     phone: settings?.phone?.trim() || fallbackSiteContent.phone,
-    socialLinks: settings?.socialLinks ?? [],
+    socialLinks: safeSocialLinks(settings),
     externalProductStoreUrl: settings?.externalProductStoreUrl?.trim() || undefined,
     newsletterHeading:
       settings?.newsletterHeading?.trim() || fallbackHomeContent.newsletter.title || fallbackSiteContent.brandTagline,
@@ -269,6 +281,23 @@ export function resolveAboutContent(bundle: CmsBundle | null) {
       ...fallbackAboutContent.mission,
       description: cmsAbout?.mission?.trim() || fallbackAboutContent.mission.description,
     },
+    founder: {
+      ...fallbackAboutContent.founder,
+      heading: cmsAbout?.founderMessageHeading?.trim() || fallbackAboutContent.founder.heading,
+      name: cmsAbout?.founderName?.trim() || fallbackAboutContent.founder.name,
+      role: cmsAbout?.founderRole?.trim() || fallbackAboutContent.founder.role,
+      message: toPlainText(cmsAbout?.founderMessageBody) || fallbackAboutContent.founder.message,
+      image: sanityImageSrc(cmsAbout?.founderImage, { width: 700, height: 875 }) ?? fallbackAboutContent.founder.image,
+      imageAlt: cmsAbout?.founderImageAlt?.trim() || fallbackAboutContent.founder.imageAlt,
+    },
+    partners: ((cmsAbout?.partners?.length ? cmsAbout.partners : fallbackAboutContent.partners) as AboutPartner[])
+      .filter((partner) => partner.active !== false && partner.name.trim())
+      .slice()
+      .sort((left, right) => (left.displayOrder ?? 0) - (right.displayOrder ?? 0)),
+    metrics: ((cmsAbout?.metrics ?? []) as AboutMetric[])
+      .filter((metric) => metric.active !== false && metric.label.trim() && metric.value.trim())
+      .slice()
+      .sort((left, right) => (left.displayOrder ?? 0) - (right.displayOrder ?? 0)),
     vision: {
       ...fallbackAboutContent.vision,
       description: cmsAbout?.vision?.trim() || fallbackAboutContent.vision.description,
