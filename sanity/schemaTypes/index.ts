@@ -1,6 +1,7 @@
 import type { SchemaTypeDefinition } from "sanity";
 import { aboutContent } from "./aboutContent";
 import { classSchema } from "./class";
+import { certificate } from "./certificate";
 import { faq } from "./faq";
 import { homepageContent } from "./homepageContent";
 import { job } from "./job";
@@ -19,6 +20,7 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   service,
   job,
   classSchema,
+  certificate,
   productLink,
   resourcePost,
   faq,

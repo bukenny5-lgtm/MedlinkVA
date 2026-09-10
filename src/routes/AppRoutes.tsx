@@ -12,6 +12,7 @@ import { BookConsultationPage } from "../pages/BookConsultationPage";
 import { PrivacyPage } from "../pages/PrivacyPage";
 import { TermsPage } from "../pages/TermsPage";
 import { NotFoundPage } from "../pages/NotFoundPage";
+import { CertificateVerifyPage } from "../pages/CertificateVerifyPage";
 import { SiteLayout } from "../layouts/SiteLayout";
 
 export function AppRoutes() {
@@ -30,6 +31,8 @@ export function AppRoutes() {
         <Route path="book-consultation" element={<BookConsultationPage />} />
         <Route path="privacy" element={<PrivacyPage />} />
         <Route path="terms" element={<TermsPage />} />
+        <Route path="verify" element={<CertificateVerifyPage />} />
+        <Route path="verify/:token" element={<CertificateVerifyPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>

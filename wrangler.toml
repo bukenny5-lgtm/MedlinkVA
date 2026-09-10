@@ -6,6 +6,8 @@ pages_build_output_dir = "dist"
 VITE_SANITY_PROJECT_ID = "dlfas4qz"
 VITE_SANITY_DATASET = "production"
 VITE_SANITY_API_VERSION = "2026-09-03"
+SANITY_PROJECT_ID = "dlfas4qz"
+SANITY_DATASET = "production"
 
 BREVO_NEWSLETTER_LIST_ID = "13"
 BREVO_CONTACT_LIST_ID = "14"

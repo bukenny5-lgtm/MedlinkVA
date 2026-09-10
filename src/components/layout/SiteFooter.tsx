@@ -48,6 +48,9 @@ export function SiteFooter() {
             <Link className="inline-flex min-h-11 items-center transition-colors hover:text-white" to="/contact">
               Contact page
             </Link>
+            <Link className="inline-flex min-h-11 items-center transition-colors hover:text-white" to="/verify">
+              Verify Certificate
+            </Link>
             <a className="inline-flex min-h-11 items-center transition-colors hover:text-white" href={`mailto:${site.contactEmail}`}>
               {site.contactEmail}
             </a>

@@ -94,6 +94,7 @@ export function Seo({
       "/book-consultation": "Book a Consultation",
       "/privacy": "Privacy Policy",
       "/terms": "Terms of Use",
+      "/verify": "Certificate Verification",
     };
 
     document.title = fullTitle;
@@ -158,4 +159,3 @@ export function Seo({
 
   return null;
 }
-
