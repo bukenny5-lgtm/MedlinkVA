@@ -38,10 +38,17 @@ export const resourcePost = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: "resourceType",
+      title: "Resource type",
+      type: "string",
+      options: { list: ["Article", "Guide", "Checklist", "Template", "Webinar Recap", "Newsletter", "Career Resource", "Healthcare Administration Tip", "Training Resource"] },
+    }),
+    defineField({
       name: "author",
       title: "Author",
       type: "string",
     }),
+    defineField({ name: "authorName", title: "Author name", type: "string" }),
     defineField({
       name: "publishedAt",
       title: "Published at",
@@ -49,6 +56,10 @@ export const resourcePost = defineType({
       validation: (Rule) => Rule.required(),
     }),
     richTextField("body", "Body"),
+    defineField({ name: "externalUrl", title: "External resource URL", type: "url", validation: (Rule) => Rule.uri({ scheme: ["http", "https"] }) }),
+    defineField({ name: "downloadFile", title: "Downloadable file", type: "file" }),
+    defineField({ name: "callToActionLabel", title: "Call to action label", type: "string" }),
+    displayOrderField(),
     featuredField(),
     seoTitleField(),
     seoDescriptionField(),

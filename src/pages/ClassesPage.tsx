@@ -14,7 +14,7 @@ function formatDate(value?: string) {
   if (!value) return "";
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return value;
-  return new Intl.DateTimeFormat("en", { dateStyle: "medium", timeStyle: value.includes("T") ? "short" : undefined }).format(date);
+  return new Intl.DateTimeFormat("en-GB", { dateStyle: "long", timeStyle: value.includes("T") ? "short" : undefined }).format(date);
 }
 
 export function ClassesPage() {
@@ -69,5 +69,5 @@ export function ClassesPage() {
 function UpcomingCard({ item }: { item: ReturnType<typeof resolveClassesContent>["records"][number] }) {
   const date = formatDate(item.startDate ?? item.date);
   const instructors = item.instructorNames?.length ? item.instructorNames.join(", ") : item.instructor;
-  return <article className="surface-card overflow-hidden">{item.image ? <img src={sanityImageSrc(item.image, { width: 1200, height: 900 }) ?? ""} alt={item.altText || item.title} className="aspect-[4/3] w-full object-cover" width="1200" height="900" loading="lazy" decoding="async" /> : null}<div className="space-y-4 p-6"><div className="flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-brand-accent"><span>{item.programmeType ?? "Training"}</span>{date ? <span>{date}</span> : null}{item.duration ? <span>{item.duration}</span> : null}</div><h3 className="text-2xl font-semibold text-brand-navy">{item.title}</h3><p className="text-sm leading-7 text-brand-charcoal/80">{item.shortDescription}</p>{instructors ? <p className="text-sm text-brand-charcoal/70">Instructor: {instructors}</p> : null}<div className="flex flex-wrap items-center gap-3">{item.registrationUrl ? <a href={item.registrationUrl} target="_blank" rel="noreferrer" className="btn-primary">{item.callToActionLabel ?? "Register"}</a> : <Link to="/contact" className="btn-secondary">Ask About This Session</Link>}</div></div></article>;
+  return <article className="surface-card overflow-hidden">{item.image ? <img src={sanityImageSrc(item.image, { width: 1200, height: 900 }) ?? ""} alt={item.altText || item.title} className="aspect-[4/3] w-full object-cover" width="1200" height="900" loading="lazy" decoding="async" /> : null}<div className="space-y-4 p-6"><div className="flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-brand-accent"><span>{item.status === "enrolling" ? "Enrolling" : "Upcoming"}</span>{date ? <span>{date}</span> : null}{item.duration ? <span>{item.duration}</span> : null}</div><h3 className="text-2xl font-semibold text-brand-navy">{item.title}</h3><p className="text-sm leading-7 text-brand-charcoal/80">{item.shortDescription}</p>{instructors ? <p className="text-sm text-brand-charcoal/70">Instructor: {instructors}</p> : null}<div className="flex flex-wrap items-center gap-3">{item.registrationUrl ? <a href={item.registrationUrl} target="_blank" rel="noopener noreferrer" className="btn-primary">{item.callToActionLabel ?? "Register"}</a> : <Link to="/contact" className="btn-secondary">Ask About This Session</Link>}</div></div></article>;
 }

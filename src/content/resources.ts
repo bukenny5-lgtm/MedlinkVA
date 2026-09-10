@@ -1,20 +1,22 @@
 export const resourcesContent = {
   hero: {
     eyebrow: "Resources",
-    title: "Ideas for healthcare administration and virtual support",
+    title: "Resources for Virtual Medical Assistants & Healthcare Teams",
     description:
-      "Find resource updates for Virtual Medical Assistants and healthcare teams interested in organized, thoughtful administrative work.",
+      "Explore practical guides, workflow tips, training insights, and educational resources designed to support Virtual Medical Assistants and healthcare practices.",
     actions: [
       { label: "Explore Services", to: "/services", variant: "primary" as const },
       { label: "Book a Consultation", to: "/book-consultation", variant: "secondary" as const },
     ],
   },
   categories: [
-    "Healthcare Operations",
-    "Virtual Assistance",
-    "Practice Efficiency",
-    "Administrative Workflows",
-    "Career & Training Resources",
+    "VMA Training",
+    "Healthcare Administration",
+    "Career Development",
+    "Practice Workflows",
+    "Insurance & Billing",
+    "AI & Automation",
+    "Remote Patient Monitoring",
   ],
   editorialNote:
     "Have a topic in mind? Contact us with your questions.",

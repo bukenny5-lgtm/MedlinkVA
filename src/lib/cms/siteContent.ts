@@ -5,6 +5,7 @@ import { homeContent as fallbackHomeContent } from "../../content/home";
 import { jobsContent as fallbackJobsContent } from "../../content/jobs";
 import { localProducts, productsContent as fallbackProductsContent, type LocalProduct } from "../../content/products";
 import { resourcesContent as fallbackResourcesContent } from "../../content/resources";
+import { fallbackUpcomingTraining, upcomingTrainingDate } from "../../content/upcomingTraining";
 import { servicesContent as fallbackServicesContent } from "../../content/services";
 import { siteContent as fallbackSiteContent } from "../../content/site";
 import { teamMembers as fallbackTeamMembers } from "../../content/team";
@@ -337,7 +338,9 @@ export function resolveJobsContent(bundle: CmsBundle | null): JobsPageContent {
 
 export function resolveClassesContent(bundle: CmsBundle | null): ClassesPageContent {
   const site = mapSiteSettings(bundle);
-  const records = bundle?.classes ?? [];
+  const cmsRecords = bundle?.classes ?? [];
+  const hasVerifiedUpcoming = cmsRecords.some((item) => (item.startDate ?? item.date)?.startsWith(upcomingTrainingDate));
+  const records = hasVerifiedUpcoming ? cmsRecords : [...cmsRecords, fallbackUpcomingTraining];
 
   return {
     ...fallbackClassesContent,
