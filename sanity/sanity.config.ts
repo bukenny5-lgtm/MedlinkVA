@@ -6,6 +6,7 @@ import { generateCertificateNumberAction } from "./actions/generateCertificateNu
 import { generateCertificatePdfAction } from "./actions/generateCertificatePdfAction";
 import { issueCohortCertificatesTool } from "./tools/issueCohortCertificatesV2";
 import { historicalCertificateMigrationTool } from "./tools/historicalCertificateMigration";
+import { certificateTestDataCleanupTool } from "./tools/certificateTestDataCleanup";
 
 const singletonDocumentActions = new Set(["publish", "discardChanges", "restore"]);
 
@@ -16,7 +17,7 @@ export default defineConfig({
   dataset: process.env.SANITY_STUDIO_DATASET ?? "production",
   apiVersion: process.env.SANITY_STUDIO_API_VERSION ?? "2026-03-30",
   plugins: [structureTool({ structure })],
-  tools: (prev) => [...prev, issueCohortCertificatesTool, historicalCertificateMigrationTool],
+  tools: (prev) => [...prev, issueCohortCertificatesTool, historicalCertificateMigrationTool, certificateTestDataCleanupTool],
   schema: {
     types: schemaTypes,
     templates: (templates) => templates.filter(({ schemaType }) => !singletonTypes.has(schemaType)),

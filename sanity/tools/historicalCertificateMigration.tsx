@@ -3,6 +3,7 @@ import { useRouter } from "sanity/router";
 import { useEffect, useMemo, useState } from "react";
 import { allocateCertificateNumbers } from "../lib/certificateNumber";
 import { parseSpreadsheetRows } from "../lib/recipientImport";
+import { extractPdfRecipients, type PdfRecipientExtraction } from "../lib/pdfRecipientExtraction";
 
 const apiVersion = "2026-09-03";
 const maxRecords = 100;
@@ -12,6 +13,7 @@ type Signatory = { _id: string; name: string; role: string };
 type Existing = { certificateNumber?: string; legacyCertificateNumber?: string; recipientName?: string; trainingTitle?: string; issueDate?: string };
 type ImportedRow = { recipientName?: string; programCode?: string; trainingTitle?: string; trainingDuration?: string; issueDate?: string; legacyCertificateNumber?: string; cohort?: string; status?: string };
 type MigrationRow = { recipientName: string; programCode: string; trainingTitle: string; trainingDuration: string; issueDate: string; legacyCertificateNumber?: string; cohort?: string; status: "valid" | "revoked"; certificateNumber: string; issue: string };
+type PdfNameRow = { fileName: string; pageNumber: number; name: string; confidence: string };
 
 const clean = (value: unknown) => String(value ?? "").trim().replace(/\s+/g, " ");
 const headerKey = (value: unknown) => clean(value).toLowerCase();
@@ -37,7 +39,7 @@ const duplicateKeys = (values: string[]) => {
 export function HistoricalCertificateMigrationTool() {
   const client = useClient({ apiVersion });
   const router = useRouter();
-  const [mode, setMode] = useState<"manual" | "upload">("manual");
+  const [mode, setMode] = useState<"manual" | "upload" | "pdf">("manual");
   const [programCode, setProgramCode] = useState("RCM");
   const [trainingTitle, setTrainingTitle] = useState("");
   const [duration, setDuration] = useState("");
@@ -51,6 +53,8 @@ export function HistoricalCertificateMigrationTool() {
   const [importedRows, setImportedRows] = useState<ImportedRow[] | null>(null);
   const [importedFile, setImportedFile] = useState("");
   const [worksheet, setWorksheet] = useState("");
+  const [pdfExtractions, setPdfExtractions] = useState<PdfRecipientExtraction[]>([]);
+  const [pdfNames, setPdfNames] = useState<PdfNameRow[]>([]);
   const [preview, setPreview] = useState<MigrationRow[] | null>(null);
   const [created, setCreated] = useState<string[]>([]);
   const [message, setMessage] = useState("");
@@ -110,6 +114,38 @@ export function HistoricalCertificateMigrationTool() {
     anchor.download = "MedLink-VA-Historical-Certificate-Migration-Template.csv";
     anchor.click();
     URL.revokeObjectURL(url);
+  };
+
+  const extractPdfFiles = async (files: FileList | null) => {
+    if (!files?.length) return;
+    setBusy(true);
+    setError("");
+    setMessage("");
+    try {
+      const extracted = await extractPdfRecipients([...files]);
+      const names = extracted.flatMap((file) => file.pages.map((page) => ({ fileName: file.fileName, pageNumber: page.pageNumber, name: page.detectedName, confidence: page.confidence })));
+      setPdfExtractions(extracted);
+      setPdfNames(names);
+      setMode("pdf");
+      setMessage(`${extracted.length} PDF file${extracted.length === 1 ? "" : "s"} parsed locally. Review every extracted name before using it.`);
+    } catch (reason) {
+      setPdfExtractions([]);
+      setPdfNames([]);
+      setError(reason instanceof Error ? reason.message : "The PDF files could not be read.");
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const updatePdfName = (index: number, name: string) => setPdfNames((current) => current.map((item, itemIndex) => itemIndex === index ? { ...item, name, confidence: name.trim() ? "Edited" : "Removed" } : item));
+  const useExtractedNames = () => {
+    const names = pdfNames.map((item) => item.name.trim()).filter(Boolean);
+    if (!names.length) return setError("Add or restore at least one extracted recipient name before continuing.");
+    if (new Set(names.map((name) => name.toLowerCase())).size !== names.length && !window.confirm("Duplicate extracted names are present. Keep them for review?")) return;
+    setRecipients(names.join("\n"));
+    setMode("manual");
+    setPreview(null);
+    setMessage(`${names.length} extracted recipient names added to Historical Recipients. Review and edit them before migration.`);
   };
 
   const resolvedInputs = () => importedRows?.length
@@ -201,6 +237,8 @@ export function HistoricalCertificateMigrationTool() {
     setMessage("");
     setError("");
     setMode("manual");
+    setPdfExtractions([]);
+    setPdfNames([]);
   };
 
   const issueCount = preview?.filter((row) => row.issue !== "Valid").length ?? 0;
@@ -246,7 +284,11 @@ export function HistoricalCertificateMigrationTool() {
         .historical-table tbody tr:last-child td{border-bottom:0}
         .historical-valid{color:#2e7d32;font-weight:600}
         .historical-invalid{color:#b3261e;font-weight:600}
+        .historical-pdf-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 16px;max-height:360px;overflow:auto;margin-top:16px}
+        .historical-pdf-row{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:center;padding:10px;background:#f7fafc;border:1px solid #e2e7eb;border-radius:5px}
+        .historical-pdf-meta{color:#5b6570;font-size:12px}
         @media(max-width:760px){.historical-page{padding:20px}.historical-row-three,.historical-row-two{grid-template-columns:1fr}.historical-summary{grid-template-columns:1fr}.historical-mode{margin-bottom:20px}.historical-card{padding:16px}}
+        @media(max-width:760px){.historical-pdf-grid{grid-template-columns:1fr}}
       `}</style>
 
       <h1>Historical Certificate Migration</h1>
@@ -257,6 +299,7 @@ export function HistoricalCertificateMigrationTool() {
       <div className="historical-mode">
         <button className="historical-button" type="button" onClick={() => setMode("manual")} disabled={mode === "manual"}>Manual Entry</button>
         <button className="historical-button" type="button" onClick={() => setMode("upload")} disabled={mode === "upload"}>Upload Excel / CSV</button>
+        <button className="historical-button" type="button" onClick={() => setMode("pdf")} disabled={mode === "pdf"}>Extract from PDF</button>
       </div>
 
       {mode === "upload" ? <section className="historical-card historical-upload">
@@ -267,6 +310,24 @@ export function HistoricalCertificateMigrationTool() {
           <button className="historical-button" type="button" onClick={downloadTemplate}>Download Migration Template</button>
         </div>
         {importedFile ? <p className="historical-helper">File: {importedFile}{worksheet ? ` · Worksheet: ${worksheet}` : ""}</p> : null}
+      </section> : null}
+
+      {mode === "pdf" ? <section className="historical-card historical-upload">
+        <h2>PDF recipient extraction</h2>
+        <p className="historical-helper">Select up to 10 PDFs, each up to 10 MB. Files are parsed locally in this browser, are not uploaded to Sanity, and never create certificates automatically.</p>
+        <label className="historical-label">Choose PDF files<input className="historical-input" type="file" accept=".pdf,application/pdf" multiple onChange={(event) => { void extractPdfFiles(event.target.files); event.currentTarget.value = ""; }} /></label>
+        {pdfExtractions.length ? <>
+          <div className="historical-summary">
+            <div className="historical-stat"><strong>{pdfExtractions.length}</strong><span>PDF files</span></div>
+            <div className="historical-stat"><strong>{pdfNames.length}</strong><span>Pages processed</span></div>
+            <div className="historical-stat"><strong>{pdfNames.filter((item) => item.name.trim()).length}</strong><span>Names detected</span></div>
+            <div className="historical-stat"><strong>{pdfNames.filter((item) => !item.name.trim() || item.confidence !== "High").length}</strong><span>Needs review</span></div>
+            <div className="historical-stat"><strong>{duplicateKeys(pdfNames.map((item) => item.name).filter(Boolean)).length}</strong><span>Duplicates</span></div>
+          </div>
+          <div className="historical-pdf-grid">{pdfNames.map((item, index) => <label className="historical-pdf-row" key={`${item.fileName}-${item.pageNumber}-${index}`}><span className="historical-pdf-meta">{item.fileName}<br />Page {item.pageNumber}<br />{item.confidence}</span><input className="historical-input" value={item.name} onChange={(event) => updatePdfName(index, event.target.value)} aria-label={`Recipient name from ${item.fileName}, page ${item.pageNumber}`} placeholder="Editable recipient name" /></label>)}</div>
+          <div className="historical-actions"><button className="historical-button primary" type="button" onClick={useExtractedNames}>Use Extracted Names</button></div>
+          {pdfNames.some((item) => item.confidence === "Scanned or no selectable text") ? <p className="historical-helper">No selectable text was found on one or more pages. Those PDFs may be scanned; OCR is not enabled in this phase.</p> : null}
+        </> : null}
       </section> : null}
 
       <section className="historical-card">
