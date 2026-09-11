@@ -1,5 +1,6 @@
 import type { DocumentActionComponent } from "sanity";
 import { useClient, useDocumentOperation } from "sanity";
+import { allocateCertificateNumbers, issueDatePart } from "../lib/certificateNumber";
 
 type CertificateDraft = {
   certificateNumber?: string;
@@ -9,16 +10,11 @@ type CertificateDraft = {
 
 const apiVersion = "2026-09-03";
 
-function datePart(issueDate: string) {
-  const value = issueDate.slice(0, 10);
-  return /^\d{4}-\d{2}-\d{2}$/.test(value) ? value.replaceAll("-", "") : null;
-}
-
 export const generateCertificateNumberAction: DocumentActionComponent = (props) => {
   const client = useClient({ apiVersion });
   const { patch } = useDocumentOperation(props.id, props.type);
   const document = (props.draft ?? props.published ?? {}) as CertificateDraft;
-  const date = document.issueDate ? datePart(document.issueDate) : null;
+  const date = document.issueDate ? issueDatePart(document.issueDate) : null;
   const canGenerate = !document.certificateNumber && Boolean(date && document.programCode);
 
   return {
@@ -27,16 +23,9 @@ export const generateCertificateNumberAction: DocumentActionComponent = (props) 
     disabled: !canGenerate,
     onHandle: async () => {
       if (!canGenerate || !date || !document.programCode) return;
-      const prefix = `MLVA-${document.programCode}-${date}-`;
       const existing = await client.fetch<string[]>(`*[_type == "certificate" && defined(certificateNumber)].certificateNumber`, {}, { perspective: "previewDrafts" });
-      const used = new Set(existing);
-      let sequence = 1;
-      let candidate = `${prefix}${String(sequence).padStart(3, "0")}`;
-      while (used.has(candidate)) {
-        sequence += 1;
-        candidate = `${prefix}${String(sequence).padStart(3, "0")}`;
-      }
-      if (used.has(candidate)) throw new Error("Certificate number already exists. Refresh and try again.");
+      const [candidate] = allocateCertificateNumbers(existing, document.programCode, document.issueDate!, 1);
+      if (!candidate) throw new Error("Certificate number could not be allocated.");
       patch.execute([{ set: { certificateNumber: candidate } }]);
       props.onComplete();
     },

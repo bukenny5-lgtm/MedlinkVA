@@ -3,7 +3,8 @@ import { structureTool } from "sanity/structure";
 import { schemaTypes } from "./schemaTypes";
 import { singletonTypes, structure } from "./structure";
 import { generateCertificateNumberAction } from "./actions/generateCertificateNumber";
-import { generateCertificatePdfAction } from "./actions/generateCertificatePdf";
+import { generateCertificatePdfAction } from "./actions/generateCertificatePdfAction";
+import { issueCohortCertificatesTool } from "./tools/issueCohortCertificatesV2";
 
 const singletonDocumentActions = new Set(["publish", "discardChanges", "restore"]);
 
@@ -14,6 +15,7 @@ export default defineConfig({
   dataset: process.env.SANITY_STUDIO_DATASET ?? "production",
   apiVersion: process.env.SANITY_STUDIO_API_VERSION ?? "2026-03-30",
   plugins: [structureTool({ structure })],
+  tools: (prev) => [...prev, issueCohortCertificatesTool],
   schema: {
     types: schemaTypes,
     templates: (templates) => templates.filter(({ schemaType }) => !singletonTypes.has(schemaType)),
