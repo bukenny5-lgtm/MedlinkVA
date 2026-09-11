@@ -1,41 +1,35 @@
-# Certificate migration readiness
+# Historical certificate migration
 
-Certificate records are managed in Sanity as `certificate` documents and verified through the Cloudflare Pages Function at `/api/certificates/verify`.
+Historical certificates are registered through the Sanity Studio tool **Historical Certificate Migration**. This workflow preserves the real original issue date and creates a new verification-system record timestamp.
 
-## Import fields
+## Rules
 
-Historical imports should preserve the original values where known:
+- `issueDate` is the original historical issue date.
+- `verificationRecordCreatedAt` is the migration timestamp.
+- `originallyIssuedBeforeVerificationSystem` is set to `true`.
+- A genuine prior number belongs in `legacyCertificateNumber`; missing legacy numbers remain blank.
+- Standard numbers use the shared allocator and the original issue date.
+- Every migrated record receives a new UUID verification token.
+- Existing recipient/training/date matches and number collisions block the migration.
+- All certificate records and one historical `certificateCohort` are written in one transaction.
 
-- `certificateNumber`: the visible identifier used by the certificate today
-- `programCode`: one of the controlled Studio codes (`RCM`, `VMA`, `MBC`, or `OTHER`)
-- `legacyCertificateNumber`: an earlier identifier when a new standard number is also assigned
-- `recipientName`
-- `trainingTitle`
-- `trainingDuration`
-- `issueDate`: the original issue date in `YYYY-MM-DD` format
-- `trainerNames`: an array of names, when known
-- `cohort`, when known
-- `status`: `valid` or `revoked`
-- `verificationToken`: a unique URL-safe random token
-- `originallyIssuedBeforeVerificationSystem`: `true` for historical records
-- `verificationRecordCreatedAt`: the date the record enters the verification system
+## Workflow
 
-Do not replace an original issue date with the migration date. Do not populate unknown recipient, trainer, or course details by inference.
+Enter the shared historical metadata, recipients, optional legacy numbers, and existing signatory references. Review the dry-run preview and proposed numbers, then explicitly confirm the migration. The reference certificate PDF and its names are not imported automatically.
 
-## Controlled NDJSON import
+Historical cohorts can be reopened through **Issued Cohorts**. Existing cohort PDF and ZIP actions reuse the same finalized renderer and QR verification flow. Revoked records retain the existing PDF-generation restrictions.
 
-Prepare and review an NDJSON file outside the repository, then run a controlled Sanity import against the intended dataset:
+## Rollback guidance
 
-```text
-sanity dataset import certificates.ndjson production
+Do not delete records automatically. Identify a migration by its historical cohort title, `historical: true`, `createdAt`, and the references in that cohort. Review the affected records, export any required audit information, and remove them only through a separately approved, controlled Sanity operation.
+
+Example source values:
+
+```csv
+Recipient Name,Program Code,Training Title,Training Duration,Original Issue Date,Legacy Certificate Number,Cohort,Status
+Historical Test One,RCM,Historical Migration Test,1 hour,2026-08-01,,Phase 9D Test,valid
 ```
 
-Before importing, check that `certificateNumber`, `legacyCertificateNumber`, and `verificationToken` are unique within the file and against existing Sanity records. Never use an import that silently overwrites an existing certificate.
+Phase 9D.1 also provides shared local spreadsheet parsing helpers for `.xlsx` and `.csv` files, with a 5 MB limit, first-worksheet behavior, normalized headers, blank-row handling, and duplicate reporting. Spreadsheet values must be reviewed in preview before any migration transaction. The reference PDF and real historical batch are never auto-imported.
 
-The Studio generates a random UUID token for new documents. Imported historical records should receive a separate random token; the certificate number must never be reused as the token.
-
-## New certificate workflow
-
-Create a Certificate document, enter the recipient, program code, training title, duration, issue date, trainers, optional cohort, and status, then choose **Generate certificate number** from the document actions. The action reads existing certificate numbers in the Studio perspective, selects the next available zero-padded sequence for that program/date, and writes the read-only number. If a collision is detected, the action advances to the next available sequence rather than overwriting a record.
-
-The known Revenue Cycle Management, Medical Billing & Coding example may be represented as `trainingTitle` with `trainingDuration` set to `4 hours` only when an actual verified certificate source supplies those values. No recipient records are included by this project phase.
+The Historical Certificate Migration tool now exposes Manual Entry and Upload Excel / CSV modes. Uploads show merged shared defaults and row overrides in a review table before confirmation. Required values remain recipient, program code, training title, duration, and an unambiguous `YYYY-MM-DD` original issue date. Row values override shared defaults when present; blank row values use the shared defaults. Invalid rows, duplicate historical matches, legacy-number collisions, and certificate-number collisions block confirmation.
