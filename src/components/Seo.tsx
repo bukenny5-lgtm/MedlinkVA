@@ -12,8 +12,9 @@ type SeoProps = {
 };
 
 const defaultDescription =
-  "MedLink VA offers practical Virtual Medical Assistant training and remote healthcare administrative support for modern practices.";
+  "MedLink VA provides Virtual Medical Assistant training and healthcare administrative support for individuals, healthcare teams, and modern practices.";
 const productionBaseUrl = "https://medlinkva.com";
+const metadataBrandName = "MedLink VA";
 
 function setOrCreateMeta(selector: string, attribute: "name" | "property", key: string, value: string) {
   const existing = document.head.querySelector<HTMLMetaElement>(selector);
@@ -77,7 +78,7 @@ export function Seo({
   const site = resolveResolvedSiteSettings(cmsBundle);
 
   useEffect(() => {
-    const fullTitle = title.toLowerCase().includes(site.brandName.toLowerCase()) ? title : `${title} | ${site.brandName}`;
+    const fullTitle = title.toLowerCase().includes(metadataBrandName.toLowerCase()) ? title : `${title} | ${metadataBrandName}`;
     const origin = productionBaseUrl;
     const currentUrl = new URL(window.location.pathname, origin).href;
     const absoluteImage = new URL(image ?? clientAssets.hero, origin).href;
@@ -103,6 +104,7 @@ export function Seo({
     setOrCreateMeta('meta[property="og:title"]', "property", "og:title", fullTitle);
     setOrCreateMeta('meta[property="og:description"]', "property", "og:description", description);
     setOrCreateMeta('meta[property="og:type"]', "property", "og:type", "website");
+    setOrCreateMeta('meta[property="og:site_name"]', "property", "og:site_name", metadataBrandName);
     setOrCreateMeta('meta[property="og:url"]', "property", "og:url", currentUrl);
     setOrCreateMeta('meta[property="og:image"]', "property", "og:image", absoluteImage);
     setOrCreateMeta('meta[name="twitter:card"]', "name", "twitter:card", "summary_large_image");
@@ -115,14 +117,16 @@ export function Seo({
       {
         "@context": "https://schema.org",
         "@type": "Organization",
-        name: site.brandName,
+        name: metadataBrandName,
         url: origin,
         logo: new URL(clientAssets.logo, origin).href,
+        email: site.contactEmail || "info@medlinkva.com",
+        telephone: site.phone || "+256785724420",
       },
       {
         "@context": "https://schema.org",
         "@type": "WebSite",
-        name: site.brandName,
+        name: metadataBrandName,
         url: origin,
       },
     ]);
@@ -130,7 +134,7 @@ export function Seo({
     const pathname = window.location.pathname;
 
     if (pathname !== "/") {
-      const breadcrumbLabel = pageLabelMap[pathname] ?? fullTitle.replace(` | ${site.brandName}`, "");
+      const breadcrumbLabel = pageLabelMap[pathname] ?? fullTitle.replace(` | ${metadataBrandName}`, "");
 
       upsertJsonLd("medlink-va-breadcrumbs", {
         "@context": "https://schema.org",

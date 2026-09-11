@@ -77,7 +77,7 @@ export function CertificateVerifyPage() {
   };
 
   return <article>
-    <Seo title={isTokenRoute ? "Certificate Result | MedLink VA" : "Certificate Verification | MedLink VA"} description="Verify the authenticity and status of certificates issued by MedLink VA." robots={isTokenRoute ? "noindex,nofollow" : "index,follow"} />
+    <Seo title={isTokenRoute ? "Certificate Result | MedLink VA" : "Certificate Verification | MedLink VA"} description="Verify the authenticity and status of certificates issued by MedLink VA." robots={isTokenRoute ? "noindex,follow" : "index,follow"} />
     <PageHero eyebrow="Certificate verification" title="Verify a MedLink VA certificate" description="Use the certificate number printed on a MedLink VA certificate, or open a verification link supplied with the certificate." />
     <HomeSection className="bg-brand-background py-16 sm:py-20">
       <div className="mx-auto max-w-3xl">

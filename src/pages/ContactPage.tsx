@@ -124,7 +124,7 @@ export function ContactPage() {
   return (
     <article className="space-y-12">
       <Seo
-        title="Contact Medlink VA"
+        title="Contact MedLink VA"
         description="Send Medlink VA a business inquiry or support question through a secure contact form that keeps sensitive patient details out of the public page."
         image={clientAssets.supportPhoto}
       />

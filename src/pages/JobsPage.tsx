@@ -15,8 +15,9 @@ export function JobsPage() {
   return (
     <article className="space-y-12">
       <Seo
-        title="Careers & Opportunities | Medlink VA"
+        title="Careers & Opportunities | MedLink VA"
         description="There are no current openings at MedLink VA. Explore training or contact us with questions about future opportunities."
+        robots={hasRecords ? "index,follow" : "noindex,follow"}
       />
 
       <PageHero

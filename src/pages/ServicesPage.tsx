@@ -20,14 +20,14 @@ export function ServicesPage() {
     description: service.description,
     provider: {
       "@type": "Organization",
-      name: "Medlink VA",
+      name: "MedLink VA",
     },
   }));
 
   return (
     <article className="space-y-12">
       <Seo
-        title="Medlink VA Services | Virtual Medical Assistant Support"
+        title="Healthcare Administrative & Virtual Medical Assistant Services | MedLink VA"
         description={servicesContent.hero.description}
         image={clientAssets.hero}
         structuredData={serviceSchemas}

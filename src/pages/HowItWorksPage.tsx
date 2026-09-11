@@ -11,7 +11,7 @@ export function HowItWorksPage() {
   return (
     <article className="space-y-12">
       <Seo
-        title="How Medlink VA Works | Virtual Healthcare Support"
+        title="How MedLink VA Works | Virtual Healthcare Support"
         description="See the four-step support process Medlink VA uses to frame a consultation, define support needs, begin workflow support, and grow with ongoing help."
       />
 

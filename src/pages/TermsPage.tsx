@@ -10,7 +10,7 @@ export function TermsPage() {
   return (
     <article className="space-y-12">
       <Seo
-        title="Terms of Use | Medlink VA"
+        title="Terms of Use | MedLink VA"
         description="Review the provisional terms of use for Medlink VA. The page covers website use, informational content, intellectual property, external links, acceptable use, and a legal review note."
       />
 

@@ -18,8 +18,8 @@ export function HomePage() {
   return (
     <>
       <Seo
-        title="MedLink VA | Virtual Medical Assistant Training & Support"
-        description="Practical Virtual Medical Assistant training and remote healthcare administrative support for scheduling, communication, and everyday practice operations."
+        title="Virtual Medical Assistant Training & Healthcare Support | MedLink VA"
+        description="MedLink VA provides Virtual Medical Assistant training and healthcare administrative support for individuals, healthcare teams, and modern practices."
         image={clientAssets.hero}
       />
       <HeroSection />

@@ -10,7 +10,7 @@ export type RouteSummary = {
 };
 
 export const siteContent = {
-  brandName: "Medlink VA",
+  brandName: "MedLink VA",
   brandTagline: "Virtual Medical Assistant Training & Support",
   primaryCtaLabel: "Book a Consultation",
   secondaryCtaLabel: "Explore Services",

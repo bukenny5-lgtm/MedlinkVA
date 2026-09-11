@@ -123,7 +123,7 @@ export function BookConsultationPage() {
   return (
     <article className="space-y-12">
       <Seo
-        title="Book a Consultation | Medlink VA"
+        title="Book a Consultation | MedLink VA"
         description="Book a consultation with Medlink VA through a secure request form that captures business context, preferred contact details, and support needs."
         image={clientAssets.supportPhoto}
       />

@@ -10,7 +10,7 @@ export function PrivacyPage() {
   return (
     <article className="space-y-12">
       <Seo
-        title="Privacy Policy | Medlink VA"
+        title="Privacy Policy | MedLink VA"
         description="Review the provisional privacy policy structure for Medlink VA, including forms, newsletter signup, third-party services, external links, and a recommended legal review note."
       />
 
