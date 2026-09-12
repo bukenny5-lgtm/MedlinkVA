@@ -11,7 +11,7 @@ export function TermsPage() {
     <article className="space-y-12">
       <Seo
         title="Terms of Use | MedLink VA"
-        description="Review the provisional terms of use for Medlink VA. The page covers website use, informational content, intellectual property, external links, acceptable use, and a legal review note."
+        description="Read the terms that apply when you access or use the MedLink VA website, training information, resources, consultation forms, certificate verification tools, and related online services."
       />
 
       <PageHero
@@ -19,6 +19,8 @@ export function TermsPage() {
         title={termsContent.hero.title}
         description={termsContent.hero.description}
       />
+
+      <p className="mx-auto w-full max-w-7xl px-4 text-sm text-brand-charcoal/65 sm:px-6 lg:px-8">Last updated: {termsContent.lastUpdated}</p>
 
       <HomeSection className="bg-brand-background py-16 sm:py-20">
         <SectionHeading
@@ -36,29 +38,6 @@ export function TermsPage() {
               bullets={section.paragraphs.slice(1)}
             />
           ))}
-        </div>
-      </HomeSection>
-
-      <HomeSection className="bg-white py-16 sm:py-20">
-        <SectionHeading
-          eyebrow="Review note"
-          title="This page is a draft and needs legal review"
-          description={termsContent.note}
-        />
-
-        <div className="mt-8 grid gap-5 lg:grid-cols-3">
-          <InfoCard
-            title="Website use"
-            description="Visitors should use the site lawfully and respectfully."
-          />
-          <InfoCard
-            title="Information only"
-            description="Site content is informational and should not be treated as professional advice."
-          />
-          <InfoCard
-            title="Changes"
-            description="The terms can be updated as the business, site, or content model changes."
-          />
         </div>
       </HomeSection>
 

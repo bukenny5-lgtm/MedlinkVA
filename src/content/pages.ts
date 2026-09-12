@@ -130,7 +130,7 @@ export const pageContent = {
     ],
     actions: [
       { label: "Book a Consultation", to: "/book-consultation", variant: "primary" },
-      { label: "Privacy", to: "/privacy", variant: "secondary" },
+      { label: "Privacy Policy", to: "/privacy", variant: "secondary" },
     ],
   },
   bookConsultation: {
@@ -168,11 +168,11 @@ export const pageContent = {
     description:
       "Review the terms that apply when using the MedLink VA website.",
     bullets: [
-      "Final terms should be reviewed before launch.",
+      "These terms may be updated as the website and services change.",
       "Contact us if you have a question about these terms.",
     ],
     actions: [
-      { label: "Privacy", to: "/privacy", variant: "primary" },
+      { label: "Privacy Policy", to: "/privacy", variant: "primary" },
       { label: "Home", to: "/", variant: "secondary" },
     ],
   },

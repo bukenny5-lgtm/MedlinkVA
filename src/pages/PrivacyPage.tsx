@@ -11,7 +11,7 @@ export function PrivacyPage() {
     <article className="space-y-12">
       <Seo
         title="Privacy Policy | MedLink VA"
-        description="Review the provisional privacy policy structure for Medlink VA, including forms, newsletter signup, third-party services, external links, and a recommended legal review note."
+        description="Learn what information MedLink VA may collect through medlinkva.com, how it is used, and which services may process information on our behalf."
       />
 
       <PageHero
@@ -20,12 +20,16 @@ export function PrivacyPage() {
         description={privacyContent.hero.description}
       />
 
+      <p className="mx-auto w-full max-w-7xl px-4 text-sm text-brand-charcoal/65 sm:px-6 lg:px-8">Last updated: {privacyContent.lastUpdated}</p>
+
       <HomeSection className="bg-brand-background py-16 sm:py-20">
         <SectionHeading
           eyebrow="Policy sections"
           title="Privacy topics"
           description="Read about contact details, website use, and the handling of information."
         />
+
+        <p className="mt-8 rounded-2xl border border-brand-accent/30 bg-brand-sky/10 px-5 py-4 text-sm font-medium leading-7 text-brand-navy">{privacyContent.warning}</p>
 
         <div className="mt-8 grid gap-5 lg:grid-cols-2">
           {privacyContent.sections.map((section) => (
@@ -36,29 +40,6 @@ export function PrivacyPage() {
               bullets={section.paragraphs.slice(1)}
             />
           ))}
-        </div>
-      </HomeSection>
-
-      <HomeSection className="bg-white py-16 sm:py-20">
-        <SectionHeading
-          eyebrow="Review note"
-          title="This text is provisional, not legal advice"
-          description={privacyContent.note}
-        />
-
-        <div className="mt-8 grid gap-5 lg:grid-cols-3">
-          <InfoCard
-            title="Forms"
-            description="Public forms should stay focused on business contact details rather than sensitive patient information."
-          />
-          <InfoCard
-            title="Third parties"
-            description="Any future provider integrations should be disclosed and reviewed before launch."
-          />
-          <InfoCard
-            title="Updates"
-            description="This policy should be revisited if analytics, newsletters, or collection methods change."
-          />
         </div>
       </HomeSection>
 

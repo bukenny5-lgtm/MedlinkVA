@@ -30,8 +30,8 @@ export const siteContent = {
     { label: "Contact", path: "/contact" },
   ] satisfies NavigationItem[],
   footerNavigation: [
-    { label: "Privacy", path: "/privacy" },
-    { label: "Terms", path: "/terms" },
+    { label: "Privacy Policy", path: "/privacy" },
+    { label: "Terms of Use", path: "/terms" },
   ] satisfies NavigationItem[],
   routeSummaries: [
     {
