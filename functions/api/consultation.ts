@@ -30,7 +30,7 @@ function buildConsultationNotificationText(payload: ConsultationSubmission) {
     `Last name: ${payload.lastName}`,
     `Email: ${payload.email}`,
     payload.phone ? `Phone: ${payload.phone}` : "",
-    `Practice / organization: ${payload.organization}`,
+    payload.organization ? `Practice / organization: ${payload.organization}` : "",
     `Practice type: ${payload.practiceType}`,
     `Services of interest: ${payload.servicesOfInterest.join(", ")}`,
     `Preferred contact method: ${payload.preferredContactMethod}`,
@@ -69,7 +69,7 @@ function parseConsultationSubmission(body: Record<string, unknown>): Consultatio
     lastName: readStringField(body, "consult-last-name", { minLength: 1, maxLength: 120 }),
     email: readStringField(body, "consult-email", { minLength: 5, maxLength: 254 }),
     phone: readOptionalNormalizedPhoneField(body, "consult-phone", "consult-phone-country"),
-    organization: readStringField(body, "consult-organization", { minLength: 1, maxLength: 150 }),
+    organization: readOptionalStringField(body, "consult-organization", 150),
     practiceType: readStringField(body, "consult-practice-type", { minLength: 1, maxLength: 150 }),
     servicesOfInterest: readStringArrayField(body, "services-of-interest", 12),
     preferredContactMethod: readStringField(body, "preferred-contact-method", { minLength: 1, maxLength: 120 }),
@@ -93,7 +93,6 @@ export async function onRequest(context: { request: Request; env: LeadEnv }) {
       attributes: {
         FIRSTNAME: payload.firstName,
         LASTNAME: payload.lastName,
-        COMPANY: payload.organization,
         MEDLINK_PRACTICE_TYPE: payload.practiceType,
         MEDLINK_SERVICES_OF_INTEREST: payload.servicesOfInterest.join(", "),
         MEDLINK_PREFERRED_CONTACT_METHOD: payload.preferredContactMethod,
@@ -101,6 +100,7 @@ export async function onRequest(context: { request: Request; env: LeadEnv }) {
         MEDLINK_AVAILABILITY_NOTE: payload.availability,
         MEDLINK_LEAD_SOURCE: "Consultation request",
         ...(payload.phone ? { SMS: payload.phone } : {}),
+        ...(payload.organization ? { COMPANY: payload.organization } : {}),
       },
     }),
     onSuccess: async (payload, env) => {

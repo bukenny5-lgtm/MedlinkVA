@@ -215,7 +215,7 @@ export const consultationContent = {
         label: "Practice / organization",
         type: "text",
         placeholder: "Practice or organization name",
-        required: true,
+        helpText: "Optional.",
       },
       {
         id: "consult-practice-type",

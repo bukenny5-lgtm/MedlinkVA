@@ -95,7 +95,7 @@ export function BookConsultationPage() {
       "consult-email": readTrimmedField(formData, "consult-email"),
       "consult-phone": normalizedPhone.normalized ?? "",
       "consult-phone-country": phoneCountry,
-      "consult-organization": readTrimmedField(formData, "consult-organization"),
+      "consult-organization": readTrimmedOptionalField(formData, "consult-organization"),
       "consult-practice-type": readTrimmedField(formData, "consult-practice-type"),
       "services-of-interest": readMultiValueField(formData, "services-of-interest"),
       "preferred-contact-method": readTrimmedField(formData, "preferred-contact-method"),
