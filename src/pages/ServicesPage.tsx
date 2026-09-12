@@ -8,6 +8,7 @@ import { ResponsiveDisclosure } from "../components/shared/ResponsiveDisclosure"
 import { InfoCard } from "../components/shared/InfoCard";
 import { howItWorksContent } from "../content/howItWorks";
 import { clientAssets } from "../lib/assets";
+import { TestimonialSection } from "../components/shared/TestimonialSection";
 import { useCmsBundle } from "../lib/cms/SiteContentProvider";
 import { resolveServicesContent } from "../lib/cms/siteContent";
 
@@ -45,7 +46,7 @@ export function ServicesPage() {
         <SectionHeading
           eyebrow="Service library"
           title="Find the support category that fits your practice"
-          description="Start with the workflow creating the most friction, then explore the service area that could help your team move forward."
+          description="Choose the area where your team needs the most support, then explore the services designed to strengthen that part of your workflow."
         />
 
         <div className="mt-8 grid gap-5 lg:grid-cols-2">
@@ -107,6 +108,8 @@ export function ServicesPage() {
           ))}
         </div>
       </HomeSection>
+
+      <TestimonialSection audiences={["client", "practice"]} />
 
       <PageCta
         title={servicesContent.finalCta.title}

@@ -38,6 +38,24 @@ function buildContactNotificationText(payload: ContactSubmission) {
     .join("\n");
 }
 
+function buildVisitorConfirmationText(payload: ContactSubmission) {
+  return [
+    `Hello ${payload.firstName},`,
+    "",
+    "Thank you for contacting MedLink VA.",
+    "",
+    `We have received your inquiry about: ${payload.service}`,
+    "",
+    "A member of our team will review your request and contact you using the details you provided.",
+    "",
+    "If you need to reach us sooner:",
+    "info@medlinkva.com",
+    "+256 785 724 420",
+    "",
+    "MedLink VA",
+  ].join("\n");
+}
+
 function parseContactSubmission(body: Record<string, unknown>): ContactSubmission {
   return {
     firstName: readStringField(body, "contact-first-name", { minLength: 1, maxLength: 120 }),
@@ -77,22 +95,24 @@ export async function onRequest(context: { request: Request; env: LeadEnv }) {
       const fromName = env.BREVO_NOTIFICATION_FROM_NAME?.trim() || "MedLink VA Website";
       const toEmail = env.BREVO_NOTIFICATION_TO_EMAIL?.trim() || "info@medlinkva.com";
 
-      if (!fromEmail) {
-        return;
+      if (fromEmail) {
+        await sendBrevoTransactionalEmail(env.BREVO_API_KEY?.trim() ?? "", {
+          sender: { email: fromEmail, name: fromName },
+          subject: "New Contact Lead - MedLink VA Website",
+          textContent: buildContactNotificationText(payload),
+          to: [{ email: toEmail }],
+          replyTo: { email: payload.email },
+        });
       }
 
-      await sendBrevoTransactionalEmail(env.BREVO_API_KEY?.trim() ?? "", {
-        sender: {
-          email: fromEmail,
-          name: fromName,
-        },
-        subject: "New Contact Lead - MedLink VA Website",
-        textContent: buildContactNotificationText(payload),
-        to: [{ email: toEmail }],
-        replyTo: {
-          email: payload.email,
-        },
+      const confirmationSent = await sendBrevoTransactionalEmail(env.BREVO_API_KEY?.trim() ?? "", {
+        sender: { email: fromEmail || "info@medlinkva.com", name: "MedLink VA" },
+        subject: `MedLink VA — We received your ${payload.service} inquiry`,
+        textContent: buildVisitorConfirmationText(payload),
+        to: [{ email: payload.email }],
       });
+
+      return { confirmationSent };
     },
   });
 }

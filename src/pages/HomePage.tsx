@@ -13,6 +13,7 @@ import { TrustStrip } from "../components/home/TrustStrip";
 import { WhyMedlinkSection } from "../components/home/WhyMedlinkSection";
 import { WhoWeServeSection } from "../components/home/WhoWeServeSection";
 import { clientAssets } from "../lib/assets";
+import { TestimonialSection } from "../components/shared/TestimonialSection";
 
 export function HomePage() {
   return (
@@ -31,6 +32,7 @@ export function HomePage() {
       <WhoWeServeSection />
       <TeamSupportSection />
       <MeetTeamSection />
+      <TestimonialSection />
       <ProductsPreview />
       <ResourcesPreview />
       <NewsletterSection />

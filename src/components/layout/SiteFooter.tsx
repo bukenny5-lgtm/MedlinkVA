@@ -9,7 +9,7 @@ export function SiteFooter() {
 
   return (
     <footer className="border-t border-brand-border bg-brand-navy text-white">
-      <div className="mx-auto grid w-full max-w-7xl gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[1.4fr_1fr_1fr] lg:px-8">
+      <div className="mx-auto grid w-full max-w-7xl gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[1.2fr_0.9fr_1fr] lg:gap-6 lg:px-8 lg:py-8">
         <div className="space-y-4">
           <Link to="/" className="inline-flex items-center gap-3">
             <span className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/15 bg-white/95 p-1 shadow-soft">
@@ -84,7 +84,7 @@ export function SiteFooter() {
       </div>
 
       <div className="border-t border-white/10">
-        <div className="mx-auto flex w-full max-w-7xl flex-col gap-3 px-4 py-4 text-xs text-white/65 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
+        <div className="mx-auto flex w-full max-w-7xl flex-col gap-3 px-4 py-4 text-xs text-white/65 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8 lg:py-3">
           <p>© {new Date().getFullYear()} MedLink VA.</p>
           <div className="flex flex-wrap gap-4">
             {site.footerNavigation.map((item) => (

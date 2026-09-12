@@ -1,4 +1,5 @@
-import { Route, Routes } from "react-router-dom";
+import { useEffect } from "react";
+import { Route, Routes, useLocation } from "react-router-dom";
 import { HomePage } from "../pages/HomePage";
 import { ServicesPage } from "../pages/ServicesPage";
 import { AboutPage } from "../pages/AboutPage";
@@ -17,7 +18,9 @@ import { SiteLayout } from "../layouts/SiteLayout";
 
 export function AppRoutes() {
   return (
-    <Routes>
+    <>
+      <ScrollToTop />
+      <Routes>
       <Route element={<SiteLayout />}>
         <Route index element={<HomePage />} />
         <Route path="services" element={<ServicesPage />} />
@@ -35,7 +38,22 @@ export function AppRoutes() {
         <Route path="verify/:token" element={<CertificateVerifyPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
-    </Routes>
+      </Routes>
+    </>
   );
+}
+
+function ScrollToTop() {
+  const { pathname, hash } = useLocation();
+
+  useEffect(() => {
+    if (hash) {
+      document.getElementById(hash.slice(1))?.scrollIntoView();
+      return;
+    }
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, [pathname, hash]);
+
+  return null;
 }
 

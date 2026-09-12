@@ -44,6 +44,25 @@ function buildConsultationNotificationText(payload: ConsultationSubmission) {
     .join("\n");
 }
 
+function buildVisitorConfirmationText(payload: ConsultationSubmission) {
+  const service = payload.servicesOfInterest[0];
+  return [
+    `Hello ${payload.firstName},`,
+    "",
+    "Thank you for contacting MedLink VA.",
+    "",
+    service ? `We have received your inquiry about: ${service}` : "We have received your consultation request.",
+    "",
+    "A member of our team will review your request and contact you using the details you provided.",
+    "",
+    "If you need to reach us sooner:",
+    "info@medlinkva.com",
+    "+256 785 724 420",
+    "",
+    "MedLink VA",
+  ].join("\n");
+}
+
 function parseConsultationSubmission(body: Record<string, unknown>): ConsultationSubmission {
   return {
     firstName: readStringField(body, "consult-first-name", { minLength: 1, maxLength: 120 }),
@@ -89,22 +108,25 @@ export async function onRequest(context: { request: Request; env: LeadEnv }) {
       const fromName = env.BREVO_NOTIFICATION_FROM_NAME?.trim() || "MedLink VA Website";
       const toEmail = env.BREVO_NOTIFICATION_TO_EMAIL?.trim() || "info@medlinkva.com";
 
-      if (!fromEmail) {
-        return;
+      if (fromEmail) {
+        await sendBrevoTransactionalEmail(env.BREVO_API_KEY?.trim() ?? "", {
+          sender: { email: fromEmail, name: fromName },
+          subject: "New Consultation Request - MedLink VA Website",
+          textContent: buildConsultationNotificationText(payload),
+          to: [{ email: toEmail }],
+          replyTo: { email: payload.email },
+        });
       }
 
-      await sendBrevoTransactionalEmail(env.BREVO_API_KEY?.trim() ?? "", {
-        sender: {
-          email: fromEmail,
-          name: fromName,
-        },
-        subject: "New Consultation Request - MedLink VA Website",
-        textContent: buildConsultationNotificationText(payload),
-        to: [{ email: toEmail }],
-        replyTo: {
-          email: payload.email,
-        },
+      const service = payload.servicesOfInterest[0];
+      const confirmationSent = await sendBrevoTransactionalEmail(env.BREVO_API_KEY?.trim() ?? "", {
+        sender: { email: fromEmail || "info@medlinkva.com", name: "MedLink VA" },
+        subject: service ? `MedLink VA — We received your ${service} inquiry` : "MedLink VA — We received your inquiry",
+        textContent: buildVisitorConfirmationText(payload),
+        to: [{ email: payload.email }],
       });
+
+      return { confirmationSent };
     },
   });
 }

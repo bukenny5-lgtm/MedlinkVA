@@ -154,7 +154,7 @@ export function BookConsultationPage() {
       </HomeSection>
 
       <HomeSection className="bg-white py-16 sm:py-20">
-        <div className="grid gap-8 lg:grid-cols-[0.92fr_1.08fr]">
+        <div className="grid min-w-0 items-start gap-8 pb-4 lg:grid-cols-[0.92fr_1.08fr]">
           <div className="space-y-6">
             <SectionHeading
               eyebrow="What happens next"

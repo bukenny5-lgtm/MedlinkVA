@@ -25,7 +25,7 @@ export type LeadRouteConfig<TPayload> = {
   successMessage: string;
   parseBody(body: Record<string, unknown>): TPayload;
   buildBrevoPayload(payload: TPayload, listId: number): BrevoContactPayload;
-  onSuccess?(payload: TPayload, env: LeadEnv): Promise<void> | void;
+  onSuccess?(payload: TPayload, env: LeadEnv): Promise<{ confirmationSent?: boolean } | void> | { confirmationSent?: boolean } | void;
 };
 
 type BrevoContactPayload = {
@@ -347,12 +347,13 @@ export async function createLeadResponse<TPayload>(request: Request, env: LeadEn
 
     const brevoPayload = config.buildBrevoPayload(payload, listId);
     await sendToBrevo(apiKey, brevoPayload);
-    await config.onSuccess?.(payload, env);
+    const successDetails = await config.onSuccess?.(payload, env);
 
     return jsonResponse(
       {
         ok: true,
-        message: config.successMessage,
+        message: successDetails?.confirmationSent ? `${config.successMessage} A confirmation has been sent to your email.` : config.successMessage,
+        confirmationSent: Boolean(successDetails?.confirmationSent),
       },
       200,
     );

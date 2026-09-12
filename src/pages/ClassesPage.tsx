@@ -9,6 +9,7 @@ import { ResponsiveDisclosure } from "../components/shared/ResponsiveDisclosure"
 import { useCmsBundle } from "../lib/cms/SiteContentProvider";
 import { resolveClassesContent, toPlainText } from "../lib/cms/siteContent";
 import { sanityImageSrc } from "../lib/sanity/image";
+import { TestimonialSection } from "../components/shared/TestimonialSection";
 
 function formatDate(value?: string) {
   if (!value) return "";
@@ -43,7 +44,7 @@ export function ClassesPage() {
       </HomeSection>
 
       <HomeSection className="bg-brand-background py-16 sm:py-20">
-        <SectionHeading eyebrow="Upcoming training & webinars" title={upcoming.length ? "Join a published learning opportunity" : "No upcoming live sessions are currently published"} description={upcoming.length ? "Review the details below and register only when a current link is provided." : "Explore our training programmes or contact MedLink VA to ask about the next intake."} />
+        <SectionHeading eyebrow="Upcoming training & webinars" title={upcoming.length ? "Join a published learning opportunity" : "No upcoming live sessions are currently published"} description={upcoming.length ? "Explore the current learning opportunities below and choose the next step that fits you." : "Explore our training programmes or contact MedLink VA to ask about the next intake."} />
         <div className="mt-8">{upcoming.length ? <div className="grid gap-5 lg:grid-cols-2">{upcoming.map((item) => <UpcomingCard key={item._id} item={item} />)}</div> : <EmptyState title="No upcoming live sessions" description="Training programme information is available above, and our team can answer questions about future sessions." action={{ label: "Contact MedLink VA", to: "/contact" }} />}</div>
       </HomeSection>
 
@@ -57,7 +58,7 @@ export function ClassesPage() {
         <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-5">{classesContent.journey.map((step) => <article key={step.number} className="surface-card p-5"><p className="text-sm font-bold tracking-[0.2em] text-brand-accent">{step.number}</p><h3 className="mt-3 text-lg font-semibold text-brand-navy">{step.title}</h3><p className="mt-2 text-sm leading-6 text-brand-charcoal/75">{step.description}</p></article>)}</div>
       </HomeSection>
 
-      {classesContent.traineeTestimonials.length ? <HomeSection className="bg-white py-16 sm:py-20"><SectionHeading eyebrow="Trainee experiences" title="What published trainees have shared" description="These comments appear only when trainee testimonials have been published in Sanity." /><div className="mt-8 grid gap-5 md:grid-cols-2">{classesContent.traineeTestimonials.map((testimonial) => <blockquote key={testimonial._id} className="surface-card p-6"><p className="text-lg leading-8 text-brand-navy">“{testimonial.quote}”</p><footer className="mt-5 text-sm text-brand-charcoal/70"><strong className="text-brand-navy">{testimonial.clientName}</strong>{testimonial.clientRole ? `, ${testimonial.clientRole}` : ""}{testimonial.organization ? ` · ${testimonial.organization}` : ""}</footer></blockquote>)}</div></HomeSection> : null}
+      <TestimonialSection audiences={["trainee"]} />
 
       {classesContent.trainingFaqs.length ? <HomeSection className="bg-brand-background py-16 sm:py-20"><SectionHeading eyebrow="Training FAQs" title="Questions about learning with MedLink VA" description="Answers are managed through the Training FAQ category in Sanity." /><div className="mt-8 grid gap-5 md:grid-cols-2">{classesContent.trainingFaqs.map((faq) => <ResponsiveDisclosure key={faq._id} title={faq.question}><p>{toPlainText(faq.answer)}</p></ResponsiveDisclosure>)}</div></HomeSection> : null}
 
