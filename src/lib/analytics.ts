@@ -77,6 +77,10 @@ export function trackResourceOpen(slug: string, title: string) {
   trackEvent("resource_open", { resource_slug: slug, resource_title: title });
 }
 
+export function trackResourceCategoryOpen(category: string) {
+  trackEvent("resource_category_open", { category });
+}
+
 declare global {
   interface Window {
     dataLayer?: unknown[][];
