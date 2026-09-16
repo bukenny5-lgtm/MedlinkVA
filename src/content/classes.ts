@@ -23,7 +23,7 @@ export const classesContent = {
     {
       title: "Guided learning pathways",
       description:
-        "Choose a structured path with flexible formats, personalised guidance, and continued support.",
+      "Choose a structured path with flexible formats, personalised guidance, and support as you learn.",
     },
     {
       title: "Responsible working habits",

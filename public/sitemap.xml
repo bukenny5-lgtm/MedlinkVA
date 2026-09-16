@@ -6,6 +6,12 @@
   <url>
     <loc>https://medlinkva.com/services</loc>
   </url>
+  <url><loc>https://medlinkva.com/services/administrative-front-desk</loc></url>
+  <url><loc>https://medlinkva.com/services/virtual-medical-reception</loc></url>
+  <url><loc>https://medlinkva.com/services/patient-care-coordination</loc></url>
+  <url><loc>https://medlinkva.com/services/insurance-billing</loc></url>
+  <url><loc>https://medlinkva.com/services/ehr-workflow-ai-automation</loc></url>
+  <url><loc>https://medlinkva.com/services/remote-patient-monitoring</loc></url>
   <url><loc>https://medlinkva.com/hire-an-mva</loc></url>
   <url><loc>https://medlinkva.com/impact</loc></url>
   <url><loc>https://medlinkva.com/how-we-prepare-mvas</loc></url>

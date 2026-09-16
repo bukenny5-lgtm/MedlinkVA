@@ -47,7 +47,7 @@ export function ServicesPage() {
         <SectionHeading
           eyebrow="Service library"
           title="Find the support category that fits your practice"
-          description="Choose the area where your team needs the most support, then explore the services designed to strengthen that part of your workflow."
+          description="Choose the area where your team needs help, then see how MedLink VA can support that part of the day-to-day work."
         />
 
         <div className="mt-8 grid gap-5 lg:grid-cols-2">

@@ -18,17 +18,18 @@ export function HowItWorksSection() {
 
       <div className="mt-8 grid gap-5 lg:grid-cols-4">
         {howItWorks.steps.map((step) => (
-          <article key={step.number} className="surface-card h-full p-6">
-            <p className="text-sm font-semibold tracking-[0.3em] text-brand-accent">{step.number}</p>
+          <article key={step.number} className="surface-card group h-full p-6 transition hover:-translate-y-1 hover:shadow-lg focus-within:ring-2 focus-within:ring-brand-accent motion-reduce:transform-none">
+            <p className="text-sm font-semibold tracking-[0.3em] text-brand-accent transition-transform group-hover:translate-x-1">{step.number}</p>
             <h3 className="mt-3 text-xl font-semibold text-brand-navy">{step.title}</h3>
             <p className="mt-3 text-sm leading-7 text-brand-charcoal/80">{step.description}</p>
+            <span className="mt-5 inline-flex text-sm font-semibold text-brand-accent transition-transform group-hover:translate-x-1" aria-hidden="true">→</span>
           </article>
         ))}
       </div>
 
       <div className="mt-8">
         <Link to="/book-consultation" className="btn-secondary">
-          {home.hero.primaryCta.label}
+          {home.finalCta.cta.label}
         </Link>
       </div>
     </HomeSection>

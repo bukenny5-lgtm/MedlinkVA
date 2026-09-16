@@ -204,7 +204,7 @@ export function ClassesPage() {
         <SectionHeading
           eyebrow="How training works"
           title="A clear path from interest to completion"
-          description="Each programme has its own format and support model. The journey below shows the common shape without promising identical delivery for every tier."
+          description="Each programme has its own format and level of guidance. The journey below shows what learning may look like without promising identical delivery for every tier."
         />
 
         <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-5">

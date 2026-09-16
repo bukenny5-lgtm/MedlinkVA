@@ -29,10 +29,10 @@ export type AudienceCard = {
 
 export const homeContent = {
   hero: {
-    eyebrow: "Learn with purpose. Support better care.",
-    title: "Training Virtual Medical Assistants. Supporting Healthcare Practices. Creating Opportunities.",
+    eyebrow: "Learn with purpose. Support better healthcare.",
+    title: "Learn practical skills. Support better healthcare. Build meaningful opportunities.",
     description:
-      "MedLink VA equips aspiring Virtual Medical Assistants with practical healthcare administrative and clinical support skills, while helping healthcare practices connect with trained remote support professionals.",
+      "MedLink VA helps aspiring Virtual Medical Assistants build practical healthcare administrative skills and prepares them for the realities of remote support work. At the same time, we help healthcare practices connect with trained professionals who can support everyday administrative workflows and help keep routine work moving.",
     primaryCta: { label: "Explore Training", to: "/classes" },
     consultationCta: { label: "Book a Consultation", to: "/book-consultation" },
     secondaryCta: { label: "Hire an MVA", to: "/hire-an-mva" },
@@ -92,53 +92,50 @@ export const homeContent = {
     eyebrow: "For learners & healthcare practices",
     title: "Why Choose MedLink VA",
     description:
-      "Build practical skills or strengthen your practice with a human approach to healthcare administration. We put clear communication, responsible working habits, and your priorities at the center.",
+      "Whether you are preparing for a Virtual Medical Assistant career or looking for reliable support for your healthcare practice, MedLink VA focuses on practical skills, clear communication, and responsible ways of working. Our training is grounded in real administrative workflows, while our support services are shaped around the way healthcare teams already work. We place value on professionalism, privacy-conscious working habits, continued learning, and support that feels practical rather than complicated.",
     image: clientAssets.supportPhoto,
     imageAlt: "Medlink VA team member providing virtual medical support on a laptop",
     bullets: [
-      "Practical, hands-on learning",
-      "Structured healthcare administrative training",
-      "Real-world workflow relevance",
-      "Personalized support & continued guidance",
-      "Integrity, transparency & reliable communication",
-      "Privacy & confidentiality-minded working habits",
+      "Practical, hands-on preparation",
+      "Support shaped around real healthcare workflows",
+      "Clear communication and continued guidance",
     ],
   },
   howItWorks: {
     eyebrow: "How It Works",
     title: "From First Conversation to Ongoing Support",
     description:
-      "Share your practice priorities, discuss the right support, and agree on clear next steps together.",
+      "We take time to understand your needs, agree on a practical starting point, and keep the conversation clear as support develops.",
     steps: [
       {
         number: "01",
         title: "Discover",
-        description: "Explore the support areas that could help your practice move forward.",
+        description: "We start by understanding where your team is feeling pressure and which areas of the workflow may need additional support.",
       },
       {
         number: "02",
         title: "Understand Your Needs",
-        description: "Clarify the workflows, priorities, and level of assistance you are seeking.",
+        description: "We talk through your priorities, systems, communication style, and the responsibilities you want help with.",
       },
       {
         number: "03",
         title: "Match the Right Support",
-        description: "Identify the service areas that best fit your practice priorities.",
+        description: "Together, we identify the kind of Virtual Medical Assistant support that best fits your practice and the work you want to delegate.",
       },
       {
         number: "04",
         title: "Onboard",
-        description: "Agree communication and workflow setup before support begins.",
+        description: "Clear responsibilities, communication channels, and workflow expectations are agreed before support begins.",
       },
       {
         number: "05",
         title: "Deliver",
-        description: "Begin practical administrative support shaped around the agreed priorities.",
+        description: "The Virtual Medical Assistant begins supporting the agreed administrative tasks while working within your existing systems and processes.",
       },
       {
         number: "06",
         title: "Review & Improve",
-        description: "Review how the arrangement is working and refine processes where useful.",
+        description: "Regular feedback helps responsibilities and workflows develop as the practice’s needs change.",
       },
     ] satisfies StepCard[],
   },
@@ -154,23 +151,23 @@ export const homeContent = {
       },
       {
         title: "Dental Practices",
-        description: "Helpful virtual support for scheduling, coordination, and routine tasks.",
+        description: "Helpful virtual support for scheduling, patient coordination, and routine follow-up.",
       },
       {
         title: "Mental Health Providers",
-        description: "Professional assistance for organized communication and administrative flow.",
+        description: "Professional help with scheduling, intake, communication, and routine follow-up.",
       },
       {
         title: "Specialists",
-        description: "A flexible support layer for practices with focused operational needs.",
+        description: "Support for referrals, records, scheduling, and follow-up in specialist practices.",
       },
       {
         title: "Telehealth Providers",
-        description: "Support designed for remote-first or hybrid healthcare delivery models.",
+        description: "Help with the scheduling, preparation, and follow-up behind virtual visits.",
       },
       {
         title: "Healthcare Organizations",
-        description: "A practical option for teams looking to streamline everyday work.",
+        description: "Remote help for teams coordinating work across locations, systems, and schedules.",
       },
     ] satisfies AudienceCard[],
   },
@@ -178,14 +175,10 @@ export const homeContent = {
     eyebrow: "Healthcare Support Team",
     title: "A healthcare support team built to help you work smarter",
     description:
-      "Keep the people behind your practice connected through thoughtful coordination, clear handoffs, and practical remote support.",
+      "Behind every well-organized practice is a team that communicates clearly, follows through on responsibilities, and keeps routine work moving. MedLink VA provides trained remote support professionals who can work around your practice priorities, communicate professionally with your team, and provide flexible administrative support where it is needed most. The goal is not to replace the people already doing the work, but to give them additional support so the practice can stay organized and focused on what matters.",
     image: clientAssets.teamPhoto,
     imageAlt: "Medlink VA team collaborating on laptops in a healthcare support setting",
-    bullets: [
-      "Support shaped around your practice priorities",
-      "Professional communication and coordination",
-      "Flexible remote support approach",
-    ],
+    bullets: [],
   },
   teamPreview: {
     eyebrow: "Meet the Team",
@@ -198,12 +191,8 @@ export const homeContent = {
     eyebrow: "Virtual Medical Assistant Training",
     title: "Build skills for healthcare administrative work",
     description:
-      "Explore practical learning for aspiring and developing Virtual Medical Assistants, with an emphasis on organized workflows, communication, and responsible information handling.",
-    concepts: [
-      "Healthcare Operations",
-      "Virtual Assistance",
-      "Practice Efficiency",
-    ] satisfies string[],
+      "Our Virtual Medical Assistant training focuses on the practical side of remote healthcare support. Learners build familiarity with healthcare administrative workflows, professional communication, organized task handling, privacy-conscious working habits, and the day-to-day responsibilities that help practices run more smoothly. The aim is to help learners understand not only what tasks to complete, but how to work responsibly and confidently within a healthcare team.",
+    concepts: [] satisfies string[],
     cta: { label: "Explore Training", to: "/classes" },
   },
   jobsPreview: {
@@ -223,10 +212,10 @@ export const homeContent = {
   },
   resourcesPreview: {
     eyebrow: "Resources",
-    title: "Keep learning about healthcare administration",
+    title: "Practical resources for learners and healthcare teams",
     description:
-      "Explore resource updates for learners and healthcare teams, from communication to everyday administrative workflows.",
-    concepts: ["Healthcare Operations", "Virtual Assistance", "Practice Efficiency"] satisfies string[],
+      "Explore clear, practical guides designed to help aspiring Virtual Medical Assistants understand the work, prepare for opportunities, and build stronger professional habits. Healthcare practices can also find useful information on administrative workflows, hiring, privacy awareness, patient coordination, and remote support.",
+    concepts: [] satisfies string[],
     cta: { label: "Explore Resources", to: "/resources" },
   },
   newsletter: {

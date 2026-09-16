@@ -19,6 +19,7 @@ import { SiteLayout } from "../layouts/SiteLayout";
 import { trackPageView } from "../lib/analytics";
 import { HireAnMvaPage, ImpactPage, PrepareMvasPage, PrivacyCompliancePage, ResourceDetailPage } from "../pages/HybridPages";
 import { HealthcareTeamPage } from "../pages/HealthcareTeamPage";
+import { ServiceDetailPage } from "../pages/ServiceDetailPage";
 
 export function AppRoutes() {
   return (
@@ -34,6 +35,7 @@ export function AppRoutes() {
         <Route path="privacy-and-compliance" element={<PrivacyCompliancePage />} />
         <Route path="healthcare-teams/:audienceSlug" element={<HealthcareTeamPage />} />
         <Route path="services" element={<ServicesPage />} />
+        <Route path="services/:serviceSlug" element={<ServiceDetailPage />} />
         <Route path="about" element={<AboutPage />} />
         <Route path="how-it-works" element={<HowItWorksPage />} />
         <Route path="jobs" element={<JobsPage />} />

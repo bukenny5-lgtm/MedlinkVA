@@ -3,7 +3,7 @@ export const resourcesContent = {
     eyebrow: "Resources",
     title: "Resources for Virtual Medical Assistants & Healthcare Teams",
     description:
-      "Explore practical guides, workflow tips, training insights, and educational resources designed to support Virtual Medical Assistants and healthcare practices.",
+      "Browse practical guides on Virtual Medical Assistant work, healthcare administration, career preparation, privacy, and remote support.",
     actions: [
       { label: "Explore Services", to: "/services", variant: "primary" as const },
       { label: "Book a Consultation", to: "/book-consultation", variant: "secondary" as const },

@@ -17,14 +17,9 @@ export function TeamSupportSection() {
             description={teamSupport.description}
           />
 
-          <ul className="space-y-3">
-            {teamSupport.bullets.map((bullet) => (
-              <li key={bullet} className="flex items-start gap-3 text-sm leading-7 text-brand-charcoal/80">
-                <span className="mt-2 h-2 w-2 rounded-full bg-brand-accent" aria-hidden="true" />
-                <span>{bullet}</span>
-              </li>
-            ))}
-          </ul>
+          {teamSupport.bullets.length ? <ul className="space-y-3">
+            {teamSupport.bullets.map((bullet) => <li key={bullet} className="flex items-start gap-3 text-sm leading-7 text-brand-charcoal/80"><span className="mt-2 h-2 w-2 rounded-full bg-brand-accent" aria-hidden="true" /><span>{bullet}</span></li>)}
+          </ul> : null}
 
           <Link to="/about" className="btn-primary">
             Learn More About Us

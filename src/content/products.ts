@@ -26,7 +26,7 @@ const sourceProducts = [
   ["Medical Documentation Template", "medical-documentation-template", "medical-documentation-template.jpg", "Support consistent organization of routine medical administrative documentation.", ["Documentation structure", "Consistent organization", "Administrative support"], false],
   ["Patient Scheduling Template", "patient-scheduling-template", "patient-scheduling-template.jpg", "Organize appointments, scheduling workflows, and administrative follow-up.", ["Appointment planning", "Scheduling workflows", "Follow-up"], false],
   ["Medical Virtual Assistance Class (Group Session)", "medical-virtual-assistance-group-class", "medical-virtual-assistance-group-class.jpg", "Group-based Virtual Medical Assistant training focused on practical healthcare administrative workflows.", ["Group learning", "Healthcare workflows", "Practical training"], true],
-  ["Health Staff Training Guide", "health-staff-training-guide", "health-staff-training-guide.jpg", "A practical guide designed to support structured training and development for healthcare support staff.", ["Structured training", "Staff development", "Practical guidance"], false],
+  ["Health Staff Training Guide", "health-staff-training-guide", "health-staff-training-guide.jpg", "A practical guide for structured training and development among healthcare support staff.", ["Structured training", "Staff development", "Practical guidance"], false],
 ] as const;
 
 export const localProducts: LocalProduct[] = sourceProducts.map(([name, slug, filename, shortDescription, features, featured], index) => ({
@@ -34,7 +34,7 @@ export const localProducts: LocalProduct[] = sourceProducts.map(([name, slug, fi
 }));
 
 export const productsContent = {
-  hero: { eyebrow: "MedLink VA store", title: "Practical Resources for Virtual Medical Assistants and Healthcare Workflows", description: "Explore MedLink VA templates, classes, checklists, and workflow tools designed to support practical Virtual Medical Assistant training and healthcare administration.", actions: [{ label: "Explore the Store", to: "#featured-products", variant: "primary" as const }, { label: "Book a Consultation", to: "/book-consultation", variant: "secondary" as const }] },
+  hero: { eyebrow: "MedLink VA store", title: "Practical Resources for Virtual Medical Assistants and Healthcare Workflows", description: "Browse MedLink VA templates, classes, checklists, and workflow tools for practical Virtual Medical Assistant training and healthcare administration.", actions: [{ label: "Explore the Store", to: "#featured-products", variant: "primary" as const }, { label: "Book a Consultation", to: "/book-consultation", variant: "secondary" as const }] },
   disclosure: "Checkout and payment are handled securely on Selar. MedLink VA does not process payments on this website.",
   cta: { title: "Have a product question?", description: "Get in touch to ask about available products and learning resources.", primaryAction: { label: "Contact Medlink VA", to: "/contact" }, secondaryAction: { label: "Visit Store", to: "https://selar.com/m/rachealopasola" } },
 } as const;
