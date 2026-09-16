@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { HomeSection } from "../home/HomeSection";
+import { trackCtaClick } from "../../lib/analytics";
 
 type HeroAction = {
   label: string;
@@ -55,7 +56,7 @@ export function PageHero({
           {actions?.length ? (
             <div className="flex flex-col flex-wrap gap-3 sm:flex-row">
               {actions.map((action) => (
-                <Link key={action.to} to={action.to} className={actionClass[action.variant ?? "secondary"]}>
+                <Link key={action.to} to={action.to} className={actionClass[action.variant ?? "secondary"]} onClick={() => trackCtaClick(action.label, action.to, "page_hero")}>
                   {action.label}
                 </Link>
               ))}

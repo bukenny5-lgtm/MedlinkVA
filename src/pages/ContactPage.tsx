@@ -15,6 +15,7 @@ import { readTrimmedField, readTrimmedOptionalField } from "../lib/leads/formDat
 import { siteContent } from "../content/site";
 import { contactContent } from "../content/contact";
 import { normalizePhoneNumber } from "../../functions/_shared/phone";
+import { trackEvent } from "../lib/analytics";
 
 const controlClass =
   "min-h-11 w-full rounded-2xl border border-brand-border bg-white px-4 py-3 text-sm text-brand-charcoal outline-none transition-colors placeholder:text-brand-charcoal/45 focus:border-brand-accent focus:ring-2 focus:ring-brand-accent/20";
@@ -106,6 +107,7 @@ export function ContactPage() {
     });
 
     if (result.ok) {
+      trackEvent("contact_submit", { topic: readTrimmedField(formData, "contact-service") });
       setStatusTone("success");
       setStatusMessage(result.message);
       form.reset();

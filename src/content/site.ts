@@ -21,15 +21,16 @@ export const siteContent = {
   jobsPaused: true,
   navigation: [
     { label: "Home", path: "/" },
+    { label: "Hire an MVA", path: "/hire-an-mva" },
     { label: "Training", path: "/classes" },
     { label: "Services", path: "/services" },
-    { label: "How It Works", path: "/how-it-works" },
+    { label: "Impact", path: "/impact" },
     { label: "About", path: "/about" },
     { label: "Resources", path: "/resources" },
-    { label: "Products", path: "/products" },
     { label: "Contact", path: "/contact" },
   ] satisfies NavigationItem[],
   footerNavigation: [
+    { label: "Privacy & Compliance", path: "/privacy-and-compliance" },
     { label: "Privacy Policy", path: "/privacy" },
     { label: "Terms of Use", path: "/terms" },
   ] satisfies NavigationItem[],
@@ -63,6 +64,11 @@ export const siteContent = {
       label: "Resources",
       path: "/resources",
       description: "A future blog and resources area for SEO-supporting content.",
+    },
+    {
+      label: "Video Hub",
+      path: "/videos",
+      description: "Practical videos for Virtual Medical Assistants, healthcare teams, and practice workflows.",
     },
     {
       label: "Products",

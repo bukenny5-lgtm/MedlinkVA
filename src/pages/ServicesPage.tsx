@@ -11,6 +11,7 @@ import { clientAssets } from "../lib/assets";
 import { TestimonialSection } from "../components/shared/TestimonialSection";
 import { useCmsBundle } from "../lib/cms/SiteContentProvider";
 import { resolveServicesContent } from "../lib/cms/siteContent";
+import { trackServiceCtaClick } from "../lib/analytics";
 
 export function ServicesPage() {
   const servicesContent = resolveServicesContent(useCmsBundle());
@@ -60,6 +61,7 @@ export function ServicesPage() {
                 <Link
                   to={service.ctaTo}
                   className="inline-flex text-sm font-semibold text-brand-accent transition-colors hover:text-brand-navy"
+                  onClick={() => trackServiceCtaClick(service.title, service.ctaLabel)}
                 >
                   {service.ctaLabel}
                 </Link>

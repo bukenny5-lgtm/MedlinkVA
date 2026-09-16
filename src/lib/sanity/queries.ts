@@ -194,6 +194,28 @@ const cmsQuery = `{
     photo,
     quote,
     altText
+  },
+  "videos": *[_type == "videoContent" && active == true]
+    | order(featured desc, publishedAt desc, displayOrder asc, title asc) {
+    _id,
+    active,
+    category,
+    displayOrder,
+    duration,
+    eventName,
+    featured,
+    publishedAt,
+    relatedService->{_id, title},
+    relatedTraining->{_id, title},
+    shortDescription,
+    slug,
+    speaker,
+    thumbnail,
+    thumbnailAltText,
+    title,
+    videoProvider,
+    streamVideoId,
+    videoUrl
   }
 }`;
 

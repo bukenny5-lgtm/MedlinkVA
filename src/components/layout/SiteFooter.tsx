@@ -38,6 +38,18 @@ export function SiteFooter() {
                 {item.label}
               </Link>
             ))}
+            <Link to="/videos" className="inline-flex min-h-11 items-center transition-colors hover:text-white">Video Hub</Link>
+            <Link to="/impact" className="inline-flex min-h-11 items-center transition-colors hover:text-white">Impact</Link>
+          </div>
+        </div>
+
+        <div className="space-y-3">
+          <p className="text-sm font-semibold text-white">For Healthcare Practices</p>
+          <div className="flex flex-col gap-2 text-sm text-white/80">
+            <Link to="/hire-an-mva" className="inline-flex min-h-11 items-center transition-colors hover:text-white">Hire an MVA</Link>
+            <Link to="/services" className="inline-flex min-h-11 items-center transition-colors hover:text-white">Services</Link>
+            <Link to="/how-we-prepare-mvas" className="inline-flex min-h-11 items-center transition-colors hover:text-white">How We Prepare MVAs</Link>
+            <Link to="/book-consultation" className="inline-flex min-h-11 items-center transition-colors hover:text-white">Book a Consultation</Link>
           </div>
         </div>
 

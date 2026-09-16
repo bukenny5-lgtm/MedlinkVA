@@ -5,6 +5,7 @@ import { useCmsBundle } from "../../lib/cms/SiteContentProvider";
 import { resolveHomeContent } from "../../lib/cms/siteContent";
 import { submitLeadForm } from "../../lib/leads/api";
 import { readTrimmedOptionalField } from "../../lib/leads/formData";
+import { trackEvent } from "../../lib/analytics";
 
 export function NewsletterSection() {
   const { newsletter } = resolveHomeContent(useCmsBundle());
@@ -35,6 +36,7 @@ export function NewsletterSection() {
     });
 
     if (result.ok) {
+      trackEvent("newsletter_signup");
       setTone("success");
       setNotice(result.message);
       setEmail("");

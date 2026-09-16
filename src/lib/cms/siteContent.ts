@@ -21,6 +21,7 @@ import type {
   SiteSettingsDocument,
   TeamMemberDocument,
   TestimonialDocument,
+  VideoContentDocument,
 } from "../sanity/types";
 import type { ServiceCard } from "../../content/services";
 import type { TeamMember } from "../../content/team";
@@ -100,7 +101,7 @@ function applyHeroCtaLabels(actions: ReadonlyArray<{ label: string; to: string; 
     }
 
     if (action.to === "/services") {
-      return { ...action, label: site.secondaryCtaLabel };
+      return { ...action, label: fallbackSiteContent.secondaryCtaLabel };
     }
 
     return action;
@@ -195,7 +196,7 @@ export function resolveHomeContent(bundle: CmsBundle | null) {
       },
       secondaryCta: {
         ...fallbackHomeContent.hero.secondaryCta,
-        label: site.secondaryCtaLabel,
+        label: fallbackSiteContent.secondaryCtaLabel,
       },
       supportLine: cmsHome?.trustItems?.length ? cmsHome.trustItems : fallbackHomeContent.hero.supportLine,
     },
@@ -341,6 +342,13 @@ export type ResourcesPageContent = Omit<typeof fallbackResourcesContent, "catego
 export type ProductsPageContent = typeof fallbackProductsContent & {
   records: Array<ProductLinkDocument | LocalProduct>;
 };
+
+export function resolveVideosContent(bundle: CmsBundle | null): VideoContentDocument[] {
+  return (bundle?.videos ?? [])
+    .filter((video) => video.active !== false)
+    .slice()
+    .sort((left, right) => Number(right.featured) - Number(left.featured) || (right.publishedAt ?? "").localeCompare(left.publishedAt ?? "") || left.displayOrder - right.displayOrder || left.title.localeCompare(right.title));
+}
 
 export function resolveJobsContent(bundle: CmsBundle | null): JobsPageContent {
   const site = mapSiteSettings(bundle);

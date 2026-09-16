@@ -12,6 +12,7 @@ import { consultationContent } from "../content/contact";
 import { submitLeadForm } from "../lib/leads/api";
 import { readMultiValueField, readTrimmedField, readTrimmedOptionalField } from "../lib/leads/formData";
 import { normalizePhoneNumber } from "../../functions/_shared/phone";
+import { trackEvent } from "../lib/analytics";
 
 const controlClass =
   "min-h-11 w-full rounded-2xl border border-brand-border bg-white px-4 py-3 text-sm text-brand-charcoal outline-none transition-colors placeholder:text-brand-charcoal/45 focus:border-brand-accent focus:ring-2 focus:ring-brand-accent/20";
@@ -105,6 +106,10 @@ export function BookConsultationPage() {
     });
 
     if (result.ok) {
+      trackEvent("consultation_submit", {
+        practice_type: readTrimmedField(formData, "consult-practice-type"),
+        selected_service: readMultiValueField(formData, "services-of-interest").join(", "),
+      });
       setStatusTone("success");
       setStatusMessage(result.message);
       form.reset();

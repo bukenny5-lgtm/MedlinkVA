@@ -9,11 +9,11 @@ import { ProductsPreview } from "../components/home/ProductsPreview";
 import { ResourcesPreview } from "../components/home/ResourcesPreview";
 import { ServicesOverview } from "../components/home/ServicesOverview";
 import { TeamSupportSection } from "../components/home/TeamSupportSection";
-import { TrustStrip } from "../components/home/TrustStrip";
 import { WhyMedlinkSection } from "../components/home/WhyMedlinkSection";
 import { WhoWeServeSection } from "../components/home/WhoWeServeSection";
 import { clientAssets } from "../lib/assets";
 import { TestimonialSection } from "../components/shared/TestimonialSection";
+import { HomeImpactModel, HomeImpactPreview, HomePathways, HomeTrustLinks } from "../components/home/HybridSections";
 
 export function HomePage() {
   return (
@@ -24,13 +24,16 @@ export function HomePage() {
         image={clientAssets.hero}
       />
       <HeroSection />
-      <TrustStrip />
-      <ClassesPreview />
+      <HomePathways />
+      <HomeImpactPreview />
+      <HomeImpactModel />
       <ServicesOverview />
+      <HomeTrustLinks />
       <WhyMedlinkSection />
       <HowItWorksSection />
       <WhoWeServeSection />
       <TeamSupportSection />
+      <ClassesPreview />
       <MeetTeamSection />
       <TestimonialSection />
       <ProductsPreview />

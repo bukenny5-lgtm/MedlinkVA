@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { trackCtaClick } from "../../lib/analytics";
 
 type Action = {
   label: string;
@@ -32,11 +33,11 @@ export function PageCta({ title, description, primaryAction, secondaryAction, no
           </div>
 
           <div className="flex flex-col flex-wrap gap-3 sm:flex-row lg:justify-end">
-            <Link to={primaryAction.to} className={actionClass[primaryAction.variant ?? "primary"]}>
+            <Link to={primaryAction.to} className={actionClass[primaryAction.variant ?? "primary"]} onClick={() => trackCtaClick(primaryAction.label, primaryAction.to, "page_cta")}>
               {primaryAction.label}
             </Link>
             {secondaryAction ? (
-              <Link to={secondaryAction.to} className={actionClass[secondaryAction.variant ?? "secondary"]}>
+                <Link to={secondaryAction.to} className={actionClass[secondaryAction.variant ?? "secondary"]} onClick={() => trackCtaClick(secondaryAction.label, secondaryAction.to, "page_cta")}>
                 {secondaryAction.label}
               </Link>
             ) : null}

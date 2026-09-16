@@ -172,6 +172,40 @@ export type FaqDocument = {
   question: string;
 };
 
+export type VideoCategory =
+  | "training-tutorials"
+  | "vma-skills"
+  | "clinical-support-skills"
+  | "healthcare-administration"
+  | "career-guidance"
+  | "ai-workflow-automation"
+  | "webinars-events"
+  | "certificate-programme-guidance"
+  | "service-explainers"
+  | "other";
+
+export type VideoContentDocument = {
+  _id: string;
+  active?: boolean;
+  category: VideoCategory;
+  displayOrder: number;
+  duration?: string;
+  eventName?: string;
+  featured?: boolean;
+  publishedAt?: string;
+  relatedService?: { _id: string; title: string };
+  relatedTraining?: { _id: string; title: string };
+  shortDescription?: string;
+  slug?: SanitySlug;
+  speaker?: string;
+  thumbnail?: SanityImageSource;
+  thumbnailAltText?: string;
+  title: string;
+  videoProvider?: "youtube" | "cloudflare-stream";
+  videoUrl?: string;
+  streamVideoId?: string;
+};
+
 export type TestimonialDocument = {
   _id: string;
   active?: boolean;
@@ -257,4 +291,5 @@ export type CmsBundle = {
   siteSettings: SiteSettingsDocument | null;
   teamMembers: TeamMemberDocument[];
   testimonials: TestimonialDocument[];
+  videos: VideoContentDocument[];
 };

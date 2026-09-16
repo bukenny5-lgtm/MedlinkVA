@@ -30,12 +30,12 @@ export type AudienceCard = {
 export const homeContent = {
   hero: {
     eyebrow: "Learn with purpose. Support better care.",
-    title: "Virtual Medical Assistant Training & Support for Modern Healthcare",
+    title: "Training Virtual Medical Assistants. Supporting Healthcare Practices. Creating Opportunities.",
     description:
-      "MedLink VA equips aspiring Virtual Medical Assistants with practical healthcare administrative skills while helping healthcare practices strengthen day-to-day operations through reliable remote support.",
+      "MedLink VA equips aspiring Virtual Medical Assistants with practical healthcare administrative and clinical support skills, while helping healthcare practices connect with trained remote support professionals.",
     primaryCta: { label: "Explore Training", to: "/classes" },
     consultationCta: { label: "Book a Consultation", to: "/book-consultation" },
-    secondaryCta: { label: "Explore Services", to: "/services" },
+    secondaryCta: { label: "Hire an MVA", to: "/hire-an-mva" },
     image: clientAssets.hero,
     imageAlt: "Virtual medical professional wearing a headset and working on a laptop",
     supportLine: [
@@ -149,8 +149,8 @@ export const homeContent = {
       "Explore administrative support for the way your healthcare team works, from daily scheduling to remote coordination.",
     audiences: [
       {
-        title: "Medical Practices",
-        description: "Support for busy practice environments that need administrative structure.",
+        title: "Family Medicine Practices",
+        description: "Flexible administrative and workflow support for family medicine practices managing busy schedules, patient communication, coordination, and day-to-day operations.",
       },
       {
         title: "Dental Practices",

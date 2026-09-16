@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { Seo } from "../components/Seo";
 import { HomeSection } from "../components/home/HomeSection";
 import { PageHero } from "../components/shared/PageHero";
+import { trackEvent } from "../lib/analytics";
 
 type PublicCertificate = {
   certificateNumber: string;
@@ -45,12 +46,14 @@ export function CertificateVerifyPage() {
         return;
       }
       if (!payload.certificate) {
+        trackEvent("certificate_verification", { verification_result: "not_found" });
         setState("not-found");
         setMessage("Certificate not found. Check the certificate number and try again. If you believe this certificate was issued by MedLink VA, contact us for assistance.");
         return;
       }
       setCertificate(payload.certificate);
       setState("success");
+      trackEvent("certificate_verification", { verification_result: "success" });
     } catch {
       setState("error");
       setMessage("We could not complete the verification request. Please try again later.");

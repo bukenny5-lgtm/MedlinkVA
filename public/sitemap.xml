@@ -6,6 +6,10 @@
   <url>
     <loc>https://medlinkva.com/services</loc>
   </url>
+  <url><loc>https://medlinkva.com/hire-an-mva</loc></url>
+  <url><loc>https://medlinkva.com/impact</loc></url>
+  <url><loc>https://medlinkva.com/how-we-prepare-mvas</loc></url>
+  <url><loc>https://medlinkva.com/privacy-and-compliance</loc></url>
   <url>
     <loc>https://medlinkva.com/about</loc>
   </url>
@@ -17,6 +21,9 @@
   </url>
   <url>
     <loc>https://medlinkva.com/resources</loc>
+  </url>
+  <url>
+    <loc>https://medlinkva.com/videos</loc>
   </url>
   <url>
     <loc>https://medlinkva.com/products</loc>

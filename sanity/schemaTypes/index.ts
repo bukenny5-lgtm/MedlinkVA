@@ -13,6 +13,7 @@ import { service } from "./service";
 import { siteSettings } from "./siteSettings";
 import { teamMember } from "./teamMember";
 import { testimonial } from "./testimonial";
+import { videoContent } from "./videoContent";
 
 export const schemaTypes: SchemaTypeDefinition[] = [
   siteSettings,
@@ -29,4 +30,5 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   resourcePost,
   faq,
   testimonial,
+  videoContent,
 ] as const;
