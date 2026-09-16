@@ -7,6 +7,7 @@ import { localProducts, productsContent as fallbackProductsContent, type LocalPr
 import { resourcesContent as fallbackResourcesContent } from "../../content/resources";
 import { fallbackUpcomingTraining, upcomingTrainingDate } from "../../content/upcomingTraining";
 import { starterResources } from "../../content/starterResources";
+import { defaultReviewIntervalDays } from "../resources";
 import { servicesContent as fallbackServicesContent } from "../../content/services";
 import { siteContent as fallbackSiteContent } from "../../content/site";
 import { teamMembers as fallbackTeamMembers } from "../../content/team";
@@ -404,7 +405,10 @@ export function resolveClassesContent(bundle: CmsBundle | null): ClassesPageCont
 
 export function resolveResourcesContent(bundle: CmsBundle | null): ResourcesPageContent {
   const site = mapSiteSettings(bundle);
-  const records = bundle?.resourcePosts?.length ? bundle.resourcePosts : starterResources;
+  const records = (bundle?.resourcePosts?.length ? bundle.resourcePosts : starterResources).map((record) => ({
+    ...record,
+    reviewIntervalDays: record.reviewIntervalDays ?? defaultReviewIntervalDays(record.category),
+  }));
   const categories: string[] = records.length
     ? Array.from(new Set(records.map((record) => record.category).filter(Boolean)))
     : [...fallbackResourcesContent.categories];

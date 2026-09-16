@@ -155,6 +155,10 @@ export type ResourcePostDocument = {
   excerpt: string;
   externalUrl?: string;
   featured?: boolean;
+  lastReviewedAt?: string;
+  reviewIntervalDays?: number;
+  reviewStatus?: "current" | "review_due" | "draft_update";
+  sourceLinks?: string[];
   publishedAt: string;
   resourceType?: "Article" | "Guide" | "Checklist" | "Template" | "Webinar Recap" | "Newsletter" | "Career Resource" | "Healthcare Administration Tip" | "Training Resource";
   seoDescription?: string;

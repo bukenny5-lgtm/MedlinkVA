@@ -13,6 +13,7 @@ type PageCtaProps = {
   primaryAction: Action;
   secondaryAction?: Action;
   note?: string;
+  onPrimaryClick?: () => void;
 };
 
 const actionClass = {
@@ -20,7 +21,7 @@ const actionClass = {
   secondary: "btn-secondary",
 } as const;
 
-export function PageCta({ title, description, primaryAction, secondaryAction, note }: PageCtaProps) {
+export function PageCta({ title, description, primaryAction, secondaryAction, note, onPrimaryClick }: PageCtaProps) {
   return (
     <section className="bg-white py-16 sm:py-20">
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -33,7 +34,7 @@ export function PageCta({ title, description, primaryAction, secondaryAction, no
           </div>
 
           <div className="flex flex-col flex-wrap gap-3 sm:flex-row lg:justify-end">
-            <Link to={primaryAction.to} className={actionClass[primaryAction.variant ?? "primary"]} onClick={() => trackCtaClick(primaryAction.label, primaryAction.to, "page_cta")}>
+            <Link to={primaryAction.to} className={actionClass[primaryAction.variant ?? "primary"]} onClick={() => { trackCtaClick(primaryAction.label, primaryAction.to, "page_cta"); onPrimaryClick?.(); }}>
               {primaryAction.label}
             </Link>
             {secondaryAction ? (

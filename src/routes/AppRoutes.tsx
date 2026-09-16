@@ -18,6 +18,7 @@ import { VideosPage } from "../pages/VideosPage";
 import { SiteLayout } from "../layouts/SiteLayout";
 import { trackPageView } from "../lib/analytics";
 import { HireAnMvaPage, ImpactPage, PrepareMvasPage, PrivacyCompliancePage, ResourceDetailPage } from "../pages/HybridPages";
+import { HealthcareTeamPage } from "../pages/HealthcareTeamPage";
 
 export function AppRoutes() {
   return (
@@ -31,6 +32,7 @@ export function AppRoutes() {
         <Route path="impact" element={<ImpactPage />} />
         <Route path="how-we-prepare-mvas" element={<PrepareMvasPage />} />
         <Route path="privacy-and-compliance" element={<PrivacyCompliancePage />} />
+        <Route path="healthcare-teams/:audienceSlug" element={<HealthcareTeamPage />} />
         <Route path="services" element={<ServicesPage />} />
         <Route path="about" element={<AboutPage />} />
         <Route path="how-it-works" element={<HowItWorksPage />} />

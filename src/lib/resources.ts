@@ -15,3 +15,13 @@ export function categorySlug(value: string) {
 export function categoryImage(category: string) {
   return resourceCategories.find((item) => item.name.toLowerCase() === category.toLowerCase())?.image;
 }
+
+export function defaultReviewIntervalDays(category: string) {
+  const normalized = category.toLowerCase();
+  if (normalized.includes("ai")) return 30;
+  if (normalized.includes("privacy") || normalized.includes("hipaa")) return 30;
+  if (normalized.includes("monitoring")) return 45;
+  if (normalized.includes("insurance")) return 60;
+  if (normalized.includes("administration")) return 75;
+  return 90;
+}

@@ -81,6 +81,10 @@ export function trackResourceCategoryOpen(category: string) {
   trackEvent("resource_category_open", { category });
 }
 
+export function trackHealthcareTeamCtaClick(teamType: string, destination: string) {
+  trackEvent("healthcare_team_cta_click", { team_type: teamType, destination });
+}
+
 declare global {
   interface Window {
     dataLayer?: unknown[][];

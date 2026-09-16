@@ -20,6 +20,7 @@ type PageHeroProps = {
     alt: string;
     caption?: string;
   };
+  mediaVariant?: "default" | "article";
   children?: ReactNode;
   className?: string;
 };
@@ -36,6 +37,7 @@ export function PageHero({
   actions,
   chips,
   image,
+  mediaVariant = "default",
   children,
   className = "bg-white pb-14 pt-8 sm:pb-16 sm:pt-12 lg:pb-20 lg:pt-16",
 }: PageHeroProps) {
@@ -43,7 +45,7 @@ export function PageHero({
 
   return (
     <HomeSection className={className}>
-      <div className={`grid items-center gap-10 ${hasMedia ? "lg:grid-cols-[1.02fr_0.98fr]" : ""}`}>
+      <div className={`grid items-center gap-10 ${hasMedia ? (mediaVariant === "article" ? "lg:grid-cols-[1.2fr_0.8fr]" : "lg:grid-cols-[1.02fr_0.98fr]") : ""}`}>
         <div className="space-y-8">
           <div className="space-y-4">
             <p className="text-sm font-semibold uppercase tracking-[0.3em] text-brand-accent">{eyebrow}</p>
@@ -80,13 +82,13 @@ export function PageHero({
         </div>
 
         {image ? (
-          <div className="relative">
+          <div className={`relative ${mediaVariant === "article" ? "lg:justify-self-end lg:w-full lg:max-w-[480px]" : ""}`}>
             <div className="absolute -inset-4 -z-10 rounded-[2rem] bg-brand-sky/10 blur-3xl" />
             <figure className="surface-card overflow-hidden">
               <img
                 src={image.src}
                 alt={image.alt}
-                className="aspect-[4/3] w-full lg:aspect-[4/5] object-cover object-center"
+                className={mediaVariant === "article" ? "aspect-video max-h-[260px] w-full object-cover object-center sm:max-h-none" : "aspect-[4/3] w-full object-cover object-center lg:aspect-[4/5]"}
                 width="1200"
                 height="1500"
                 loading="eager"
