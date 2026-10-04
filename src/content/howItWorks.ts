@@ -17,35 +17,35 @@ export const howItWorksContent = {
       number: "01",
       title: "Discover",
       description:
-        "Explore the support areas that could help your practice move forward.",
+        "We begin with a conversation about your practice, the tasks taking up your team’s time, and where additional support could make the biggest difference.",
     },
     {
       number: "02",
       title: "Understand Your Needs",
       description:
-        "Clarify the workflows, priorities, and level of assistance that would make the most sense.",
+        "We look more closely at your workflow, systems, communication style, and the responsibilities you would feel comfortable delegating.",
     },
     {
       number: "03",
       title: "Match the Right Support",
       description:
-        "Identify the service areas that best fit your practice priorities.",
+        "Together, we identify the type of Virtual Medical Assistant support that best fits those needs.",
     },
     {
       number: "04",
       title: "Onboard",
       description:
-        "Agree communication and workflow setup before support begins.",
+        "Before support begins, responsibilities, communication channels, access, and expectations are made clear.",
     },
     {
       number: "05",
       title: "Deliver",
-      description: "Begin practical administrative support shaped around the agreed priorities.",
+      description: "Your Virtual Medical Assistant begins supporting the agreed administrative work within the processes your practice already uses.",
     },
     {
       number: "06",
       title: "Review & Improve",
-      description: "Review how the arrangement is working and refine processes where useful.",
+      description: "Regular feedback helps us understand what is working and where responsibilities or workflows may need to evolve.",
     },
   ],
   expectations: [

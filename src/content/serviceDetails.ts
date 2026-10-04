@@ -1,9 +1,9 @@
-import familyMedicineWorkflow from "../assets/services/family-medicine/family-medicine-workflow.png";
-import telehealthHero from "../assets/services/telehealth/telehealth-hero.png";
-import familyMedicineOutcomes from "../assets/services/family-medicine/family-medicine-outcomes.png";
-import insuranceBillingImage from "../assets/resources/insurance-billing.png";
-import aiAutomationImage from "../assets/resources/ai-automation.png";
-import remotePatientMonitoringImage from "../assets/resources/remote-patient-monitoring.png";
+import familyMedicineWorkflow from "../assets/services/family-medicine/family-medicine-workflow.webp";
+import telehealthHero from "../assets/services/telehealth/telehealth-hero.webp";
+import familyMedicineOutcomes from "../assets/services/family-medicine/family-medicine-outcomes.webp";
+import insuranceBillingImage from "../assets/resources/insurance-billing.webp";
+import aiAutomationImage from "../assets/resources/ai-automation.webp";
+import remotePatientMonitoringImage from "../assets/resources/remote-patient-monitoring.webp";
 
 export type ServiceDetail = {
   slug: string;

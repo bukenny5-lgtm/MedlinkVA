@@ -7,7 +7,9 @@
 3. Copy the stream’s Measurement ID. It has the format `G-XXXXXXXXXX` and is visible in the stream details.
 4. Set `VITE_GA_MEASUREMENT_ID` to that value in the environment used for the production Vite build.
 
-The application initializes GA4 only in a production build and only when the value matches the expected Measurement ID format. It sets `send_page_view: false`, then sends one explicit `page_view` for each React Router pathname. Verification-token URLs are normalized to `/verify/:token` in the event path; the token is never sent as an analytics parameter.
+The production Vite build replaces `%VITE_GA_MEASUREMENT_ID%` in `index.html` with the build-time `VITE_GA_MEASUREMENT_ID` environment variable; the expected production value is `G-9QM5BEQCQY`. `index.html` owns the single async `gtag.js` loader, `window.dataLayer` bootstrap, queue-backed `window.gtag` function, and initial `gtag('js', new Date())` / `gtag('config', measurementId, { send_page_view: false })` commands. The React analytics utility only sends page and custom events through that existing queue. If a Tag Assistant debug query is present, `debug_mode: true` is added for manually sent events without enabling it for ordinary visitors.
+
+The site is a React Router SPA. Automatic GA page views are disabled, so the existing top-level tracker sends one explicit `page_view` for the initial pathname and one for each subsequent pathname change. Verification-token URLs are normalized to `/verify/:token` in the event path; the token is never sent as an analytics parameter. Duplicate path tracking is suppressed in the client.
 
 ## Cloudflare Pages / Wrangler configuration
 
@@ -52,7 +54,11 @@ The form, video, and verification metrics above depend on the events implemented
 
 ## Verification and privacy
 
-Use GA4 **Realtime** and **DebugView** to verify page views and events after a production build with the Measurement ID configured. Browser testing should confirm that missing or invalid configuration does not affect site operation.
+For the Google-side destination check, open Google Analytics → **Admin** → **Data collection and modification** → **Data streams** → select the MedLink VA web stream → **Google tag** / **Manage Google tag**. Confirm that the GA4 destination is connected to `G-9QM5BEQCQY`; this requires manual verification in the authenticated Google Analytics UI.
+
+Use GA4 **Realtime** and **DebugView** to verify page views and events after a production build with the Measurement ID configured. For Tag Assistant, open the deployed site through its debug flow and confirm the GA4 tag shows actual `page_view` hits rather than “No hits were sent by this tag”. Confirm that `config` appears before the first event and that `page_view`, `session_start`, or `user_engagement` can appear in DebugView. Browser testing should confirm that missing or invalid configuration does not affect site operation.
+
+In browser DevTools Network, filter for `google-analytics.com/g/collect` (or the equivalent GA collection endpoint) and confirm requests are sent after initialization and on route changes. Custom events should appear in the same collection requests when their user action succeeds. The successful consultation form flow continues to send `consultation_submit`; it is not sent on page load, button click alone, or failed submission.
 
 The privacy policy now explains that enabled analytics may collect pages visited, approximate location, device/browser information, and interaction data. Analytics loads asynchronously and is not enabled during local development by default. This phase does not add a cookie banner or consent manager; whether consent management is needed should be reviewed for the intended markets and applicable requirements before launch. This is not a jurisdictional compliance conclusion.
 

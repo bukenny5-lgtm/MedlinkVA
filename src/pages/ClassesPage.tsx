@@ -13,7 +13,10 @@ import {
 } from "../lib/cms/siteContent";
 import { sanityImageSrc } from "../lib/sanity/image";
 import { TestimonialSection } from "../components/shared/TestimonialSection";
-import { trackTrainingCtaClick } from "../lib/analytics";
+import { trackTrainingCheckoutClick, trackTrainingCtaClick, trackTrainingOpen } from "../lib/analytics";
+import practicalLearningImage from "../assets/training/training-hero-learning.webp";
+import skillsWorkflowImage from "../assets/training/training-skills-workflow.webp";
+import trainingJourneyImage from "../assets/training/training-how-it-works.webp";
 
 function formatDate(value?: string) {
   if (!value) return "";
@@ -56,9 +59,11 @@ export function ClassesPage() {
           description="Training is designed for aspiring VMAs, developing assistants, healthcare professionals moving into remote work, and teams building practical administrative capability."
         />
 
-        <div className="mt-8 grid gap-5 lg:grid-cols-3">
+        <div className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-center">
+          <img src={practicalLearningImage} alt="Learner building practical remote healthcare support skills" width="1400" height="788" className="aspect-[4/3] w-full rounded-[1.5rem] object-cover shadow-soft" loading="lazy" decoding="async" />
+          <div className="grid gap-5">
           {classesContent.whyTrain.map((item) => (
-            <article key={item.title} className="surface-card p-6">
+            <a key={item.title} href="#skills" className="surface-card group p-6 transition hover:-translate-y-1 hover:border-brand-accent hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent">
               <h3 className="text-xl font-semibold text-brand-navy">
                 {item.title}
               </h3>
@@ -66,8 +71,10 @@ export function ClassesPage() {
               <p className="mt-3 text-sm leading-7 text-brand-charcoal/80">
                 {item.description}
               </p>
-            </article>
+              <span className="mt-4 inline-flex font-semibold text-brand-accent transition-transform group-hover:translate-x-1">Explore this focus →</span>
+            </a>
           ))}
+          </div>
         </div>
       </HomeSection>
 
@@ -75,7 +82,7 @@ export function ClassesPage() {
         <SectionHeading
           eyebrow="Training programmes"
           title="Choose a learning path that fits your goals"
-          description="Review the available pathways below, then contact MedLink VA to ask about registration and the right next step."
+          description="MedLink VA offers different training pathways depending on where you are starting and how much support you need. Compare the programmes below, see what each one covers, and choose the option that best matches your experience, learning goals, and preferred level of guidance."
         />
 
         <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
@@ -123,17 +130,37 @@ export function ClassesPage() {
                 ))}
               </ul>
 
-              <Link
-                to={
-                  tier.ctaLabel === "Book a Consultation"
-                    ? "/book-consultation"
-                    : "/contact"
-                }
-                className="btn-primary mt-6 w-full"
-                onClick={() => trackTrainingCtaClick(tier.name, tier.ctaLabel, tier.ctaLabel === "Book a Consultation" ? "/book-consultation" : "/contact")}
-              >
-                {tier.ctaLabel}
-              </Link>
+              {tier.trainingMode === "group" && tier.paymentUrl ? (
+                <a
+                  href={tier.paymentUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-primary mt-6 w-full"
+                  onClick={() => trackTrainingCheckoutClick(tier.name, tier.paymentUrl!)}
+                >
+                  {tier.paymentCtaLabel ?? "Enrol & Pay"}
+                  <span aria-hidden="true"> ↗</span>
+                </a>
+              ) : tier.trainingMode === "one-on-one" ? (
+                <>
+                  <Link
+                    to="/book-consultation"
+                    className="btn-primary mt-6 w-full"
+                    onClick={() => trackTrainingCtaClick(tier.name, "Book a Training Consultation", "/book-consultation", { trainingMode: "one-on-one", destinationType: "consultation" })}
+                  >
+                    Book a Training Consultation
+                  </Link>
+                  <p className="mt-3 text-xs leading-5 text-brand-charcoal/70">One-on-one training is scheduled individually. Book a consultation to discuss suitable training dates, availability, and the next steps before payment.</p>
+                </>
+              ) : tier.trainingMode === "other" ? (
+                <Link
+                  to={tier.ctaLabel === "Book a Consultation" ? "/book-consultation" : "/contact"}
+                  className="btn-primary mt-6 w-full"
+                  onClick={() => trackTrainingCtaClick(tier.name, tier.ctaLabel, tier.ctaLabel === "Book a Consultation" ? "/book-consultation" : "/contact")}
+                >
+                  {tier.ctaLabel}
+                </Link>
+              ) : null}
             </article>
           ))}
         </div>
@@ -174,42 +201,37 @@ export function ClassesPage() {
         </div>
       </HomeSection>
 
-      <HomeSection className="bg-white py-16 sm:py-20">
+      <HomeSection id="skills" className="bg-white py-16 sm:py-20">
         <SectionHeading
           eyebrow="What you can learn"
-          title="Skills for practical healthcare administration"
-          description="Topics vary by programme. Training focuses on administrative workflows and career preparation, not clinical licensure or clinical decision-making."
+          title="Skills you can use in real healthcare support work"
+          description="Training covers the practical areas Virtual Medical Assistants are likely to encounter in real administrative roles. The exact topics vary by programme, but the focus remains on organized workflows, professional communication, responsible information handling, and career preparation."
         />
 
-        <div className="mt-8 grid gap-5 md:grid-cols-2">
+        <div className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:items-start">
+          <img src={skillsWorkflowImage} alt="Healthcare administrative workflow used to support practical training" width="1400" height="788" className="aspect-[4/3] w-full rounded-[1.5rem] object-cover shadow-soft" loading="lazy" decoding="async" />
+          <div className="grid gap-5 md:grid-cols-2">
           {classesContent.topics.map((topic) => (
-            <ResponsiveDisclosure key={topic.title} title={topic.title}>
-              <ul className="space-y-2">
-                {topic.items.map((item) => (
-                  <li key={item} className="flex gap-2">
-                    <span
-                      className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-sky"
-                      aria-hidden="true"
-                    />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </ResponsiveDisclosure>
+            <article key={topic.title} className="surface-card p-6 transition hover:-translate-y-1 hover:border-brand-accent hover:shadow-lg">
+              <h3 className="text-xl font-semibold text-brand-navy">{topic.title}</h3>
+              <p className="mt-3 text-sm leading-7 text-brand-charcoal/80">{topic.description}</p>
+            </article>
           ))}
+          </div>
         </div>
       </HomeSection>
 
       <HomeSection className="bg-brand-background py-16 sm:py-20">
         <SectionHeading
           eyebrow="How training works"
-          title="A clear path from interest to completion"
-          description="Each programme has its own format and level of guidance. The journey below shows what learning may look like without promising identical delivery for every tier."
+          title="A clear path from choosing a programme to completing it"
+          description="Each programme has its own format, but the overall learning journey is designed to help you move from choosing a pathway to building practical skills, receiving guidance, and completing the programme with a clearer understanding of remote healthcare support work."
         />
 
+        <img src={trainingJourneyImage} alt="Illustration of a learner's journey through a training programme" width="1400" height="788" className="mx-auto mt-8 aspect-[16/6] w-full max-w-5xl rounded-[1.5rem] object-cover shadow-soft" loading="lazy" decoding="async" />
         <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-5">
           {classesContent.journey.map((step) => (
-            <article key={step.number} className="surface-card p-5">
+            <a key={step.number} href="#programmes" className="surface-card group p-5 transition hover:-translate-y-1 hover:border-brand-accent hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent" onClick={() => trackTrainingOpen("training_path_open", "#programmes")}>
               <p className="text-sm font-bold tracking-[0.2em] text-brand-accent">
                 {step.number}
               </p>
@@ -221,7 +243,8 @@ export function ClassesPage() {
               <p className="mt-2 text-sm leading-6 text-brand-charcoal/75">
                 {step.description}
               </p>
-            </article>
+              <span className="mt-4 inline-flex font-semibold text-brand-accent transition-transform group-hover:translate-x-1">View programmes →</span>
+            </a>
           ))}
         </div>
       </HomeSection>
@@ -229,7 +252,7 @@ export function ClassesPage() {
       <TestimonialSection audiences={["trainee"]} />
 
       {classesContent.trainingFaqs.length ? (
-        <HomeSection className="bg-brand-background py-16 sm:py-20">
+        <HomeSection id="faqs" className="scroll-mt-24 bg-brand-background py-16 sm:py-20">
           <SectionHeading
             eyebrow="Training FAQs"
             title="Questions about learning with MedLink VA"
@@ -243,6 +266,7 @@ export function ClassesPage() {
               </ResponsiveDisclosure>
             ))}
           </div>
+          <Link to="/faqs" className="mt-6 inline-flex font-semibold text-brand-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent">View all FAQs →</Link>
         </HomeSection>
       ) : null}
 
@@ -262,6 +286,7 @@ function UpcomingCard({
   item: ReturnType<typeof resolveClassesContent>["records"][number];
 }) {
   const date = formatDate(item.startDate ?? item.date);
+  const groupPaymentUrl = item.trainingMode === "group" && item.paymentUrl?.startsWith("https://") ? item.paymentUrl : null;
 
   const instructors = item.instructorNames?.length
     ? item.instructorNames.join(", ")
@@ -312,20 +337,20 @@ function UpcomingCard({
         ) : null}
 
         <div className="flex flex-wrap items-center gap-3">
-          {item.registrationUrl ? (
-            <a
-              href={item.registrationUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-primary"
-              onClick={() => trackTrainingCtaClick(item.title, item.callToActionLabel ?? "Register", item.registrationUrl ?? "")}
-            >
+          {groupPaymentUrl ? (
+            <a href={groupPaymentUrl} target="_blank" rel="noopener noreferrer" className="btn-primary" onClick={() => trackTrainingCheckoutClick(item.title, groupPaymentUrl)}>
+              {item.paymentCtaLabel ?? "Enrol & Pay"} <span aria-hidden="true">↗</span>
+            </a>
+          ) : item.trainingMode === "one-on-one" ? (
+            <Link to="/book-consultation" className="btn-primary" onClick={() => trackTrainingCtaClick(item.title, "Book a Training Consultation", "/book-consultation", { trainingMode: "one-on-one", destinationType: "consultation" })}>
+              Book a Training Consultation
+            </Link>
+          ) : item.registrationUrl ? (
+            <a href={item.registrationUrl} target="_blank" rel="noopener noreferrer" className="btn-primary" onClick={() => trackTrainingCtaClick(item.title, item.callToActionLabel ?? "Register", item.registrationUrl ?? "")}>
               {item.callToActionLabel ?? "Register"}
             </a>
           ) : (
-            <Link to="/contact" className="btn-secondary">
-              Ask About This Session
-            </Link>
+            <Link to="/contact" className="btn-secondary">Ask About This Session</Link>
           )}
         </div>
       </div>

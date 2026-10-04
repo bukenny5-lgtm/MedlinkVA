@@ -24,6 +24,28 @@ export type SanityImageSource = {
   };
 };
 
+export type EventDocument = {
+  _id: string;
+  title: string;
+  slug: SanitySlug;
+  shortDescription: string;
+  description?: string;
+  coverImage?: SanityImageSource;
+  startDateTime: string;
+  endDateTime: string;
+  timezone?: string;
+  format?: string;
+  registrationUrl?: string;
+  ctaLabel?: string;
+  active?: boolean;
+  featured?: boolean;
+  showOnHomepage?: boolean;
+  showInResources?: boolean;
+  registrationClosesAt?: string;
+  displayOrder?: number;
+  eventType?: "training" | "webinar" | "launch" | "workshop" | "other";
+};
+
 export type PortableTextSpan = {
   _key: string;
   _type: "span";
@@ -104,6 +126,9 @@ export type ClassDocument = {
   instructor?: string;
   instructorNames?: string[];
   price?: number;
+  paymentCtaLabel?: string;
+  paymentUrl?: string;
+  trainingMode?: "group" | "one-on-one" | "other";
   priceLabel?: string;
   programmeType?: "programme" | "webinar" | "workshop" | "bootcamp" | "team-training";
   registrationDeadline?: string;
@@ -285,6 +310,7 @@ export type AboutContentDocument = {
 
 export type CmsBundle = {
   aboutContent: AboutContentDocument | null;
+  events: EventDocument[];
   classes: ClassDocument[];
   faqs: FaqDocument[];
   homepageContent: HomepageContentDocument | null;

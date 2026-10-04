@@ -1,12 +1,12 @@
 export const resourcesContent = {
   hero: {
     eyebrow: "Resources",
-    title: "Resources for Virtual Medical Assistants & Healthcare Teams",
+    title: "Practical resources for Virtual Medical Assistants and healthcare teams",
     description:
-      "Browse practical guides on Virtual Medical Assistant work, healthcare administration, career preparation, privacy, and remote support.",
+      "Whether you are preparing for a career as a Virtual Medical Assistant, building confidence in healthcare administration, or looking for clearer ways to support a practice, these resources are designed to help you move forward. Explore practical guidance on training, career development, practice workflows, insurance and billing, AI and automation, and remote patient monitoring. Start with the topic that matches your next question, then use the guides to build a stronger understanding of the work, the expectations, and the people involved.",
     actions: [
-      { label: "Explore Services", to: "/services", variant: "primary" as const },
-      { label: "Book a Consultation", to: "/book-consultation", variant: "secondary" as const },
+      { label: "Browse Resources", to: "#resource-library", variant: "primary" as const },
+      { label: "Explore Training", to: "/classes", variant: "secondary" as const },
     ],
   },
   categories: [

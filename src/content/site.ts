@@ -25,9 +25,9 @@ export const siteContent = {
     { label: "Training", path: "/classes" },
     { label: "Services", path: "/services" },
     { label: "Impact", path: "/impact" },
-    { label: "About", path: "/about" },
     { label: "Resources", path: "/resources" },
-    { label: "Contact", path: "/contact" },
+    { label: "Products", path: "/products" },
+    { label: "About", path: "/about" },
   ] satisfies NavigationItem[],
   footerNavigation: [
     { label: "Privacy & Compliance", path: "/privacy-and-compliance" },

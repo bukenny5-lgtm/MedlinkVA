@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Seo } from "../components/Seo";
 import { HomeSection } from "../components/home/HomeSection";
 import { SectionHeading } from "../components/home/SectionHeading";
@@ -9,12 +10,17 @@ import { clientAssets } from "../lib/assets";
 import { useCmsBundle } from "../lib/cms/SiteContentProvider";
 import { resolveAboutContent } from "../lib/cms/siteContent";
 import { sanityImageSrc } from "../lib/sanity/image";
-import type { AboutMetric, AboutPartner } from "../content/about";
+import type { AboutPartner } from "../content/about";
+import { trackEvent } from "../lib/analytics";
+import chetacareLogo from "../assets/partners/chetacare.png.webp";
+import hiJobLogo from "../assets/partners/hijob.png.webp";
+import converseToClarityLogo from "../assets/partners/converse-to-clarity.png.jpeg";
+import weMakeChangeLogo from "../assets/partners/we_make_change.png";
 
 export function AboutPage() {
   const aboutContent = resolveAboutContent(useCmsBundle());
-  const metrics = aboutContent.metrics as AboutMetric[];
   const partners = aboutContent.partners as AboutPartner[];
+  const partnerLogos: Record<string, string> = { "Chetacare": chetacareLogo, "HiJob": hiJobLogo, "Converse to Clarity": converseToClarityLogo, "We Make Change": weMakeChangeLogo };
 
   return (
     <article className="space-y-12">
@@ -48,13 +54,13 @@ export function AboutPage() {
       <HomeSection className="bg-white py-16 sm:py-20">
         <SectionHeading
           eyebrow="What we value"
-          title="Values that guide the way we work"
-          description="Clarity, respect, flexibility, and responsible working habits shape our approach to learners and practices."
+          title="Values that shape how we work"
+          description="The way we train, communicate, and support people matters just as much as the work itself. These values guide how MedLink VA works with learners, healthcare practices, partners, and the people behind every opportunity."
         />
 
         <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
           {aboutContent.values.map((value) => (
-            <InfoCard key={value.title} title={value.title} description={value.description} />
+            <InfoCard key={value.title} title={value.title} description={value.description} className="transition hover:-translate-y-1 hover:border-brand-accent hover:shadow-lg" />
           ))}
         </div>
       </HomeSection>
@@ -85,9 +91,9 @@ export function AboutPage() {
         </div>
       </HomeSection>
 
-      {metrics.length ? <HomeSection className="bg-white py-16 sm:py-20"><SectionHeading eyebrow="MedLink VA at a glance" title="Our Impact in Numbers" description="A snapshot of the people trained and opportunities supported through MedLink VA." /><div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">{metrics.map((metric) => <article key={`${metric.label}-${metric.value}`} className="surface-card p-6"><p className="text-3xl font-bold text-brand-navy">{metric.value}{metric.suffix}</p><h3 className="mt-3 font-semibold text-brand-navy">{metric.label}</h3>{metric.description ? <p className="mt-2 text-sm leading-6 text-brand-charcoal/75">{metric.description}</p> : null}</article>)}</div></HomeSection> : null}
+      <HomeSection className="bg-white py-16 sm:py-20"><SectionHeading eyebrow="Our Impact" title="See the progress behind the work" description="MedLink VA is growing through the people we train, the opportunities learners move into, and the healthcare teams our work is designed to support. Visit our Impact page to see the latest verified training and placement figures and learn more about the progress behind the numbers." /><div className="mt-8"><Link to="/impact" className="btn-secondary" onClick={() => trackEvent("about_impact_open", { destination: "/impact" })}>Explore Our Impact <span aria-hidden="true">→</span></Link></div></HomeSection>
 
-      {partners.length ? <HomeSection className="bg-brand-background py-16 sm:py-20"><SectionHeading eyebrow="Partners & collaborations" title="Organisations connected with MedLink VA" description="Meet the organisations MedLink VA works with and collaborates alongside." /><div className="mt-8 grid gap-4 sm:grid-cols-3">{partners.map((partner) => <article key={partner.name} className="surface-card flex min-h-24 items-center justify-center p-5 text-center">{partner.websiteUrl ? <a href={partner.websiteUrl} target="_blank" rel="noopener noreferrer" className="font-semibold text-brand-navy underline-offset-4 hover:underline">{partner.logo ? <img src={sanityImageSrc(partner.logo, { width: 500 }) ?? ""} alt={partner.altText || `${partner.name} logo`} className="max-h-14 max-w-full object-contain" loading="lazy" decoding="async" /> : partner.name}<span className="sr-only"> (opens in a new tab)</span></a> : partner.logo ? <img src={sanityImageSrc(partner.logo, { width: 500 }) ?? ""} alt={partner.altText || `${partner.name} logo`} className="max-h-14 max-w-full object-contain" loading="lazy" decoding="async" /> : <span className="font-semibold text-brand-navy">{partner.name}</span>}</article>)}</div></HomeSection> : null}
+      {partners.length ? <HomeSection className="bg-brand-background py-16 sm:py-20"><SectionHeading eyebrow="Partners & Collaborations" title="Organisations we grow alongside" description="MedLink VA works alongside organisations that share an interest in training, professional development, healthcare support, and creating meaningful opportunities for people." /><div className="mx-auto mt-8 grid max-w-5xl gap-4 sm:grid-cols-2 xl:grid-cols-4">{partners.map((partner) => { const logo = partner.logo ? sanityImageSrc(partner.logo, { width: 500 }) ?? undefined : partnerLogos[partner.name]; const content = <div className="flex min-h-28 flex-col items-center justify-center gap-3"><span className="flex min-h-16 w-full items-center justify-center">{logo ? <img src={logo} alt={partner.altText || `${partner.name} logo`} className="max-h-16 max-w-[250px] object-contain grayscale transition duration-300 group-hover:grayscale-0 group-hover:scale-[1.03]" loading="lazy" decoding="async" /> : <span className="font-semibold text-brand-navy">{partner.name}</span>}</span><span className="text-sm font-medium text-brand-navy">{partner.name}</span></div>; return <div key={partner.name} className="group surface-card flex min-h-36 items-center justify-center bg-white p-6 text-center">{partner.websiteUrl ? <a href={partner.websiteUrl} target="_blank" rel="noopener noreferrer" className="w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent" onClick={() => trackEvent("partner_open", { partner_name: partner.name, destination: partner.websiteUrl })}>{content}<span className="sr-only"> (opens in a new tab)</span></a> : content}</div>; })}</div></HomeSection> : null}
 
       <HomeSection className="bg-white py-16 sm:py-20">
         <SectionHeading
@@ -99,7 +105,7 @@ export function AboutPage() {
         <div className="mt-8">
           <InfoCard
             title="Training and support built around people"
-            description="Discuss your goals with a team that values practical progress and open communication."
+            description="We take time to understand where someone is starting, what they are trying to achieve, and what kind of guidance or support will be most useful. Whether you are learning or looking for help in your practice, the goal is practical progress rather than complicated processes."
             bullets={aboutContent.why.bullets}
           />
         </div>

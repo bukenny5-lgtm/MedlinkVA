@@ -2,7 +2,6 @@ type AnalyticsPrimitive = string | number | boolean;
 export type AnalyticsParams = Record<string, AnalyticsPrimitive | undefined>;
 
 const measurementIdPattern = /^G-[A-Z0-9]+$/i;
-let analyticsInitialized = false;
 let lastTrackedPath: string | null = null;
 
 function getMeasurementId() {
@@ -11,35 +10,22 @@ function getMeasurementId() {
 }
 
 function canUseAnalytics() {
-  return import.meta.env.PROD && typeof window !== "undefined" && Boolean(getMeasurementId());
+  return import.meta.env.PROD && typeof window !== 'undefined' && Boolean(getMeasurementId()) && typeof window.gtag === 'function';
 }
 
-export function initializeAnalytics() {
-  const measurementId = getMeasurementId();
-  if (!canUseAnalytics() || !measurementId) return false;
-  if (analyticsInitialized) return true;
-
-  window.dataLayer = window.dataLayer ?? [];
-  window.gtag = window.gtag ?? ((...args: unknown[]) => window.dataLayer?.push(args));
-  window.gtag("js", new Date());
-  window.gtag("config", measurementId, { send_page_view: false });
-
-  if (!document.querySelector(`script[data-medlink-ga4="${measurementId}"]`)) {
-    const script = document.createElement("script");
-    script.async = true;
-    script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(measurementId)}`;
-    script.dataset.medlinkGa4 = measurementId;
-    document.head.append(script);
-  }
-
-  analyticsInitialized = true;
-  return true;
+function isDebugMode() {
+  if (typeof window === "undefined") return false;
+  const params = new URLSearchParams(window.location.search);
+  return params.has("gtm_debug") || params.has("tagassistant") || params.has("gtm_auth") || params.has("gtm_preview");
 }
 
 export function trackEvent(name: string, params?: AnalyticsParams) {
-  if (!initializeAnalytics() || !window.gtag) return;
+  if (!canUseAnalytics() || !window.gtag) return;
   const cleanParams = Object.fromEntries(Object.entries(params ?? {}).filter(([, value]) => value !== undefined));
-  window.gtag("event", name, cleanParams);
+  window.gtag("event", name, {
+    ...cleanParams,
+    ...(isDebugMode() ? { debug_mode: true } : {}),
+  });
 }
 
 export function trackPageView(pathname: string) {
@@ -57,8 +43,27 @@ export function trackCtaClick(label: string, destination: string, location: stri
   trackEvent("cta_click", { cta_label: label, cta_location: location, destination });
 }
 
-export function trackTrainingCtaClick(programName: string, label: string, destination: string) {
-  trackEvent("training_cta_click", { program_name: programName, cta_label: label, destination });
+export function trackTrainingCtaClick(programName: string, label: string, destination: string, options?: { trainingMode?: "one-on-one" | "group" | "other"; destinationType?: "consultation" | "external_checkout" | "internal" }) {
+  trackEvent("training_cta_click", {
+    programme: programName,
+    program_name: programName,
+    cta_label: label,
+    destination,
+    ...(options?.trainingMode ? { training_mode: options.trainingMode } : {}),
+    ...(options?.destinationType ? { destination_type: options.destinationType } : {}),
+  });
+}
+
+export function trackTrainingCheckoutClick(programName: string, destination: string) {
+  trackEvent("training_checkout_click", {
+    programme: programName,
+    training_mode: "group",
+    destination_type: "external_checkout",
+    destination,
+  });
+}
+export function trackTrainingOpen(name: "training_path_open", destination: string) {
+  trackEvent(name, { destination });
 }
 
 export function trackServiceCtaClick(serviceName: string, label: string) {

@@ -14,6 +14,7 @@ import { WhoWeServeSection } from "../components/home/WhoWeServeSection";
 import { clientAssets } from "../lib/assets";
 import { TestimonialSection } from "../components/shared/TestimonialSection";
 import { HomeImpactModel, HomeImpactPreview, HomePathways, HomeTrustLinks } from "../components/home/HybridSections";
+import { HomepagePromotion } from "../components/home/HomepagePromotion";
 
 export function HomePage() {
   return (
@@ -40,6 +41,7 @@ export function HomePage() {
       <ResourcesPreview />
       <NewsletterSection />
       <FinalCtaSection />
+      <HomepagePromotion />
     </>
   );
 }

@@ -14,6 +14,7 @@ import { siteSettings } from "./siteSettings";
 import { teamMember } from "./teamMember";
 import { testimonial } from "./testimonial";
 import { videoContent } from "./videoContent";
+import { event } from "./event";
 
 export const schemaTypes: SchemaTypeDefinition[] = [
   siteSettings,
@@ -31,4 +32,5 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   faq,
   testimonial,
   videoContent,
+  event,
 ] as const;

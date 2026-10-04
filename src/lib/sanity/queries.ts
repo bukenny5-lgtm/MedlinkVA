@@ -2,6 +2,11 @@ import { sanityClient, isSanityConfigured } from "./client";
 import type { CmsBundle } from "./types";
 
 const cmsQuery = `{
+  "events": *[_type == "event" && active != false] | order(featured desc, displayOrder asc, startDateTime asc) {
+    _id, title, slug, shortDescription, description, coverImage, startDateTime, endDateTime,
+    timezone, format, registrationUrl, ctaLabel, active, featured, showOnHomepage, showInResources,
+    registrationClosesAt, displayOrder, eventType
+  },
   "siteSettings": *[_type == "siteSettings"][0]{
     businessName,
     tagline,
@@ -119,8 +124,11 @@ const cmsQuery = `{
     instructor,
     instructorNames,
     price,
+    paymentCtaLabel,
+    paymentUrl,
     priceLabel,
     programmeType,
+    trainingMode,
     registrationDeadline,
     registrationUrl,
     shortDescription,

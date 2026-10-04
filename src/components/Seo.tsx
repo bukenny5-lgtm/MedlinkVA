@@ -90,6 +90,8 @@ export function Seo({
       "/jobs": "Jobs",
       "/classes": "Classes",
       "/resources": "Resources",
+      "/events/official-launch": "MedLink VA Official Launch",
+      "/faqs": "FAQs",
       "/hire-an-mva": "Hire an MVA",
       "/impact": "Impact",
       "/how-we-prepare-mvas": "How We Prepare MVAs",

@@ -9,7 +9,7 @@ export function SiteFooter() {
 
   return (
     <footer className="border-t border-brand-border bg-brand-navy text-white">
-      <div className="mx-auto grid w-full max-w-7xl gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[1.2fr_0.9fr_1fr] lg:gap-6 lg:px-8 lg:py-8">
+      <div className="mx-auto grid w-full max-w-7xl gap-8 px-4 py-10 sm:px-6 md:grid-cols-2 lg:grid-cols-4 lg:gap-8 lg:px-8 lg:py-8">
         <div className="space-y-4">
           <Link to="/" className="inline-flex items-center gap-3">
             <span className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/15 bg-white/95 p-1 shadow-soft">
@@ -33,12 +33,13 @@ export function SiteFooter() {
         <div className="space-y-3">
           <p className="text-sm font-semibold text-white">Explore</p>
           <div className="flex flex-col gap-2 text-sm text-white/80">
-            {site.navigation.slice(1).map((item) => (
+            {site.navigation.slice(1).filter((item, index, items) => items.findIndex((candidate) => candidate.path === item.path) === index).map((item) => (
               <Link key={item.path} to={item.path} className="inline-flex min-h-11 items-center transition-colors hover:text-white">
                 {item.label}
               </Link>
             ))}
             <Link to="/videos" className="inline-flex min-h-11 items-center transition-colors hover:text-white">Video Hub</Link>
+            <Link to="/faqs" className="inline-flex min-h-11 items-center transition-colors hover:text-white">FAQs</Link>
             <Link to="/impact" className="inline-flex min-h-11 items-center transition-colors hover:text-white">Impact</Link>
           </div>
         </div>

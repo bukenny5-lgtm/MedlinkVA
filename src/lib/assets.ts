@@ -16,5 +16,6 @@ export const clientAssets = {
     "../assets/optimized/team/virtual-administrative-assistant.jpg",
     import.meta.url,
   ).href,
+  officialLaunchCover: new URL("../assets/events/medlink-va-official-launch.png.webp", import.meta.url).href,
 } as const;
 

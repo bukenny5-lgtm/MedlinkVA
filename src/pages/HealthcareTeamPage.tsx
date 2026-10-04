@@ -31,7 +31,7 @@ export function HealthcareTeamPage() {
 
   return <article>
     <Seo title={audience.seoTitle} description={audience.description} />
-    <PageHero eyebrow={audience.eyebrow} title={audience.title} description={audience.description} actions={[{ label: audience.cta.label, to: audience.cta.to, variant: "primary" }, { label: "How We Prepare MVAs", to: "/how-we-prepare-mvas", variant: "secondary" }]} image={media ? { src: media.hero, alt: media.alt } : undefined} />
+    <PageHero eyebrow={audience.eyebrow} title={audience.title} description={audience.description} actions={[{ label: audience.cta.label, to: audience.cta.to, variant: "primary" }, { label: "How We Prepare MVAs", to: "/how-we-prepare-mvas", variant: "secondary" }]} image={media ? { src: media.hero, alt: media.alt, objectPosition: media.heroPosition } : undefined} mediaVariant="audience" />
 
     <HomeSection className="bg-white py-16 sm:py-20">
       <div className="grid gap-8 lg:grid-cols-[1fr_0.9fr] lg:items-center">

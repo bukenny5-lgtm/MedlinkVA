@@ -93,7 +93,21 @@ export const classSchema = defineType({
       of: [{ type: "string" }],
     }),
     defineField({ name: "certificateIncluded", title: "Certificate included", type: "boolean" }),
-    defineField({ name: "externalRegistration", title: "External registration", type: "boolean" }),
+    defineField({ name: "externalRegistration", title: "External registration", type: "boolean" }),    defineField({
+      name: "trainingMode",
+      title: "Training mode",
+      type: "string",
+      options: { list: [{ title: "Group", value: "group" }, { title: "One-on-one", value: "one-on-one" }, { title: "Other", value: "other" }] },
+      description: "Controls whether the programme can use direct group checkout or requires a consultation first.",
+    }),
+    defineField({
+      name: "paymentUrl",
+      title: "Payment URL",
+      type: "url",
+      description: "Use only for an approved group-training checkout destination. Leave empty for one-on-one training.",
+      validation: (Rule) => Rule.uri({ scheme: ["http", "https"] }),
+    }),
+    defineField({ name: "paymentCtaLabel", title: "Payment CTA label", type: "string" }),
     defineField({ name: "callToActionLabel", title: "Call to action label", type: "string" }),
     defineField({
       name: "registrationUrl",

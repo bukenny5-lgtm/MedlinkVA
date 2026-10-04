@@ -1,9 +1,9 @@
 export const classesContent = {
   hero: {
     eyebrow: "Virtual Medical Assistant Training",
-    title: "Build practical skills for healthcare administrative work",
+    title: "Build practical skills for real healthcare support work",
     description:
-      "MedLink VA trains aspiring and developing Virtual Medical Assistants in practical healthcare administrative workflows for remote healthcare support roles.",
+      "MedLink VA helps aspiring and developing Virtual Medical Assistants build the administrative, communication, and workflow skills they need to work confidently in remote healthcare support roles. Training focuses on practical situations learners are likely to meet in day-to-day work, not just theory.",
     actions: [
       { label: "Explore Programmes", to: "#programmes", variant: "primary" as const },
       { label: "Book a Consultation", to: "/book-consultation", variant: "secondary" as const },
@@ -18,21 +18,31 @@ export const classesContent = {
     {
       title: "Practical healthcare workflows",
       description:
-        "Learn through the administrative tasks, communication habits, and workflow context that support healthcare teams.",
+        "Learn how common healthcare administrative tasks fit together, from scheduling and patient communication to referrals, documentation, and follow-up.",
     },
     {
       title: "Guided learning pathways",
       description:
-      "Choose a structured path with flexible formats, personalised guidance, and support as you learn.",
+      "Follow a structured learning path with clear progression, practical exercises, and guidance that helps you understand what to work on next.",
     },
     {
       title: "Responsible working habits",
       description:
-        "Build privacy-conscious habits and clear expectations for remote healthcare administrative work.",
+        "Build the communication, privacy awareness, reliability, and professional judgement expected when supporting healthcare teams remotely.",
     },
   ],
   introduction: [],
-  tiers: [
+  tiers: [    {
+      name: "Medical Virtual Assistance Class (Group Session)",
+      price: "See class details",
+      duration: "Group session",
+      description: "Group-based Virtual Medical Assistant training focused on practical healthcare administrative workflows.",
+      delivery: ["Group learning", "Healthcare workflows", "Practical training"],
+      badge: "Group session",
+      trainingMode: "group" as const,
+      paymentUrl: "https://selar.com/8772p6865p",
+      paymentCtaLabel: "Enrol & Pay",
+    },
     {
       name: "Foundations",
       price: "$15",
@@ -40,6 +50,9 @@ export const classesContent = {
       description: "A practical starting point for aspiring Virtual Medical Assistants.",
       delivery: ["On-demand video tutorials", "1-hour live session every week", "4 weeks total access", "Community Q&A support", "Certificate of completion"],
       badge: undefined,
+      trainingMode: "one-on-one" as const,
+      paymentUrl: undefined,
+      paymentCtaLabel: undefined,
       ctaLabel: "Enquire About This Programme",
     },
     {
@@ -49,6 +62,9 @@ export const classesContent = {
       description: "Individual guidance for learners who want structured feedback and support.",
       delivery: ["Individual 1-on-1 sessions", "2 hours per week for 6 weeks", "Free scheduling template included", "Personalised feedback", "Certificate of completion"],
       badge: undefined,
+      trainingMode: "one-on-one" as const,
+      paymentUrl: undefined,
+      paymentCtaLabel: undefined,
       ctaLabel: "Enquire About This Programme",
     },
     {
@@ -58,6 +74,9 @@ export const classesContent = {
       description: "An intensive path covering core VMA workflows and career preparation.",
       delivery: ["1-on-1 sessions", "4 hours per week for 8 weeks"],
       badge: "Most Popular",
+      trainingMode: "one-on-one" as const,
+      paymentUrl: undefined,
+      paymentCtaLabel: undefined,
       ctaLabel: "Enquire About This Programme",
     },
     {
@@ -67,30 +86,36 @@ export const classesContent = {
       description: "Extended career preparation for learners pursuing remote healthcare roles.",
       delivery: ["How to land remote US healthcare roles", "LinkedIn optimisation for VMAs", "All 6 VMA template bundle included", "Job search strategy & portfolio review"],
       badge: undefined,
+      trainingMode: "one-on-one" as const,
+      paymentUrl: undefined,
+      paymentCtaLabel: undefined,
       ctaLabel: "Enquire About This Programme",
     },
     {
       name: "Team Training",
+      trainingMode: "other" as const,
       price: "$300 – $500",
       duration: "Scope & duration by agreement",
       description: "Custom training for clinic VMAs or staff, shaped around team needs.",
       delivery: ["Price varies by team size & needs", "Skills audit & gap analysis included", "Flexible virtual or hybrid delivery", "Tailored curriculum to workflows", "HIPAA team compliance training", "Ongoing support & reporting"],
       badge: "Clinic & Enterprise",
+      paymentUrl: undefined,
+      paymentCtaLabel: undefined,
       ctaLabel: "Book a Consultation",
     },
   ],
   topics: [
-    { title: "Healthcare Administration", items: ["HIPAA training & compliance", "Appointment scheduling", "Patient communication & cold calling", "Medical documentation", "Prior authorisation & referral management"] },
-    { title: "Insurance & Revenue Cycle", items: ["Insurance verification", "Medical billing & RPM", "Prior authorisation workflows"] },
-    { title: "Digital Tools", items: ["Google Workspace for VMAs", "Workflow organisation", "EHR-adjacent administrative processes"] },
-    { title: "Career Development", items: ["Resume writing", "LinkedIn optimisation for VMAs", "Job-search preparation"] },
+    { title: "Healthcare Administration", description: "Learners build familiarity with everyday healthcare administration, including scheduling, patient communication, documentation, referrals, and privacy-conscious working habits. The goal is to understand how these tasks connect within a healthcare team, not simply how to complete them in isolation.", items: ["Appointment scheduling", "Patient communication", "Medical documentation", "Referrals and follow-up", "Privacy awareness and responsible information handling"] },
+    { title: "Insurance & Revenue Cycle", description: "Learners are introduced to the administrative side of insurance verification, authorization workflows, billing support, and related follow-up. Training focuses on understanding how these tasks fit into the wider workflow and when questions need to be escalated.", items: ["Insurance verification", "Billing support", "Authorization workflows", "Related follow-up"] },
+    { title: "Digital Tools", description: "Learners build confidence using common productivity tools, organizing digital workflows, and working around systems used in healthcare administration. The focus is on staying organized, communicating clearly, and handling routine tasks responsibly in a remote environment.", items: ["Productivity tools", "Workflow organisation", "Digital task tracking", "EHR-adjacent administrative processes"] },
+    { title: "Career Development", description: "Career preparation helps learners present their skills more clearly and understand what employers may expect in remote healthcare support roles. Topics may include CV preparation, LinkedIn, interview readiness, job-search preparation, and professional communication.", items: ["CV preparation", "LinkedIn optimisation for VMAs", "Interview readiness", "Job-search preparation", "Professional communication"] },
   ],
   journey: [
-    { number: "01", title: "Choose your path", description: "Select the programme that fits your goals and preferred level of guidance." },
-    { number: "02", title: "Enrol or register", description: "Ask about a programme or use an available registration link." },
-    { number: "03", title: "Learn through practical sessions", description: "Work through healthcare administrative topics and guided practice." },
-    { number: "04", title: "Receive guidance and feedback", description: "Use live sessions, individual support, or community Q&A as included." },
-    { number: "05", title: "Complete your programme", description: "Receive a certificate of completion where the programme includes one." },
+    { number: "01", title: "Choose your path", description: "Start with the programme that best matches your experience, goals, and the level of guidance you want." },
+    { number: "02", title: "Enrol or register", description: "Join through the available registration process or contact MedLink VA if you need help choosing the right programme." },
+    { number: "03", title: "Learn through practical sessions", description: "Work through healthcare administrative topics, examples, exercises, and guided practice designed to make the learning feel relevant." },
+    { number: "04", title: "Receive guidance and feedback", description: "Depending on the programme, learners may receive live support, feedback, individual guidance, or community Q&A." },
+    { number: "05", title: "Complete your programme", description: "Finish the required learning activities and, where included, receive a certificate of completion." },
   ],
   futureFields: [
     "class title",
@@ -110,4 +135,3 @@ export const classesContent = {
     secondaryAction: { label: "Book a Consultation", to: "/book-consultation" },
   },
 } as const;
-

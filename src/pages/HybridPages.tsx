@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Seo } from "../components/Seo";
 import { HomeSection } from "../components/home/HomeSection";
@@ -13,7 +13,7 @@ import { resolveResourcesContent, toPlainText } from "../lib/cms/siteContent";
 import { sanityImageSrc } from "../lib/sanity/image";
 import { clientAssets } from "../lib/assets";
 import { categoryImage } from "../lib/resources";
-import { trackHireMvaCtaClick, trackImpactCtaClick, trackResourceOpen } from "../lib/analytics";
+import { trackEvent, trackHireMvaCtaClick, trackImpactCtaClick, trackResourceOpen } from "../lib/analytics";
 
 const relatedResourceMap: Record<string, string[]> = {
   "what-does-a-virtual-medical-assistant-do": ["healthcare-privacy-and-hipaa-awareness-for-vmas", "how-to-prepare-for-your-first-vma-interview", "what-healthcare-practices-should-know-before-hiring-a-vma"],
@@ -52,15 +52,72 @@ function SmartCta({ label, to, location, impact = false }: { label: string; to: 
   return <Link to={to} className="btn-primary" onClick={() => impact ? trackImpactCtaClick(label, to, location) : trackHireMvaCtaClick(label, to, location)}>{label}</Link>;
 }
 
-function Metrics({ heading = "Our Impact in Numbers", id = "numbers" }: { heading?: string; id?: string }) {
+function MetricCard({ metric, hidden = false }: { metric: { label: string; value: string; suffix?: string; description?: string }; hidden?: boolean }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const valueMatch = metric.value.match(/^(\d+(?:\.\d+)?)(.*)$/);
+  const numericValue = valueMatch ? Number(valueMatch[1]) : null;
+  const [visible, setVisible] = useState(numericValue === null);
+  const [displayValue, setDisplayValue] = useState(0);
+  const valueRemainder = valueMatch?.[2] ?? "";
+  const finalValue = `${metric.value}${metric.suffix ?? ""}`;
+  const description = metric.description || (metric.value.startsWith("100") && metric.label.toLowerCase().includes("trainee") ? "More than 100 learners have taken part in MedLink VA training programmes, building practical skills for Virtual Medical Assistant and remote healthcare support work." : metric.value.startsWith("20") && metric.label.toLowerCase().includes("placement") ? "More than 20 trainees have progressed into work placement opportunities, putting their preparation into practice in professional settings." : undefined);
+
+  useEffect(() => {
+    if (!ref.current || numericValue === null) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setVisible(true);
+        observer.disconnect();
+      }
+    }, { threshold: 0.35 });
+    observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [numericValue]);
+
+  useEffect(() => {
+    if (!visible || numericValue === null) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setDisplayValue(numericValue);
+      return;
+    }
+    const start = performance.now();
+    const duration = 900;
+    let frame = 0;
+    const animate = (now: number) => {
+      const progress = Math.min((now - start) / duration, 1);
+      setDisplayValue(numericValue * (1 - Math.pow(1 - progress, 3)));
+      if (progress < 1) frame = requestAnimationFrame(animate);
+    };
+    frame = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(frame);
+  }, [visible, numericValue]);
+
+  const animatedText = numericValue === null ? finalValue : `${Number.isInteger(numericValue) ? Math.round(displayValue) : displayValue.toFixed(1)}${valueRemainder}${metric.suffix ?? ""}`;
+  return <article ref={ref} aria-hidden={hidden} className={`surface-card p-6 transition duration-300 hover:-translate-y-1 hover:border-brand-accent hover:shadow-lg ${visible ? "impact-metric-visible" : "opacity-0 translate-y-2"}`}>
+    <p className="text-5xl font-bold tracking-tight text-brand-accent" aria-hidden="true">{animatedText}</p>
+    <span className="sr-only">{finalValue}</span>
+    <h3 className="mt-3 text-lg font-semibold text-brand-navy">{metric.label}</h3>
+    {description ? <p className="mt-2 text-sm leading-6 text-brand-charcoal/75">{description}</p> : null}
+  </article>;
+}
+
+function Metrics({ heading = "Progress we can see", id = "numbers" }: { heading?: string; id?: string }) {
   const metrics = useCmsBundle()?.aboutContent?.metrics?.filter((metric) => metric.active !== false && metric.label && metric.value) ?? [];
-  return <HomeSection id={id} className="scroll-mt-24 bg-brand-muted/50 py-16 sm:py-20"><SectionHeading eyebrow="Measured progress" title={heading} description="A snapshot of the people trained, opportunities created, and healthcare support enabled through MedLink VA." /><div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">{metrics.length ? metrics.map((metric) => <div key={`${metric.label}-${metric.value}`} className="surface-card p-6"><p className="text-4xl font-bold text-brand-accent">{metric.value}{metric.suffix ?? ""}</p><h3 className="mt-3 text-lg font-semibold text-brand-navy">{metric.label}</h3>{metric.description ? <p className="mt-2 text-sm leading-6 text-brand-charcoal/75">{metric.description}</p> : null}</div>) : <div className="surface-card p-6 sm:col-span-2"><p className="text-sm leading-7 text-brand-charcoal/75">Verified impact metrics will appear here as they are maintained in the CMS.</p></div>}</div><div className="mt-8"><SmartCta label="Explore Our Impact" to="/impact" location="impact_metrics" impact /></div></HomeSection>;
+  const marquee = metrics.length >= 3;
+  const [paused, setPaused] = useState(false);
+  const resumeTimer = useRef<number | undefined>(undefined);
+  useEffect(() => () => window.clearTimeout(resumeTimer.current), []);
+  function pauseBriefly() {
+    window.clearTimeout(resumeTimer.current);
+    setPaused(true);
+    resumeTimer.current = window.setTimeout(() => setPaused(false), 3500);
+  }
+  return <HomeSection id={id} className="scroll-mt-24 bg-brand-muted/50 py-16 sm:py-20"><SectionHeading eyebrow="Measured progress" title={heading} description="Impact is more than a number, but measurable progress helps show how the work is growing. These figures reflect verified training and placement activity recorded by MedLink VA so far." /><div className={`mt-8 ${marquee ? "impact-metrics-viewport" : "mx-auto grid max-w-4xl gap-5 sm:grid-cols-2"}`} onPointerDown={marquee ? pauseBriefly : undefined} onFocus={marquee ? pauseBriefly : undefined}><div className={`${marquee ? `impact-metrics-track ${paused ? "is-paused" : ""}` : "contents"}`}>{metrics.length ? (marquee ? [...metrics, ...metrics].map((metric, index) => <MetricCard key={`${metric.label}-${index}`} metric={metric} hidden={index >= metrics.length} />) : metrics.map((metric) => <MetricCard key={`${metric.label}-${metric.value}`} metric={metric} />)) : <div className="surface-card p-6 sm:col-span-2"><p className="text-sm leading-7 text-brand-charcoal/75">Verified impact metrics will appear here as they are maintained in the CMS.</p></div>}</div></div><div className="mt-8"><SmartCta label="View Impact Stories" to="#stories" location="impact_metrics" impact /></div></HomeSection>;
 }
 
 function ModelSection() {
-  const steps = [["Train", "Practical Virtual Medical Assistant education"], ["Prepare", "Healthcare workflows, simulations, and career readiness"], ["Connect", "Placement support and employer connections"], ["Support", "Ongoing learning, development, and professional support"]] as const;
-  const links = ["/classes", "/how-we-prepare-mvas", "/impact#placements", "/impact#ongoing-support"];
-  return <HomeSection className="bg-white py-16 sm:py-20"><SectionHeading eyebrow="How MedLink VA creates impact" title="From learning to opportunity" description="A connected pathway for aspiring Virtual Medical Assistants and healthcare practices." /><div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-4">{steps.map(([title, description], index) => <div key={title} id={index === 0 ? "training" : index === 2 ? "placements" : index === 3 ? "ongoing-support" : undefined} className="scroll-mt-24"><InfoCard eyebrow={`0${index + 1}`} title={title} description={description} footer={<Link to={links[index]} className="font-semibold text-brand-accent" onClick={() => trackImpactCtaClick(`Learn more: ${title}`, links[index], "impact_model")}>Learn more →</Link>} /></div>)}</div></HomeSection>;
+  const steps = [["Train", "Learners begin by building practical Virtual Medical Assistant skills through training focused on healthcare administration, communication, workflow organisation, privacy awareness, and responsible remote working habits.", "Explore Training →", "/classes"], ["Prepare", "Training becomes more useful when learners can connect it to real work. Practical exercises, workflow examples, career preparation, and guided learning help learners understand how their skills may be applied in a professional healthcare setting.", "See How We Prepare MVAs →", "/how-we-prepare-mvas"], ["Connect", "When suitable opportunities become available, MedLink VA can help prepared learners move closer to employers and placement opportunities where their skills may be a good fit.", "View Placement Progress →", "#placements"], ["Support", "Professional growth does not stop when training ends. MedLink VA continues to encourage stronger communication, confidence, responsible working habits, and continued learning as trainees progress in their careers.", "Explore Resources →", "/resources"]] as const;
+  return <HomeSection id="pathway" className="scroll-mt-24 bg-white py-16 sm:py-20"><SectionHeading eyebrow="How MedLink VA creates impact" title="From learning to opportunity" description="Training is only one part of the journey. MedLink VA helps learners build practical skills, prepare for real healthcare support work, understand what employers may expect, and move closer to opportunities where those skills can be used. As they grow, continued learning and professional support help them keep developing beyond the classroom. For healthcare practices, this creates a clearer pathway to finding people who have already been introduced to the workflows, communication habits, and responsibilities involved in remote healthcare administration." /><div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-4">{steps.map(([title, description, cta, to], index) => <Link key={title} to={to} className="group surface-card flex h-full flex-col scroll-mt-24 p-6 transition hover:-translate-y-1 hover:border-brand-accent hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent" onClick={() => { trackEvent("impact_pathway_open", { pathway_type: title.toLowerCase(), destination: to }); trackImpactCtaClick(cta, to, "impact_pathway"); }}><p className="text-xs font-semibold uppercase tracking-[0.24em] text-brand-accent">0{index + 1}</p><h3 className="mt-3 text-xl font-semibold text-brand-navy group-hover:underline group-hover:decoration-brand-accent group-hover:underline-offset-4">{title}</h3><p className="mt-3 flex-1 text-sm leading-7 text-brand-charcoal/80">{description}</p><span className="mt-5 inline-flex font-semibold text-brand-accent transition-transform group-hover:translate-x-1">{cta}</span></Link>)}</div></HomeSection>;
 }
 
 export function HireAnMvaPage() {
@@ -68,7 +125,7 @@ export function HireAnMvaPage() {
 }
 
 export function ImpactPage() {
-  return <article><Seo title="Our Impact | MedLink VA" description="See how MedLink VA combines practical training, career preparation, placement support, and healthcare workforce connections." /><PageHero eyebrow="Our Impact" title="Creating Skills. Creating Opportunities. Supporting Healthcare." description="MedLink VA combines practical training, career preparation, placement support, and healthcare workforce connections to create opportunities for aspiring Virtual Medical Assistants and support modern healthcare practices." actions={[{ label: "Explore Training", to: "/classes", variant: "primary" }, { label: "Hire an MVA", to: "/hire-an-mva", variant: "secondary" }]} image={{ src: clientAssets.supportPhoto, alt: "Virtual Medical Assistant working remotely" }} /><Metrics /><ModelSection /><HomeSection id="stories" className="scroll-mt-24 bg-brand-background py-16 sm:py-20"><SectionHeading eyebrow="Stories and updates" title="Impact grows through people" description="Explore verified trainee, graduate, client, and practice stories as they become available in the CMS." /><div className="mt-8 grid gap-5 md:grid-cols-2"><InfoCard title="Graduate stories" description="Published stories can show learning journeys and verified outcomes without overstating results." footer={<Link to="/resources" className="font-semibold text-brand-accent">Browse Resources →</Link>} /><InfoCard title="Work placement highlights" description="Placement and employer updates can be added here when approved for publication." footer={<Link to="/contact" className="font-semibold text-brand-accent">Share an update →</Link>} /></div></HomeSection><TestimonialSection audiences={["trainee", "client", "practice"]} /><PageCta title="Be part of the pathway" description="Whether you are preparing for a career or strengthening a healthcare practice, start with the route that fits your goal." primaryAction={{ label: "Explore Training", to: "/classes" }} secondaryAction={{ label: "Hire an MVA", to: "/hire-an-mva" }} /></article>;
+  return <article><Seo title="Our Impact | MedLink VA" description="See how MedLink VA helps people build practical Virtual Medical Assistant skills, prepare for work, and support healthcare teams." /><PageHero eyebrow="Our Impact" title="Creating skills. Opening opportunities. Supporting healthcare teams." description="MedLink VA exists to help people build practical Virtual Medical Assistant skills and turn that learning into meaningful professional opportunities. At the same time, we help healthcare practices connect with trained remote support professionals who understand the administrative work that keeps day-to-day operations moving.\n\nTraining is the starting point, but the wider goal is to help people grow, prepare for work, and contribute confidently to healthcare teams." actions={[{ label: "Explore Training", to: "/classes", variant: "primary" }, { label: "Hire an MVA", to: "/hire-an-mva", variant: "secondary" }]} image={{ src: clientAssets.supportPhoto, alt: "Virtual Medical Assistant working remotely" }} /><Metrics /><ModelSection /><HomeSection id="stories" className="scroll-mt-24 bg-brand-background py-16 sm:py-20"><SectionHeading eyebrow="Stories and updates" title="The people behind the progress" description="Numbers can show growth, but the real story of MedLink VA is found in the people behind them. As verified trainee experiences, graduate journeys, placement updates, and healthcare-practice stories become available, this section will show what learning and opportunity look like in real life. Only stories approved for public use will be published." /><div className="mt-8 grid gap-5 md:grid-cols-2"><InfoCard title="Graduate stories" description="Hear from learners and graduates about what they studied, the skills they developed, the challenges they worked through, and how their MedLink VA experience contributed to their next steps." footer={<Link to="/resources?category=career-development" className="group inline-flex font-semibold text-brand-accent" onClick={() => trackEvent("impact_story_open", { story_type: "graduate", destination: "/resources?category=career-development" })}>Read graduate stories <span className="transition-transform group-hover:translate-x-1">→</span></Link>} /><div id="placements" className="scroll-mt-24"><InfoCard title="Work placement highlights" description="As approved placement updates become available, we will share how prepared trainees are progressing into professional opportunities and the kinds of remote healthcare support roles they are moving into." footer={<span className="text-sm text-brand-charcoal/70">Placement stories will appear here as they are approved for publication.</span>} /></div></div></HomeSection><TestimonialSection audiences={["trainee", "client", "practice"]} /><PageCta eyebrow="Your next step" title="Your next step can start here" description="If you are preparing for a career as a Virtual Medical Assistant, explore the training options and see where your learning can begin. If you represent a healthcare practice, discover how a trained remote support professional may fit into your existing workflow.\n\nMedLink VA supports both sides of that journey — helping people build useful skills and helping healthcare teams find practical administrative support." primaryAction={{ label: "Explore Training", to: "/classes" }} secondaryAction={{ label: "Hire an MVA", to: "/hire-an-mva" }} /></article>;
 }
 
 export function PrepareMvasPage() {

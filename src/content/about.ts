@@ -50,7 +50,8 @@ export const aboutContent = {
   partners: [
     { name: "Chetacare", displayOrder: 1 },
     { name: "HiJob", displayOrder: 2 },
-    { name: "Converse to Clarity", displayOrder: 3 },
+      { name: "Converse to Clarity", displayOrder: 3 },
+      { name: "We Make Change", displayOrder: 4 },
   ] satisfies AboutPartner[],
   metrics: [] satisfies AboutMetric[],
   vision: {
@@ -61,32 +62,31 @@ export const aboutContent = {
   values: [
     {
       title: "Clarity",
-      description: "Communicate in a way that is easy to understand, easy to act on, and easy to trust.",
+      description: "We communicate expectations, next steps, and responsibilities in a way that is straightforward and easy to understand.",
     },
     {
       title: "Professionalism",
-      description: "Bring care, respect, and accountability to learning and everyday healthcare administration.",
+      description: "We encourage respectful communication, accountability, reliability, and the professional habits needed in healthcare-focused work.",
     },
     {
       title: "Flexibility",
-      description: "Offer support that can adapt as a practice’s needs change over time.",
+      description: "People and practices have different needs. We aim to provide learning and support that can adapt while keeping responsibilities clearly defined.",
     },
     {
       title: "Privacy & Confidentiality",
       description:
-        "Training and administrative workflows are designed with confidentiality and responsible information handling in mind.",
+        "Training and administrative support are approached with respect for privacy, responsible information handling, and appropriate boundaries.",
     },
   ],
   why: {
-    eyebrow: "Why Medlink VA",
-    title: "A practical support partner for healthcare-focused work",
+    eyebrow: "Why MedLink VA",
+    title: "Why people choose to work with MedLink VA",
     description:
-      "Whether you are developing your skills or organizing a busy practice, start with a conversation about what you need.",
+      "MedLink VA brings training and healthcare administrative support together around one practical idea: people perform better when they understand the work, communicate clearly, and know what is expected of them. For learners, that means preparation grounded in real administrative workflows and professional habits. For healthcare practices, it means access to remote support professionals who have been introduced to the responsibilities, communication, and boundaries involved in healthcare-focused work.",
     bullets: [
-      "Practical healthcare administrative learning",
-      "Integrity and transparent expectations",
-      "Personalized support and clear communication",
-      "Privacy and confidentiality-minded workflows",
+      "Practical preparation for healthcare administrative work",
+      "Clear expectations and professional communication",
+      "Support that respects privacy and defined responsibilities",
     ],
   },
   team: {
@@ -97,11 +97,11 @@ export const aboutContent = {
     members: teamMembers,
   },
   finalCta: {
-    title: "Let’s talk through what support would be most helpful",
+    title: "Where would you like to go next?",
     description:
-      "If you’re comparing virtual support options, the consultation page is the best next step for a practical conversation.",
-    primaryAction: { label: "Book a Consultation", to: "/book-consultation" },
-    secondaryAction: { label: "Contact Medlink VA", to: "/contact" },
+      "If you are exploring a Virtual Medical Assistant career, we can help you understand the training paths available. If you are looking for administrative support for a healthcare practice, we can talk through your workflow and help you identify where a trained MVA may fit.",
+    primaryAction: { label: "Explore Training", to: "/classes" },
+    secondaryAction: { label: "Book a Consultation", to: "/book-consultation" },
   },
 } as const;
 
