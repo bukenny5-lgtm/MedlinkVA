@@ -1,6 +1,9 @@
 import jsPDF from "jspdf";
 import QRCode from "qrcode";
 import logoUrl from "../assets/medlink-va-logo.png";
+import { resolveCertificateWording, type ActivityType, type CertificateType } from "./certificateWording";
+export { certificatePdfFilename } from "./certificateFilename";
+import { certificatePdfFilename } from "./certificateFilename";
 
 export type CertificatePdfRecord = {
   certificateNumber?: string;
@@ -11,7 +14,10 @@ export type CertificatePdfRecord = {
   issueDate?: string;
   trainerNames?: string[];
   cohort?: string;
-  status?: "valid" | "revoked";
+  status?: "active" | "superseded" | "revoked" | "valid";
+  certificateType?: CertificateType;
+  activityType?: ActivityType;
+  recognitionLine?: string;
   verificationToken?: string;
   originallyIssuedBeforeVerificationSystem?: boolean;
 };
@@ -30,10 +36,6 @@ function formatIssueDate(value: string) {
   const match = /^(\d{4})-(\d{2})-(\d{2})/.exec(value);
   if (!match) return value;
   return new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "long", year: "numeric" }).format(new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3])));
-}
-
-function safeFilename(value: string) {
-  return value.replace(/[^A-Za-z0-9._-]+/g, "-").replace(/^-+|-+$/g, "") || "certificate";
 }
 
 function withoutAutoFormat(url: string) {
@@ -102,6 +104,7 @@ function addContainedImage(pdf: jsPDF, image: PdfImage, x: number, y: number, bo
 }
 
 export async function createCertificatePdf(record: CertificatePdfRecord, signatories: CertificatePdfSignatory[]) {
+  const wording = resolveCertificateWording({ certificateType: record.certificateType ?? "Completion", activityType: record.activityType ?? "Training", programmeTitle: record.trainingTitle ?? "Programme", duration: record.trainingDuration, recognitionLine: record.recognitionLine });
   const verificationUrl = `${verificationBaseUrl}${encodeURIComponent(record.verificationToken!)}`;
   const qrDataUrl = await QRCode.toDataURL(verificationUrl, { errorCorrectionLevel: "M", margin: 4, width: 420 });
   const logo = await imageForPdf(logoUrl, "MedLink VA logo");
@@ -123,15 +126,15 @@ export async function createCertificatePdf(record: CertificatePdfRecord, signato
   addContainedImage(pdf, logo, 16, 11, 18, 20);
   pdf.setFont("helvetica", "bold"); pdf.setFontSize(13); pdf.setTextColor(255, 255, 255); pdf.text("MEDLINK VA", 39, 24);
   pdf.setFont("helvetica", "normal"); pdf.setFontSize(8); pdf.setTextColor(...headerText); pdf.text("Virtual Assistance • Healthcare Training", 279, 24, { align: "right" });
-  pdf.setFont("times", "bold"); pdf.setFontSize(25); pdf.setTextColor(...navy); pdf.text("CERTIFICATE OF PARTICIPATION", 148.5, 52, { align: "center" });
+  pdf.setFont("times", "bold"); pdf.setFontSize(25); pdf.setTextColor(...navy); pdf.text(wording.heading, 148.5, 52, { align: "center" });
   pdf.setDrawColor(...gold); pdf.setLineWidth(1.1); pdf.line(96, 59, 201, 59);
   pdf.setFont("helvetica", "bold"); pdf.setFontSize(8); pdf.setTextColor(...muted); pdf.text("PROUDLY PRESENTED TO", 148.5, 67, { align: "center" });
   pdf.setFont("times", "bold"); pdf.setFontSize(Math.min(22, Math.max(14, 310 / record.recipientName!.length))); pdf.setTextColor(...accent); pdf.text(record.recipientName!, 148.5, 81, { align: "center", maxWidth: 190 });
   pdf.setDrawColor(...sky); pdf.setLineWidth(0.55); pdf.line(82, 87, 215, 87);
-  pdf.setFont("helvetica", "normal"); pdf.setFontSize(11); pdf.setTextColor(...darkText); pdf.text(record.trainingDuration ? `for completing ${record.trainingDuration} of practical training in` : "for completing practical training in", 148.5, 96, { align: "center" });
+  pdf.setFont("helvetica", "normal"); pdf.setFontSize(11); pdf.setTextColor(...darkText); pdf.text(wording.wording, 148.5, 96, { align: "center", maxWidth: 235 });
   pdf.setFont("helvetica", "bold"); pdf.setFontSize(record.trainingTitle!.length > 62 ? 12 : 15); pdf.setTextColor(...navy);
-  const titleLines = pdf.splitTextToSize(record.trainingTitle!, 210) as string[]; pdf.text(titleLines, 148.5, 108, { align: "center", maxWidth: 210, lineHeightFactor: 1.15 });
-  const recognitionY = 118 + Math.max(0, titleLines.length - 1) * 5; pdf.setFont("helvetica", "italic"); pdf.setFontSize(9); pdf.setTextColor(...muted); pdf.text("Awarded in recognition of active participation and commitment to professional development.", 148.5, recognitionY, { align: "center", maxWidth: 220 });
+  const titleLines = pdf.splitTextToSize(wording.programmeTitle, 210) as string[]; pdf.text(titleLines, 148.5, 108, { align: "center", maxWidth: 210, lineHeightFactor: 1.15 });
+  const recognitionY = 118 + Math.max(0, titleLines.length - 1) * 5; if (wording.recognitionLine) { pdf.setFont("helvetica", "italic"); pdf.setFontSize(9); pdf.setTextColor(...muted); pdf.text(wording.recognitionLine, 148.5, recognitionY, { align: "center", maxWidth: 220 }); }
 
   const panelY = 145;
   const drawSignatory = async (x: number, width: number, signatory?: CertificatePdfSignatory, compact = false) => {
@@ -159,8 +162,4 @@ export async function createCertificatePdf(record: CertificatePdfRecord, signato
   if (record.legacyCertificateNumber) pdf.text(`Legacy Certificate No: ${record.legacyCertificateNumber}`, 205, 191, { align: "center", maxWidth: 78 });
   if (record.originallyIssuedBeforeVerificationSystem) { pdf.setFontSize(5.5); pdf.text("Digitally reissued under the MedLink VA certificate verification system.", 148.5, 194, { align: "center" }); }
   return pdf;
-}
-
-export function certificatePdfFilename(certificateNumber: string) {
-  return `MedLink-VA-Certificate-${safeFilename(certificateNumber)}.pdf`;
 }

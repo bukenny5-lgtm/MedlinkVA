@@ -12,7 +12,8 @@ type PublicCertificate = {
   issueDate: string;
   trainerNames?: string[];
   cohort?: string;
-  status: "valid" | "revoked";
+  status: "active" | "superseded" | "revoked" | "valid";
+  replacementCertificateNumber?: string;
 };
 
 const requestWindowMs = 60_000;
@@ -77,8 +78,8 @@ export async function onRequest(context: { request: Request; env: CertificateEnv
   if (!projectId || !dataset) return json({ error: "Certificate verification is temporarily unavailable." }, 503);
 
   const query = lookup.field === "certificateNumber"
-    ? '*[_type == "certificate" && (certificateNumber == $value || legacyCertificateNumber == $value)][0...2]{certificateNumber, recipientName, trainingTitle, trainingDuration, issueDate, trainerNames, cohort, status}'
-    : '*[_type == "certificate" && verificationToken == $value][0...2]{certificateNumber, recipientName, trainingTitle, trainingDuration, issueDate, trainerNames, cohort, status}';
+    ? '*[_type == "certificate" && (certificateNumber == $value || legacyCertificateNumber == $value)][0...2]{certificateNumber, recipientName, trainingTitle, trainingDuration, issueDate, trainerNames, cohort, status, "replacementCertificateNumber": replacementCertificate->certificateNumber}'
+    : '*[_type == "certificate" && verificationToken == $value][0...2]{certificateNumber, recipientName, trainingTitle, trainingDuration, issueDate, trainerNames, cohort, status, "replacementCertificateNumber": replacementCertificate->certificateNumber}';
   const endpoint = new URL(`https://${projectId}.api.sanity.io/v2026-09-03/data/query/${encodeURIComponent(dataset)}`);
   endpoint.searchParams.set("query", query);
   endpoint.searchParams.set("$value", JSON.stringify(lookup.value));

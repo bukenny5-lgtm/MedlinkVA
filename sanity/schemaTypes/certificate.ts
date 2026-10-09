@@ -1,4 +1,5 @@
 import { defineField, defineType } from "sanity";
+import { activityTypes, certificateTypes } from "../lib/certificateWording";
 
 export const certificate = defineType({
   name: "certificate",
@@ -16,7 +17,9 @@ export const certificate = defineType({
     defineField({ name: "programCode", title: "Program / course code", description: "Choose the controlled code used in the generated certificate number.", type: "string", options: { list: [{ title: "RCM — Revenue Cycle Management", value: "RCM" }, { title: "VMA — Virtual Medical Assistant", value: "VMA" }, { title: "MBC — Medical Billing & Coding", value: "MBC" }, { title: "OTHER — Other approved programme", value: "OTHER" }] }, validation: (Rule) => Rule.required() }),
     defineField({ name: "legacyCertificateNumber", title: "Legacy certificate number (optional)", description: "Optional. Enter the certificate number printed on an older certificate issued before the digital verification system. Leave blank for new certificates or historical certificates that never had a certificate number.", type: "string", validation: (Rule) => Rule.max(100) }),
     defineField({ name: "recipientName", title: "Recipient name", type: "string", validation: (Rule) => Rule.required().max(200) }),
-    defineField({ name: "trainingTitle", title: "Training title", type: "string", validation: (Rule) => Rule.required().max(250) }),
+    defineField({ name: "trainingTitle", title: "Programme / event title", description: "Enter the clean title only, without a leading 'Training in'.", type: "string", validation: (Rule) => Rule.required().max(250) }),
+    defineField({ name: "certificateType", title: "Certificate type", type: "string", options: { list: certificateTypes.map((value) => ({ title: value, value })) }, initialValue: "Completion", validation: (Rule) => Rule.required() }),
+    defineField({ name: "activityType", title: "Activity type", type: "string", options: { list: activityTypes.map((value) => ({ title: value, value })) }, initialValue: "Training", validation: (Rule) => Rule.required() }),
     defineField({ name: "trainingDuration", title: "Training duration", type: "string", validation: (Rule) => Rule.max(100) }),
     defineField({ name: "issueDate", title: "Original issue date", type: "date", validation: (Rule) => Rule.required() }),
     defineField({ name: "trainerNames", title: "Trainer names", type: "array", of: [{ type: "string" }] }),
@@ -33,10 +36,12 @@ export const certificate = defineType({
       name: "status",
       title: "Certificate status",
       type: "string",
-      options: { list: [{ title: "Valid", value: "valid" }, { title: "Revoked", value: "revoked" }], layout: "radio" },
-      initialValue: "valid",
+      options: { list: [{ title: "Active", value: "active" }, { title: "Superseded", value: "superseded" }, { title: "Revoked", value: "revoked" }], layout: "radio" },
+      initialValue: "active",
       validation: (Rule) => Rule.required(),
     }),
+    defineField({ name: "replacementCertificate", title: "Replacement certificate", description: "Optional replacement for a superseded certificate.", type: "reference", to: [{ type: "certificate" }], options: { disableNew: true } }),
+    defineField({ name: "recognitionLine", title: "Optional recognition line", type: "string", validation: (Rule) => Rule.max(250) }),
     defineField({
       name: "verificationToken",
       title: "Verification token",

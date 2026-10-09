@@ -1,5 +1,5 @@
 import { FormEvent, useEffect, useRef, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import { Seo } from "../components/Seo";
 import { HomeSection } from "../components/home/HomeSection";
 import { PageHero } from "../components/shared/PageHero";
@@ -13,7 +13,8 @@ type PublicCertificate = {
   issueDate: string;
   trainerNames?: string[];
   cohort?: string;
-  status: "valid" | "revoked";
+  status: "active" | "superseded" | "revoked" | "valid";
+  replacementCertificateNumber?: string;
 };
 
 type VerificationState = "idle" | "loading" | "success" | "not-found" | "error";
@@ -25,6 +26,8 @@ function formatDate(value: string) {
 
 export function CertificateVerifyPage() {
   const { token } = useParams<{ token: string }>();
+  const [searchParams] = useSearchParams();
+  const queryNumber = searchParams.get("number") ?? searchParams.get("certificate");
   const isTokenRoute = Boolean(token);
   const [certificateNumber, setCertificateNumber] = useState("");
   const [certificate, setCertificate] = useState<PublicCertificate | null>(null);
@@ -61,8 +64,14 @@ export function CertificateVerifyPage() {
   };
 
   useEffect(() => {
-    if (token) void verify({ token });
-  }, [token]);
+    if (token) {
+      void verify({ token });
+    } else if (queryNumber?.trim()) {
+      const normalized = queryNumber.trim();
+      setCertificateNumber(normalized);
+      void verify({ number: normalized });
+    }
+  }, [token, queryNumber]);
 
   useEffect(() => {
     if (state !== "idle") resultRef.current?.focus();
@@ -93,8 +102,10 @@ export function CertificateVerifyPage() {
 }
 
 function VerificationResult({ certificate }: { certificate: PublicCertificate }) {
-  const isValid = certificate.status === "valid";
-  return <section className={`surface-card border-t-4 p-6 sm:p-8 ${isValid ? "border-emerald-600" : "border-amber-600"}`} aria-label="Certificate verification result"><div className="flex flex-wrap items-start justify-between gap-4"><div><p className="text-sm font-semibold uppercase tracking-[0.24em] text-brand-accent">MedLink VA</p><h2 className="mt-2 text-2xl font-semibold text-brand-navy">{isValid ? "Certificate Verified" : "Certificate Status: Revoked"}</h2></div><span className={`rounded-full px-3 py-1 text-sm font-semibold ${isValid ? "bg-emerald-100 text-emerald-800" : "bg-amber-100 text-amber-900"}`}>Status: {isValid ? "Valid" : "Revoked"}</span></div><dl className="mt-8 grid gap-5 sm:grid-cols-2"><Detail label="Recipient" value={certificate.recipientName} /><Detail label="Training" value={certificate.trainingTitle} /><Detail label="Duration" value={certificate.trainingDuration} /><Detail label="Date issued" value={formatDate(certificate.issueDate)} /><Detail label="Certificate number" value={certificate.certificateNumber} /><Detail label="Trainers" value={certificate.trainerNames?.join(", ")} />{certificate.cohort ? <Detail label="Cohort" value={certificate.cohort} /> : null}</dl>{!isValid ? <p className="mt-6 text-sm leading-7 text-brand-charcoal/75">This certificate is not currently valid. Contact MedLink VA if you need assistance.</p> : null}</section>;
+  const isActive = certificate.status === "active" || certificate.status === "valid";
+  const isSuperseded = certificate.status === "superseded";
+  const heading = isActive ? "Certificate Verified" : isSuperseded ? "Certificate superseded" : "Certificate Status: Revoked";
+  return <section className={`surface-card border-t-4 p-6 sm:p-8 ${isActive ? "border-emerald-600" : "border-amber-600"}`} aria-label="Certificate verification result"><div className="flex flex-wrap items-start justify-between gap-4"><div><p className="text-sm font-semibold uppercase tracking-[0.24em] text-brand-accent">MedLink VA</p><h2 className="mt-2 text-2xl font-semibold text-brand-navy">{heading}</h2></div><span className={`rounded-full px-3 py-1 text-sm font-semibold ${isActive ? "bg-emerald-100 text-emerald-800" : "bg-amber-100 text-amber-900"}`}>Status: {isActive ? "Active" : certificate.status}</span></div><dl className="mt-8 grid gap-5 sm:grid-cols-2"><Detail label="Recipient" value={certificate.recipientName} /><Detail label="Training" value={certificate.trainingTitle} /><Detail label="Duration" value={certificate.trainingDuration} /><Detail label="Date issued" value={formatDate(certificate.issueDate)} /><Detail label="Certificate number" value={certificate.certificateNumber} /><Detail label="Trainers" value={certificate.trainerNames?.join(", ")} />{certificate.cohort ? <Detail label="Cohort" value={certificate.cohort} /> : null}</dl>{isSuperseded ? <p className="mt-6 text-sm leading-7 text-brand-charcoal/75">This certificate was legitimately issued but has been replaced by a corrected version.{certificate.replacementCertificateNumber ? <> Replacement certificate: <Link className="font-semibold text-brand-accent underline" to={`/verify?number=${encodeURIComponent(certificate.replacementCertificateNumber)}`}>{certificate.replacementCertificateNumber}</Link>.</> : null}</p> : !isActive ? <p className="mt-6 text-sm leading-7 text-brand-charcoal/75">This certificate has been revoked. Contact MedLink VA if you need assistance.</p> : null}</section>;
 }
 
 function Detail({ label, value }: { label: string; value?: string }) {

@@ -47,7 +47,7 @@ export const generateCertificatePdfAction: DocumentActionComponent = (props) => 
         if (missingSignatures.length && !window.confirm(`${missingSignatures.map((signatory) => signatory.name).join(", ")} ${missingSignatures.length === 1 ? "has" : "have"} no signature image. Continue with name and role only?`)) return;
 
         const pdf = await createCertificatePdf(record, signatories);
-        pdf.save(certificatePdfFilename(record.certificateNumber!));
+        pdf.save(certificatePdfFilename(record.recipientName, record.certificateNumber));
         window.alert("Certificate PDF generated successfully.");
         props.onComplete();
       } catch (error) {
