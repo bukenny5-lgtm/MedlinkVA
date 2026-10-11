@@ -62,6 +62,13 @@ export function trackTrainingCheckoutClick(programName: string, destination: str
     destination,
   });
 }
+export function trackTrainingWhatsappClick(programName: string) {
+  trackEvent("training_whatsapp_click", {
+    programme: programName,
+    training_mode: "one-on-one",
+    destination_type: "whatsapp",
+  });
+}
 export function trackTrainingOpen(name: "training_path_open", destination: string) {
   trackEvent(name, { destination });
 }

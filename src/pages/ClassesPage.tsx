@@ -13,11 +13,17 @@ import {
 } from "../lib/cms/siteContent";
 import { sanityImageSrc } from "../lib/sanity/image";
 import { TestimonialSection } from "../components/shared/TestimonialSection";
-import { trackTrainingCheckoutClick, trackTrainingCtaClick, trackTrainingOpen } from "../lib/analytics";
+import { trackTrainingCheckoutClick, trackTrainingCtaClick, trackTrainingOpen, trackTrainingWhatsappClick } from "../lib/analytics";
+import { siteContent } from "../content/site";
 import practicalLearningImage from "../assets/training/training-hero-learning.webp";
 import skillsWorkflowImage from "../assets/training/training-skills-workflow.webp";
 import trainingJourneyImage from "../assets/training/training-how-it-works.webp";
 
+function trainingWhatsappUrl(programName: string) {
+  const url = new URL(siteContent.whatsappUrl);
+  url.searchParams.set("text", `Hello MedLink VA, I am interested in the ${programName} training. I would like to know more about the schedule, training dates, and how to enrol.`);
+  return url.toString();
+}
 function formatDate(value?: string) {
   if (!value) return "";
 
@@ -150,7 +156,8 @@ export function ClassesPage() {
                   >
                     Book a Training Consultation
                   </Link>
-                  <p className="mt-3 text-xs leading-5 text-brand-charcoal/70">One-on-one training is scheduled individually. Book a consultation to discuss suitable training dates, availability, and the next steps before payment.</p>
+                  <a href={trainingWhatsappUrl(tier.name)} target="_blank" rel="noopener noreferrer" className="btn-secondary mt-3 w-full" onClick={() => trackTrainingWhatsappClick(tier.name)}>Chat on WhatsApp</a>
+                  <p className="mt-3 text-xs leading-5 text-brand-charcoal/70">One-on-one training is scheduled individually. Book a consultation or contact us on WhatsApp to discuss suitable training dates, availability, and next steps before payment.</p>
                 </>
               ) : tier.trainingMode === "other" ? (
                 <Link

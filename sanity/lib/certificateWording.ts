@@ -11,9 +11,9 @@ export function resolveCertificateWording(input: { certificateType: CertificateT
   const duration = formatDuration(input.duration);
   const activity = (input.activityLabel?.trim() || input.activityType).toLowerCase();
   const heading = `CERTIFICATE OF ${input.certificateType.toUpperCase()}`;
-  const completionDuration = duration ? `the ${duration} ` : "the ";
+  const completionDuration = duration ? `a ${duration} ` : "a ";
   const wordingByType: Record<CertificateType, string> = {
-    Completion: input.activityType === "Training" ? `for successfully completing ${completionDuration}practical training programme in` : input.activityType === "Course" ? `for successfully completing ${completionDuration}course` : `for successfully completing ${completionDuration}${activity}`,
+    Completion: `has successfully completed ${completionDuration}professional training program as a`,
     Participation: `for actively participating in the ${activity}`,
     Attendance: `for attending the ${activity}`,
     Achievement: "in recognition of successfully meeting the requirements of",
