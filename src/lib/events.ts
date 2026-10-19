@@ -1,4 +1,5 @@
 import { officialLaunchEvent } from "../content/officialLaunch";
+import { upcomingWebinarEvent } from "../content/webinar";
 import { clientAssets } from "./assets";
 import { sanityImageSrc } from "./sanity/image";
 import type { EventDocument, SanityImageSource } from "./sanity/types";
@@ -17,6 +18,7 @@ export type ResolvedEvent = {
   startDateTime: string;
   endDateTime: string;
   timezone?: string;
+  timeNote?: string;
   format?: string;
   registrationUrl?: string;
   ctaLabel?: string;
@@ -27,6 +29,7 @@ export type ResolvedEvent = {
   registrationClosesAt?: string;
   displayOrder: number;
   eventType?: string;
+  speaker?: string;
   status: EventStatus;
 };
 
@@ -39,28 +42,31 @@ export function eventStatus(event: Pick<ResolvedEvent, "startDateTime" | "endDat
   return "past" as const;
 }
 
-function fallbackEvent(): ResolvedEvent {
+function fallbackEvent(event: typeof officialLaunchEvent | typeof upcomingWebinarEvent): ResolvedEvent {
+  const isLaunch = event.id === officialLaunchEvent.id;
   return {
-    id: officialLaunchEvent.id,
-    slug: officialLaunchEvent.slug,
-    path: officialLaunchEvent.path,
-    title: officialLaunchEvent.title,
-    shortDescription: officialLaunchEvent.description,
-    description: officialLaunchEvent.detailDescription,
-    localCoverImage: clientAssets.officialLaunchCover,
-    startDateTime: officialLaunchEvent.startTime,
-    endDateTime: officialLaunchEvent.endTime,
+    id: event.id,
+    slug: event.slug,
+    path: event.path,
+    title: event.title,
+    shortDescription: event.description,
+    description: event.detailDescription,
+    localCoverImage: isLaunch ? clientAssets.officialLaunchCover : undefined,
+    startDateTime: event.startTime,
+    endDateTime: event.endTime,
     timezone: "Africa/Kampala",
-    format: officialLaunchEvent.format,
-    registrationUrl: officialLaunchEvent.registrationUrl,
-    ctaLabel: officialLaunchEvent.ctaLabel,
+    timeNote: "timeNote" in event ? event.timeNote : undefined,
+    format: event.format,
+    registrationUrl: event.registrationUrl,
+    ctaLabel: event.ctaLabel,
     active: true,
     featured: true,
     showOnHomepage: true,
     showInResources: true,
     displayOrder: 0,
-    eventType: "launch",
-    status: eventStatus({ startDateTime: officialLaunchEvent.startTime, endDateTime: officialLaunchEvent.endTime }),
+    eventType: isLaunch ? "launch" : "webinar",
+    speaker: isLaunch ? undefined : event.speaker,
+    status: eventStatus({ startDateTime: event.startTime, endDateTime: event.endTime }),
   };
 }
 
@@ -76,6 +82,7 @@ function fromSanity(record: EventDocument): ResolvedEvent {
     startDateTime: record.startDateTime,
     endDateTime: record.endDateTime,
     timezone: record.timezone,
+    timeNote: record.timeNote,
     format: record.format,
     registrationUrl: record.registrationUrl,
     ctaLabel: record.ctaLabel,
@@ -86,14 +93,16 @@ function fromSanity(record: EventDocument): ResolvedEvent {
     registrationClosesAt: record.registrationClosesAt,
     displayOrder: record.displayOrder ?? 0,
     eventType: record.eventType,
+    speaker: record.speaker,
   } satisfies Omit<ResolvedEvent, "status" | "localCoverImage">;
   return { ...event, status: eventStatus(event) };
 }
 
 export function resolveEvents(records: EventDocument[] | undefined): ResolvedEvent[] {
   const sanityEvents = (records ?? []).filter((record) => record.active !== false).map(fromSanity);
-  const fallback = fallbackEvent();
-  if (!sanityEvents.some((event) => event.slug === fallback.slug)) sanityEvents.push(fallback);
+  for (const fallback of [fallbackEvent(officialLaunchEvent), fallbackEvent(upcomingWebinarEvent)]) {
+    if (!sanityEvents.some((event) => event.slug === fallback.slug)) sanityEvents.push(fallback);
+  }
   return sanityEvents.sort((left, right) => left.displayOrder - right.displayOrder || new Date(left.startDateTime).getTime() - new Date(right.startDateTime).getTime());
 }
 

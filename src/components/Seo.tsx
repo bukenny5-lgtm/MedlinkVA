@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { clientAssets } from "../lib/assets";
 import { useCmsBundle } from "../lib/cms/SiteContentProvider";
-import { resolveResolvedSiteSettings } from "../lib/cms/siteSettings";
+import { officialFacebookUrl, resolveResolvedSiteSettings } from "../lib/cms/siteSettings";
 
 type SeoProps = {
   title: string;
@@ -135,6 +135,7 @@ export function Seo({
         logo: new URL(clientAssets.logo, origin).href,
         email: site.contactEmail || "info@medlinkva.com",
         telephone: site.phone || "+256785724420",
+        sameAs: [officialFacebookUrl],
       },
       {
         "@context": "https://schema.org",

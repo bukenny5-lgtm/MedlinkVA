@@ -1,0 +1,15 @@
+export const upcomingWebinarEvent = {
+  id: "mva-upwork-webinar-2026",
+  slug: "how-to-land-remote-roles-as-a-mva-on-upwork",
+  path: "/events/how-to-land-remote-roles-as-a-mva-on-upwork",
+  title: "How to Land Remote Roles as a MVA on Upwork",
+  description: "Join Toluwase Temidayo for an online webinar about how MVAs can understand Upwork and remote-work opportunities, including practical context for approaching the platform and planning next steps.",
+  detailDescription: "This session is designed to help MVAs understand Upwork and remote-work opportunities. It shares practical context and guidance without promising employment, contracts, or specific outcomes.",
+  startTime: "2026-10-31T10:00:00+03:00",
+  endTime: "2026-10-31T12:00:00+03:00",
+  timeNote: "10:00 AM–12:00 PM EAT (8:00–10:00 AM WAT)",
+  format: "Webinar / Online Training Event",
+  registrationUrl: "https://forms.gle/cz6LC9mfHjWegSNc9",
+  ctaLabel: "Register for Webinar",
+  speaker: "Toluwase Temidayo",
+} as const;

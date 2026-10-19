@@ -34,6 +34,7 @@ export type EventDocument = {
   startDateTime: string;
   endDateTime: string;
   timezone?: string;
+  timeNote?: string;
   format?: string;
   registrationUrl?: string;
   ctaLabel?: string;
@@ -44,6 +45,7 @@ export type EventDocument = {
   registrationClosesAt?: string;
   displayOrder?: number;
   eventType?: "training" | "webinar" | "launch" | "workshop" | "other";
+  speaker?: string;
 };
 
 export type PortableTextSpan = {

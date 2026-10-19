@@ -15,6 +15,7 @@ import { sanityImageSrc } from "../lib/sanity/image";
 import { TestimonialSection } from "../components/shared/TestimonialSection";
 import { trackTrainingCheckoutClick, trackTrainingCtaClick, trackTrainingOpen, trackTrainingWhatsappClick } from "../lib/analytics";
 import { siteContent } from "../content/site";
+import { isDirectPaymentTier } from "../content/classes";
 import practicalLearningImage from "../assets/training/training-hero-learning.webp";
 import skillsWorkflowImage from "../assets/training/training-skills-workflow.webp";
 import trainingJourneyImage from "../assets/training/training-how-it-works.webp";
@@ -136,13 +137,13 @@ export function ClassesPage() {
                 ))}
               </ul>
 
-              {tier.trainingMode === "group" && tier.paymentUrl ? (
+              {(tier.trainingMode === "group" || isDirectPaymentTier(tier)) && tier.paymentUrl ? (
                 <a
                   href={tier.paymentUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn-primary mt-6 w-full"
-                  onClick={() => trackTrainingCheckoutClick(tier.name, tier.paymentUrl!)}
+                  onClick={() => trackTrainingCheckoutClick(tier.name, tier.paymentUrl!, tier.trainingMode)}
                 >
                   {tier.paymentCtaLabel ?? "Enrol & Pay"}
                   <span aria-hidden="true"> ↗</span>
@@ -293,7 +294,7 @@ function UpcomingCard({
   item: ReturnType<typeof resolveClassesContent>["records"][number];
 }) {
   const date = formatDate(item.startDate ?? item.date);
-  const groupPaymentUrl = item.trainingMode === "group" && item.paymentUrl?.startsWith("https://") ? item.paymentUrl : null;
+  const groupPaymentUrl = (item.trainingMode === "group" || isDirectPaymentTier({ name: item.title, price: item.priceLabel, paymentUrl: item.paymentUrl })) && item.paymentUrl?.startsWith("https://") ? item.paymentUrl : null;
 
   const instructors = item.instructorNames?.length
     ? item.instructorNames.join(", ")
@@ -345,7 +346,7 @@ function UpcomingCard({
 
         <div className="flex flex-wrap items-center gap-3">
           {groupPaymentUrl ? (
-            <a href={groupPaymentUrl} target="_blank" rel="noopener noreferrer" className="btn-primary" onClick={() => trackTrainingCheckoutClick(item.title, groupPaymentUrl)}>
+            <a href={groupPaymentUrl} target="_blank" rel="noopener noreferrer" className="btn-primary" onClick={() => trackTrainingCheckoutClick(item.title, groupPaymentUrl, item.trainingMode)}>
               {item.paymentCtaLabel ?? "Enrol & Pay"} <span aria-hidden="true">↗</span>
             </a>
           ) : item.trainingMode === "one-on-one" ? (

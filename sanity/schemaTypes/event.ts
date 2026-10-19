@@ -14,6 +14,7 @@ export const event = defineType({
     defineField({ name: "startDateTime", title: "Start date and time", type: "datetime", validation: (Rule) => Rule.required() }),
     defineField({ name: "endDateTime", title: "End date and time", type: "datetime", validation: (Rule) => Rule.required().custom((value, context) => { const start = (context.parent as { startDateTime?: string } | undefined)?.startDateTime; return !start || !value || new Date(value).getTime() >= new Date(start).getTime() || "End date and time must be after the start."; }) }),
     defineField({ name: "timezone", title: "Timezone", type: "string", initialValue: "Africa/Kampala" }),
+    defineField({ name: "timeNote", title: "Displayed time note", type: "string" }),
     defineField({ name: "format", title: "Format", type: "string" }),
     defineField({ name: "registrationUrl", title: "Registration URL", type: "url", validation: (Rule) => Rule.uri({ scheme: ["http", "https"] }) }),
     defineField({ name: "ctaLabel", title: "CTA label", type: "string" }),
@@ -24,6 +25,7 @@ export const event = defineType({
     defineField({ name: "registrationClosesAt", title: "Registration closes at", type: "datetime" }),
     displayOrderField(),
     defineField({ name: "eventType", title: "Event type", type: "string", options: { list: ["training", "webinar", "launch", "workshop", "other"] } }),
+    defineField({ name: "speaker", title: "Guest speaker", type: "string" }),
   ],
   preview: { select: { title: "title", subtitle: "startDateTime", media: "coverImage" } },
 });

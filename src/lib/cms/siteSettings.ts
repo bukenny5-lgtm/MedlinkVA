@@ -2,6 +2,8 @@ import { homeContent as fallbackHomeContent } from "../../content/home";
 import { siteContent as fallbackSiteContent } from "../../content/site";
 import type { CmsBundle, SiteSettingsDocument } from "../sanity/types";
 
+export const officialFacebookUrl = "https://www.facebook.com/profile.php?id=61579635994384";
+
 export type ResolvedSiteSettings = {
   brandName: string;
   brandTagline: string;
@@ -22,7 +24,7 @@ function normalizeCtaLabel(label?: string) {
 }
 
 function safeSocialLinks(settings?: SiteSettingsDocument | null) {
-  return (settings?.socialLinks ?? []).filter((link) => {
+  const links = (settings?.socialLinks ?? []).filter((link) => {
     if (!link.label?.trim() || !link.url?.trim()) return false;
     try {
       const url = new URL(link.url);
@@ -31,6 +33,12 @@ function safeSocialLinks(settings?: SiteSettingsDocument | null) {
       return false;
     }
   });
+
+  if (!links.some((link) => link.url === officialFacebookUrl)) {
+    links.push({ label: "Facebook", platform: "Facebook", url: officialFacebookUrl });
+  }
+
+  return links;
 }
 
 export function resolveResolvedSiteSettings(bundle: CmsBundle | null): ResolvedSiteSettings {

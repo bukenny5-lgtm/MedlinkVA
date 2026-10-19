@@ -123,3 +123,7 @@ export const classesContent = {
     secondaryAction: { label: "Book a Consultation", to: "/book-consultation" },
   },
 } as const;
+
+export function isDirectPaymentTier(item: { name?: string; price?: string; paymentUrl?: string }) {
+  return item.name === "Guided Path" && item.price === "$25" && Boolean(item.paymentUrl?.startsWith("https://"));
+}

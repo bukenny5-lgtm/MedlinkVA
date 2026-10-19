@@ -4,8 +4,8 @@ import type { CmsBundle } from "./types";
 const cmsQuery = `{
   "events": *[_type == "event" && active != false] | order(featured desc, displayOrder asc, startDateTime asc) {
     _id, title, slug, shortDescription, description, coverImage, startDateTime, endDateTime,
-    timezone, format, registrationUrl, ctaLabel, active, featured, showOnHomepage, showInResources,
-    registrationClosesAt, displayOrder, eventType
+    timezone, timeNote, format, registrationUrl, ctaLabel, active, featured, showOnHomepage, showInResources,
+    registrationClosesAt, displayOrder, eventType, speaker
   },
   "siteSettings": *[_type == "siteSettings"][0]{
     businessName,

@@ -54,10 +54,10 @@ export function trackTrainingCtaClick(programName: string, label: string, destin
   });
 }
 
-export function trackTrainingCheckoutClick(programName: string, destination: string) {
+export function trackTrainingCheckoutClick(programName: string, destination: string, trainingMode: "one-on-one" | "group" | "other" = "group") {
   trackEvent("training_checkout_click", {
     programme: programName,
-    training_mode: "group",
+    training_mode: trainingMode,
     destination_type: "external_checkout",
     destination,
   });
