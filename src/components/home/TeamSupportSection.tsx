@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { HomeSection } from "./HomeSection";
 import { SectionHeading } from "./SectionHeading";
 import { useCmsBundle } from "../../lib/cms/SiteContentProvider";
-import { resolveHomeContent } from "../../lib/cms/siteContent";
+import { resolveHomeContent } from "../../lib/cms/homeContent";
 
 export function TeamSupportSection() {
   const { teamSupport } = resolveHomeContent(useCmsBundle());

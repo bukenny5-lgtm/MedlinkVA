@@ -2,7 +2,7 @@ import { useEffect, useId, useRef, useState } from "react";
 import { NavLink, Link, useLocation } from "react-router-dom";
 import { clientAssets } from "../../lib/assets";
 import { useCmsBundle } from "../../lib/cms/SiteContentProvider";
-import { resolveResolvedSiteSettings } from "../../lib/cms/siteContent";
+import { resolveResolvedSiteSettings } from "../../lib/cms/siteSettings";
 
 const navLinkClass = ({ isActive }: { isActive: boolean }) =>
   [

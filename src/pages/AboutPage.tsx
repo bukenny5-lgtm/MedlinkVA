@@ -8,7 +8,7 @@ import { InfoCard } from "../components/shared/InfoCard";
 import { TeamMemberCard } from "../components/shared/TeamMemberCard";
 import { clientAssets } from "../lib/assets";
 import { useCmsBundle } from "../lib/cms/SiteContentProvider";
-import { resolveAboutContent } from "../lib/cms/siteContent";
+import { resolveAboutContent } from "../lib/cms/aboutContent";
 import { sanityImageSrc } from "../lib/sanity/image";
 import type { AboutPartner } from "../content/about";
 import { trackEvent } from "../lib/analytics";

@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import { useCmsBundle } from "../../lib/cms/SiteContentProvider";
-import { resolveHomeContent } from "../../lib/cms/siteContent";
+import { resolveHomeContent } from "../../lib/cms/homeContent";
 import { HomeSection } from "./HomeSection";
+import { trackEvent } from "../../lib/analytics";
 
 export function HeroSection() {
   const { hero } = resolveHomeContent(useCmsBundle());
@@ -21,10 +22,10 @@ export function HeroSection() {
           </div>
 
           <div className="flex flex-col flex-wrap gap-3 sm:flex-row">
-            <Link to={hero.primaryCta.to} className="btn-primary">
+            <Link to={hero.primaryCta.to} className="btn-primary" onClick={() => trackEvent("homepage_training_path_click", { destination_type: "training", placement: "hero" })}>
               {hero.primaryCta.label}
             </Link>
-            <Link to={hero.secondaryCta.to} className="btn-secondary">
+            <Link to={hero.secondaryCta.to} className="btn-secondary" onClick={() => trackEvent("homepage_hire_path_click", { destination_type: "hire_mva", placement: "hero" })}>
               {hero.secondaryCta.label}
             </Link>
           </div>

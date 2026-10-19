@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { clientAssets } from "../lib/assets";
 import { useCmsBundle } from "../lib/cms/SiteContentProvider";
-import { resolveResolvedSiteSettings } from "../lib/cms/siteContent";
+import { resolveResolvedSiteSettings } from "../lib/cms/siteSettings";
 
 type SeoProps = {
   title: string;
@@ -12,8 +12,8 @@ type SeoProps = {
 };
 
 const defaultDescription =
-  "MedLink VA provides Virtual Medical Assistant training and healthcare administrative support for individuals, healthcare teams, and modern practices.";
-const productionBaseUrl = "https://medlinkva.com";
+  "MedLink VA provides practical Virtual Medical Assistant training and helps healthcare practices access trained remote healthcare support.";
+const productionBaseUrl = "https://medlinkva.com/";
 const metadataBrandName = "MedLink VA";
 
 function setOrCreateMeta(selector: string, attribute: "name" | "property", key: string, value: string) {

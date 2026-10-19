@@ -2,7 +2,7 @@ import { FormEvent, useState } from "react";
 import { HomeSection } from "./HomeSection";
 import { SectionHeading } from "./SectionHeading";
 import { useCmsBundle } from "../../lib/cms/SiteContentProvider";
-import { resolveHomeContent } from "../../lib/cms/siteContent";
+import { resolveHomeContent } from "../../lib/cms/homeContent";
 import { submitLeadForm } from "../../lib/leads/api";
 import { readTrimmedOptionalField } from "../../lib/leads/formData";
 import { trackEvent } from "../../lib/analytics";

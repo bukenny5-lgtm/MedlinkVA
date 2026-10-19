@@ -29,10 +29,10 @@ export type AudienceCard = {
 
 export const homeContent = {
   hero: {
-    eyebrow: "Learn with purpose. Support better healthcare.",
-    title: "Learn practical skills. Support better healthcare. Build meaningful opportunities.",
+    eyebrow: "Training and support for remote healthcare work",
+    title: "Virtual healthcare support for practices. Practical career training for aspiring VMAs.",
     description:
-      "MedLink VA helps aspiring Virtual Medical Assistants build practical healthcare administrative skills and prepares them for the realities of remote support work. At the same time, we help healthcare practices connect with trained professionals who can support everyday administrative workflows and help keep routine work moving.",
+      "MedLink VA prepares people for Virtual Medical Assistant roles and helps healthcare teams access trained remote support for everyday administrative workflows.",
     primaryCta: { label: "Explore Training", to: "/classes" },
     consultationCta: { label: "Book a Consultation", to: "/book-consultation" },
     secondaryCta: { label: "Hire an MVA", to: "/hire-an-mva" },
@@ -40,8 +40,8 @@ export const homeContent = {
     imageAlt: "Virtual medical professional wearing a headset and working on a laptop",
     supportLine: [
       "Practical training",
-      "Healthcare administration",
-      "Personalized support",
+      "Healthcare support",
+      "Remote workflows",
     ],
   },
   trustStrip: [

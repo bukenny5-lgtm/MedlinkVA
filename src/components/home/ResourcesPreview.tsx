@@ -2,7 +2,8 @@ import { Link } from "react-router-dom";
 import { HomeSection } from "./HomeSection";
 import { SectionHeading } from "./SectionHeading";
 import { useCmsBundle } from "../../lib/cms/SiteContentProvider";
-import { resolveHomeContent, resolveResourcesContent } from "../../lib/cms/siteContent";
+import { resolveHomeContent } from "../../lib/cms/homeContent";
+import { resolveResourcesContent } from "../../lib/cms/resourcesContent";
 import { sanityImageSrc } from "../../lib/sanity/image";
 
 export function ResourcesPreview() {

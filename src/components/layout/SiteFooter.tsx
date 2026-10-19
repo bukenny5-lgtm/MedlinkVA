@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { siteContent } from "../../content/site";
 import { clientAssets } from "../../lib/assets";
 import { useCmsBundle } from "../../lib/cms/SiteContentProvider";
-import { resolveResolvedSiteSettings } from "../../lib/cms/siteContent";
+import { resolveResolvedSiteSettings } from "../../lib/cms/siteSettings";
 
 export function SiteFooter() {
   const site = resolveResolvedSiteSettings(useCmsBundle());

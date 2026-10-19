@@ -61,3 +61,13 @@ The derivatives are used by training, service, audience, resource, product, and 
 Training and audience visuals retain their approved visual treatment, with fixed aspect-ratio containers to protect CLS and controlled card heights for product thumbnails. No synchronous browser image processing or external image CDN was introduced. These are build/source optimizations; no live Core Web Vitals improvement is claimed until new production measurements are collected.
 
 Remaining intentionally-large originals are retained in the repository for source-quality and future editing needs; public references use the WebP derivatives where generated.
+
+## Focused production-readiness audit (2026-10-19)
+
+Audited public routes and reachable interactions: `/`, `/classes`, `/hire-an-mva`, `/services`, all local service details, healthcare-audience pages, `/impact`, `/about`, `/resources`, starter resource details, `/products`, `/videos`, `/faqs`, event pages, `/contact`, `/book-consultation`, and certificate verification entry/token states.
+
+The local production build emitted a main JavaScript asset of approximately 278 KB minified / 84 KB gzip (`dist/assets/index-*.js`) after the CMS resolver split. The largest emitted image was approximately 261 KB (`ai-automation-class`), followed by product images and the logo. The multi-megabyte PNG/JPEG files identified in the source inventory are retained originals; public service, training, resource, audience, and event references use WebP derivatives between roughly 42 KB and 103 KB where available.
+
+Service-detail and healthcare-audience heroes and secondary images use bounded WebP derivatives, explicit media dimensions/aspect ratios, lazy loading below the fold, and the shared PageHero eager loading only for the route hero. The homepage event cover remains delayed until the promotion opens. Sanity-backed images now request bounded width/height transforms, automatic format negotiation, and a default quality of 80; certificate and QR assets are outside this path.
+
+The accidental entry-chunk increase came from the monolithic `src/lib/cms/siteContent.ts` resolver being imported by homepage/shared modules; it statically referenced route fallback datasets and Sanity helpers. Homepage/shared imports now use focused resolver modules, leaving `siteContent` in an async route-support chunk. No new responsive variants were generated because the existing derivatives are already capped for their rendered layouts and no single remaining public image exceeds the measured build output thresholds. Known limitation: this audit is build/source based; live Core Web Vitals, Bing processing, and Google indexing still require post-deployment measurement.

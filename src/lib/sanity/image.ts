@@ -34,6 +34,7 @@ export function sanityImageSrc(
   source?: SanityImageSource | null,
   options?: {
     height?: number;
+    quality?: number;
     width?: number;
   },
 ) {
@@ -52,6 +53,8 @@ export function sanityImageSrc(
   if (options?.height) {
     transformed = transformed.height(options.height);
   }
+
+  transformed = transformed.quality(options?.quality ?? 80);
 
   return transformed.fit("crop").auto("format").url();
 }

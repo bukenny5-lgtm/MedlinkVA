@@ -28,11 +28,39 @@ Certificate token routes use `noindex,follow`; individual verification results a
 
 `public/robots.txt` allows public crawling and points to `https://medlinkva.com/sitemap.xml`. It does not block CSS or JavaScript assets.
 
-`public/sitemap.xml` contains the public marketing, consultation, and verification-entry routes above. It excludes certificate token URLs, Sanity Studio, API routes, paused jobs, and private/admin paths. There are currently no public resource, class, or product detail routes, so a static sitemap is appropriate. If Sanity later exposes public detail pages, generate or update the sitemap from the published route model rather than inventing URLs.
+`public/sitemap.xml` contains the public marketing, consultation, verification-entry, and current starter resource detail routes above. It excludes certificate token URLs, Sanity Studio, API routes, paused jobs, and private/admin paths. Class and product detail routes are not separate public routes in the current application, so no invented URLs are included. If Sanity later exposes additional public detail pages, update the sitemap from the published route model.
 
 ## Structured data
 
 The shared SEO helper emits truthful `Organization` and `WebSite` JSON-LD using the production URL, MedLink VA name, existing logo, `info@medlinkva.com`, and `+256785724420`. Services emit Service objects from the existing service content. No ratings, reviews, addresses, certifications, founding date, employee counts, or SearchAction are claimed. Course schema is deferred because the current class data is not a sufficiently stable public course catalogue.
+
+## Bing Webmaster Tools handoff
+
+Bing ranking should not be manipulated or expected to change immediately. After the production build is deployed:
+
+1. Add or import `medlinkva.com` in Bing Webmaster Tools.
+2. Use URL Inspection for `https://medlinkva.com/` and inspect the live URL.
+3. Request indexing if Bing reports that it is appropriate.
+4. Submit `https://medlinkva.com/sitemap.xml`.
+5. Check the production `robots.txt` response and run Bing Site Scan.
+6. Review indexing status after Bing has processed the sitemap and crawl requests.
+
+## Google Business Profile manual corrections
+
+Google Business Profile cannot be updated from this repository. An authorised profile manager should manually review and correct:
+
+- Website: `https://medlinkva.com/`
+- Official phone: `+256 785 724 420`
+- WhatsApp: `https://wa.me/256785724420`
+- Description, primary and secondary categories, and hours
+- Current logo and current photos
+- Services list
+- LinkedIn, Facebook, and TikTok links, using only profiles already verified by the business
+- Appointment or consultation URL, if the account/category/region supports it: `https://medlinkva.com/book-consultation`
+- Event or update posts
+- Genuine review collection without incentives or fabricated reviews
+
+Category-specific fields, appointment features, and WhatsApp options depend on Google account and regional availability.
 
 ## Search Console setup
 
@@ -57,9 +85,18 @@ Start with the homepage and major public pages, prioritising branded searches su
 
 SEO improvements do not guarantee a first Google position. Search Console coverage, content quality, links, competition, page experience, and time all affect results.
 
+## GA4 key-event recommendations
+
+The application preserves the existing event names and does not designate key events in code. Configure these in GA4 Admin after verifying production traffic:
+
+- Primary: `consultation_submit`, `contact_submit`, `training_checkout_click`, `training_whatsapp_click`, `event_registration_click`
+- Secondary: `newsletter_signup`
+
+Keep `page_view`, `scroll`, `service_open`, `promotion_view`, `promotion_dismiss`, and `cta_click` as normal engagement events.
+
 ## Performance and accessibility observations
 
-The build has previously reported a main JavaScript chunk above 500 kB and a training image around 1.7 MB. Existing content images generally use meaningful alt text, explicit dimensions on major hero/team images, and lazy loading below the fold. Product/resource CMS images should continue to use their supplied alt text, with title fallbacks only where appropriate. A later performance phase can evaluate route-level code splitting and further image compression without changing the visual design.
+The current build keeps the main JavaScript chunk below the previous 500 kB warning threshold. Existing content images use meaningful alt text, explicit dimensions on major hero/team images, and lazy loading below the fold. Product/resource CMS images use bounded Sanity transforms with automatic modern-format negotiation and a default quality setting; supplied alt text remains the source of truth.
 
 ## Post-launch checks
 

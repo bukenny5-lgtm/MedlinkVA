@@ -90,7 +90,7 @@ export function PageHero({
               <img
                 src={image.src}
                 alt={image.alt}
-                className={mediaVariant === "article" ? "aspect-video max-h-[260px] w-full object-cover object-center sm:max-h-none" : mediaVariant === "audience" ? "aspect-[4/3] max-h-[320px] w-full object-cover md:max-h-[400px] lg:max-h-[460px]" : "aspect-[4/3] w-full object-cover object-center lg:aspect-[4/5]"}
+                className={mediaVariant === "article" ? "aspect-video max-h-[260px] w-full object-cover object-center sm:max-h-none" : mediaVariant === "audience" ? "aspect-[4/3] max-h-[320px] w-full object-cover md:max-h-[400px] lg:max-h-[460px]" : "aspect-[4/3] max-h-[420px] w-full object-cover object-center"}
                 style={image.objectPosition ? { objectPosition: image.objectPosition } : undefined}
                 width="1200"
                 height="1500"

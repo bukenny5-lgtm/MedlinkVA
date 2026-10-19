@@ -32,7 +32,7 @@ export function TestimonialSection({
         description="Feedback from trainees, clients, and healthcare professionals who have engaged with MedLink VA."
       />
 
-      <div className="mt-8 grid gap-5 md:grid-cols-2">
+      <div className="mx-auto mt-8 grid max-w-5xl gap-5 md:grid-cols-2">
         {testimonials.map((testimonial) => {
           const photo = sanityImageSrc(testimonial.photo, {
             width: 160,
@@ -64,7 +64,7 @@ export function TestimonialSection({
                     {testimonial.clientName}
                   </strong>
                   {testimonial.clientRole
-                    ? `, ${testimonial.clientRole}`
+                    ? `, ${testimonial.clientRole.replace(/\bPysician\b/gi, "Physician")}`
                     : ""}
                   {testimonial.organization
                     ? ` · ${testimonial.organization}`

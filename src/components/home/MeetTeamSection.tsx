@@ -3,7 +3,7 @@ import { HomeSection } from "./HomeSection";
 import { SectionHeading } from "./SectionHeading";
 import { TeamMemberCard } from "../shared/TeamMemberCard";
 import { useCmsBundle } from "../../lib/cms/SiteContentProvider";
-import { resolveHomeContent } from "../../lib/cms/siteContent";
+import { resolveHomeContent } from "../../lib/cms/homeContent";
 
 export function MeetTeamSection() {
   const { teamPreview, teamMembers } = resolveHomeContent(useCmsBundle());

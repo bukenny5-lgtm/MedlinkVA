@@ -2,7 +2,7 @@ import { HomeSection } from "./HomeSection";
 import { SectionHeading } from "./SectionHeading";
 import { Link } from "react-router-dom";
 import { useCmsBundle } from "../../lib/cms/SiteContentProvider";
-import { resolveHomeContent } from "../../lib/cms/siteContent";
+import { resolveHomeContent } from "../../lib/cms/homeContent";
 import { healthcareAudienceForTitle } from "../../content/healthcareAudiences";
 import { trackEvent } from "../../lib/analytics";
 
