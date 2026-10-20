@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { officialLaunchEvent } from "../../content/officialLaunch";
 import { useCmsBundle } from "../../lib/cms/SiteContentProvider";
 import { eligibleForHomepage, eventImage, resolveEvents } from "../../lib/events";
 import { trackEvent } from "../../lib/analytics";
@@ -7,7 +8,8 @@ import { trackEvent } from "../../lib/analytics";
 const dismissalKey = "medlink-va-promotion-dismissed";
 
 export function HomepagePromotion() {
-  const promotion = resolveEvents(useCmsBundle()?.events).filter((event) => eligibleForHomepage(event)).sort((a, b) => Number(b.featured) - Number(a.featured) || a.displayOrder - b.displayOrder || a.startDateTime.localeCompare(b.startDateTime))[0];
+  const eligibleEvents = resolveEvents(useCmsBundle()?.events).filter((event) => eligibleForHomepage(event));
+  const promotion = eligibleEvents.find((event) => event.slug === officialLaunchEvent.slug) ?? eligibleEvents.sort((a, b) => Number(b.featured) - Number(a.featured) || a.displayOrder - b.displayOrder || a.startDateTime.localeCompare(b.startDateTime))[0];
   const [open, setOpen] = useState(false);
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);

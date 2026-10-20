@@ -9,6 +9,7 @@ import { clientAssets } from "../lib/assets";
 import { HomeImpactPreview, HomePathways } from "../components/home/HybridSections";
 import { HomepagePromotion } from "../components/home/HomepagePromotion";
 import { HomeTrustStrip, HomepageCredibility, HomepageQuickLinks } from "../components/home/HomepageConversionSections";
+import { HomepageWebinar } from "../components/home/HomepageWebinar";
 
 export function HomePage() {
   return (
@@ -27,6 +28,7 @@ export function HomePage() {
       <HomepageCredibility />
       <HomeImpactPreview />
       <ResourcesPreview />
+      <HomepageWebinar />
       <ProductsPreview />
       <HomepageQuickLinks />
       <FinalCtaSection />
